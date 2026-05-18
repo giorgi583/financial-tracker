@@ -20,7 +20,7 @@ const Hero = () => {
                         <a href="#hero" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Company</a>
                         <a href="#testimonials" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Testimonials</a>
                         <a href="#team" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Team</a>
-                        <a href="#" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Contact Us</a>
+                        <a href="#contact" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Contact Us</a>
 
                         <button id="close-menu" onClick={() => setMobileOpen(false)} className="md:hidden bg-violet-500 active:bg-violet-600 text-white p-2 rounded-md aspect-square font-medium transition">
                             <XIcon size={20} /> 
@@ -65,9 +65,9 @@ const Hero = () => {
                 animate={{y: [50, 0], opacity: [0, 1]}}
                 transition={{duration: 0.5, delay: 0.8}}
                 className='mt-10'>
-                    <button className="bg-violet-600 hover:bg-violet-700 text-white text-xs md:text-sm px-6 py-3 rounded-lg transition cursor-pointer">
+                    <Link to='/register'><button className="bg-violet-600 hover:bg-violet-700 text-white text-xs md:text-sm px-6 py-3 rounded-lg transition cursor-pointer">
                         Get Started Now
-                    </button>
+                    </button></Link>
             
                 </motion.div>
 
