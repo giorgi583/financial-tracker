@@ -1,17 +1,20 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Home from './pages/home'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Dashboard from './pages/dashboard'
-import Overview from './pages/Overview'
-import Settings from './pages/Settings'
-import Analytics from './pages/Analytics'
-import Transactions from './pages/Transactions'
-import Budget from './pages/Budget'
-import Help from './pages/Help'
+import {lazy, Suspense} from 'react'
+const Home = lazy(() => import('./pages/home')) 
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register')) 
+const Dashboard = lazy(() => import('./pages/dashboard'))
+const Overview = lazy(() => import('./pages/Overview'))
+const Settings = lazy(() => import('./pages/Settings'))
+const Analytics = lazy(() => import('./pages/Analytics'))
+const Transactions = lazy(() => import('./pages/Transactions'))
+const Budget = lazy(() => import('./pages/Budget'))
+const Help = lazy(() => import('./pages/Help'))
+const Loader = lazy(() => import('./components/Loader'))
 function App() {
   return (
     <BrowserRouter>
+    <Suspense fallback={<Loader />} >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} >
@@ -26,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+    </Suspense>
     </BrowserRouter>
   )
 }

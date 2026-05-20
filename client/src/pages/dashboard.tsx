@@ -10,15 +10,15 @@ const Dashboard = () => {
   const currentPage = pathnames[pathnames.length - 1]
 const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   return (
-    <div className="flex bg-slate-300">
+    <div className="flex bg-slate-200 min-h-screen">
       <Sidebar />
-        <div className="flex items-center justify-between gap-8 absolute top-4 right-8">
-      <div className="flex items-center justify-end relative hover:bg-gray-200/50 p-2 rounded-full transition cursor-pointer ">
+        <div className="flex items-center justify-between gap-8 max-md:gap-4 absolute top-4 right-8">
+      <div className="flex items-center justify-end relative hover:bg-gray-200/50 p-2 rounded-full transition cursor-pointer">
 <Bell size={25} className=" text-gray-800 cursor-pointer" />
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
       </div>
 <div className="flex items-center gap-4">
-  <div className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center justify-center">JS</div>
+  <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center">JS</div>
   <div className="flex flex-col"><p className="font-semibold">John Smith</p> <p className="text-sm flex items-center gap-1">{currentPage}<ChevronDown onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} size={15} className="cursor-pointer"/></p></div>
 </div>
 {isProfileMenuOpen && (
@@ -31,7 +31,7 @@ const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
       </div>
       <Outlet />
       <div className="rounded-full p-5 bg-slate-500 fixed bottom-10 right-10 max-md:hidden cursor-pointer"><MessageSquareMoreIcon
-      size={40} fill="white" className="cursor-pointer hover:animate-spin animate-pulse" /></div>
+      size={40} fill="white" className="cursor-pointer hover:scale-110 transition-transform duration-500 animate-bounce [animation-iteration-count:3]"/></div>
       </div>
     
   )

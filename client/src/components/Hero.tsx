@@ -13,7 +13,7 @@ const Hero = () => {
                 transition={{duration: 0.5}}
                 className="flex items-center justify-between gap-8 bg-white/60 border border-white rounded-full px-4 md:px-2 py-2.5 w-full max-w-4xl" >
                     <a href="#" className='flex items-center md:pl-3'>
-                        <h1 className="text-3xl font-bold text-violet-900">Monify</h1>
+                        <h1 className="text-3xl font-bold text-sky-900">Monify</h1>
                     </a>
                     <div className='w-0.5 h-8 bg-gray-50 hidden md:flex'></div>
                     <div id="menu" className={`max-md:absolute max-md:bg-white/70 max-md:h-[785px] max-md:overflow-hidden max-md:transition-[width] max-md:duration-300 max-md:top-0 max-md:left-0 max-md:flex-col max-md:justify-center max-md:backdrop-blur flex items-center gap-8 z-50 md:gap-10 flex-1 ${mobileOpen ? 'max-md:w-full' : 'max-md:w-0'}`}>
@@ -22,14 +22,14 @@ const Hero = () => {
                         <a href="#team" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Team</a>
                         <a href="#contact" onClick={() => setMobileOpen(false)} className="text-gray-600 hover:text-gray-700 text-sm">Contact Us</a>
 
-                        <button id="close-menu" onClick={() => setMobileOpen(false)} className="md:hidden bg-violet-500 active:bg-violet-600 text-white p-2 rounded-md aspect-square font-medium transition">
+                        <button id="close-menu" onClick={() => setMobileOpen(false)} className="md:hidden bg-sky-500 active:bg-sky-600 text-white p-2 rounded-md aspect-square font-medium transition">
                             <XIcon size={20} /> 
                         </button>
                     </div>
 
                     <div className="flex items-center gap-2 md:pr-1">
                         <Link to="/register" className="text-gray-700 hover:text-gray-900 text-sm transition">
-                        <button className="hidden md:inline-block bg-violet-600 hover:bg-violet-700 text-white px-4 md:px-6 py-2 md:py-3 rounded-full text-xs md:text-sm transition cursor-pointer">
+                        <button className="hidden md:inline-block bg-sky-600 hover:bg-sky-700 text-white px-4 md:px-6 py-2 md:py-3 rounded-full text-xs md:text-sm transition cursor-pointer">
                             Sign Up
                         </button> </Link>
 
@@ -65,13 +65,13 @@ const Hero = () => {
                 animate={{y: [50, 0], opacity: [0, 1]}}
                 transition={{duration: 0.5, delay: 0.8}}
                 className='mt-10'>
-                    <Link to='/register'><button className="bg-violet-600 hover:bg-violet-700 text-white text-xs md:text-sm px-6 py-3 rounded-lg transition cursor-pointer">
+                    <Link to='/register'><button className="bg-sky-600 hover:bg-sky-700 text-white text-xs md:text-sm px-6 py-3 rounded-lg transition cursor-pointer">
                         Get Started Now
                     </button></Link>
             
                 </motion.div>
 
-                <div className='w-full max-w-[800px] h-[3px] mt-10 bg-linear-to-r from-white/10 via-violet-600 to-white/10'></div>
+                <div className='w-full max-w-[800px] h-[3px] mt-10 bg-linear-to-r from-white/10 via-sky-600 to-white/10'></div>
 
                 <motion.div 
                 initial={{y: 50, opacity: 0}}

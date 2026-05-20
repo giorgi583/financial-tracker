@@ -5,3 +5,39 @@
 body {
   font-family: "Google Sans Flex", sans-serif;;
 }
+@layer base {
+  select {
+    appearance: base-select;
+  }
+  ::picker(select) {
+    appearance: base-select;
+    border-radius: 3px;
+    padding: 5px;
+      background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        cursor: pointer;
+  }
+  select::picker-icon {
+    content: '▼';
+      font-size: 1em;
+      color: #555;
+      align-content: center;
+      margin-right: 5px;
+      transition: 0.2s ease;
+  }
+  select:open::picker-icon {
+    transform: rotate(180deg);
+  }
+  select option {
+    padding: 5px;
+        cursor: pointer;
+        border-radius: 2px;
+  }
+  select option:checked {
+    background-color: #e0e0e0;
+  }
+  select option::checkmark {
+    color: green;
+    margin-right: 5px;
+  }
+}
