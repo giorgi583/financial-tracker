@@ -11,6 +11,7 @@ const Transactions = lazy(() => import('./pages/Transactions'))
 const Budget = lazy(() => import('./pages/Budget'))
 const Help = lazy(() => import('./pages/Help'))
 const Loader = lazy(() => import('./components/Loader'))
+const Profile = lazy(() => import('./pages/Profile'))
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function App() {
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
           <Route path="help" element={<Help />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

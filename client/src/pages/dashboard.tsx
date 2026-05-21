@@ -1,6 +1,6 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { Outlet, useLocation, useNavigate, Link } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
-import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon } from "lucide-react"
+import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, User, Settings, HelpCircleIcon } from "lucide-react"
 import { useState } from "react"
 
 const Dashboard = () => {
@@ -13,7 +13,7 @@ const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
     <div className="flex bg-slate-200 min-h-screen">
       <Sidebar />
         <div className="flex items-center justify-between gap-8 max-md:gap-4 absolute top-4 right-8">
-      <div className="flex items-center justify-end relative hover:bg-gray-200/50 p-2 rounded-full transition cursor-pointer">
+      <div className="flex items-center justify-end relative hover:bg-gray-300/60 p-2 rounded-full transition cursor-pointer">
 <Bell size={25} className=" text-gray-800 cursor-pointer" />
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
       </div>
@@ -22,11 +22,11 @@ const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   <div className="flex flex-col"><p className="font-semibold">John Smith</p> <p className="text-sm flex items-center gap-1">{currentPage}<ChevronDown onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} size={15} className="cursor-pointer"/></p></div>
 </div>
 {isProfileMenuOpen && (
-  <div className="absolute -bottom-55 right-0 bg-white p-2 rounded-lg shadow-lg w-40 flex flex-col items-start gap-3">
-    <p className=" w-full p-2 hover:bg-gray-200 rounded-b-md cursor-pointer">Profile</p>
-    <p className=" w-full p-2 hover:bg-gray-200 rounded-b-md cursor-pointer">Settings</p>
-    <p className="p-2 hover:bg-gray-200 rounded-md cursor-pointer w-full" >Help</p>
-  <p className="p-2 hover:bg-gray-200 rounded-md cursor-pointer w-full flex items-center gap-5" onClick={()=> navigate('/')}>Logout <LogOutIcon size={17} /></p>
+  <div className="absolute -bottom-55 right-0 bg-white p-2 rounded-lg shadow-lg w-40 flex flex-col items-start gap-3 z-10">
+    <Link to="/dashboard/profile" className=" w-full p-2 hover:bg-gray-200 rounded-md cursor-pointer flex items-center gap-2"><User size={17} />Profile</Link>
+    <Link to="/dashboard/settings" className=" w-full p-2 hover:bg-gray-200 rounded-md cursor-pointer flex items-center gap-2"><Settings size={17} />Settings</Link>
+    <Link to="/dashboard/help" className="p-2 hover:bg-gray-200 rounded-md cursor-pointer w-full flex items-center gap-2" ><HelpCircleIcon size={17} />Help</Link>
+  <p className="p-2 hover:bg-gray-200 rounded-md cursor-pointer w-full flex items-center gap-2" onClick={()=> navigate('/')}><LogOutIcon size={17} /> Logout</p>
 </div>)}
       </div>
       <Outlet />

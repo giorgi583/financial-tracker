@@ -40,4 +40,11 @@ body {
     color: green;
     margin-right: 5px;
   }
+  input {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: transparent;
+  }
 }
