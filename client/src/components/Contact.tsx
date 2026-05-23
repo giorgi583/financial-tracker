@@ -6,7 +6,7 @@ export default function Contact() {
         <motion.div
         initial={{x: 50, opacity: 0}}
         whileInView={{x: 0, opacity: 1}}
-        transition={{duration: 0.5}}
+        transition={{duration: 0.8, delay: 0.5}}
         viewport={{once: true}}
         className="max-w-5xl w-full mx-auto p-10 pb-32 text-gray-800" id="contact">
             <span className="px-2 py-1 text-xs border border-gray-300 rounded-full">Reach Out To Us</span>

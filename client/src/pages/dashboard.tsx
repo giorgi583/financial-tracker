@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate, Link } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
 import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, User, Settings, HelpCircleIcon } from "lucide-react"
 import { useState } from "react"
+import Notifications from "../components/Notifications"
 
 const Dashboard = () => {
   const location = useLocation()
@@ -9,11 +10,15 @@ const Dashboard = () => {
   const pathnames = location.pathname.split('/').filter(x => x)
   const currentPage = pathnames[pathnames.length - 1]
 const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+const [isMessageMenuOpen, setIsMessageMenuOpen] = useState(false)
   return (
     <div className="flex bg-slate-200 min-h-screen">
       <Sidebar />
         <div className="flex items-center justify-between gap-8 max-md:gap-4 absolute top-4 right-8">
-      <div className="flex items-center justify-end relative hover:bg-gray-300/60 p-2 rounded-full transition cursor-pointer">
+      <div onClick={()=> setIsMessageMenuOpen(!isMessageMenuOpen)} className="flex items-center justify-end relative hover:bg-gray-300/60 p-2 rounded-full transition cursor-pointer">
+{isMessageMenuOpen && (
+  <Notifications />
+)}
 <Bell size={25} className=" text-gray-800 cursor-pointer" />
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
       </div>

@@ -1,5 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import {lazy, Suspense} from 'react'
+import {lazy, Suspense, useState} from 'react'
+import { useTranslation } from 'react-i18next';
+import './i18next';
 const Home = lazy(() => import('./pages/home')) 
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register')) 
@@ -13,6 +15,8 @@ const Help = lazy(() => import('./pages/Help'))
 const Loader = lazy(() => import('./components/Loader'))
 const Profile = lazy(() => import('./pages/Profile'))
 function App() {
+  const [theme, setTheme] = useState<{mode: string, color: string}>({mode: 'light', color: 'blue'});
+  const { t, i18n } = useTranslation();
   return (
     <BrowserRouter>
     <Suspense fallback={<Loader />} >
@@ -24,7 +28,7 @@ function App() {
           <Route path="transactions" element={<Transactions />} />
           <Route path="budget" element={<Budget />} />
           <Route path="analytics" element={<Analytics />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="settings" element={<Settings settTheme={setTheme} theme={theme} />} />
           <Route path="help" element={<Help />} />
           <Route path="profile" element={<Profile />} />
         </Route>

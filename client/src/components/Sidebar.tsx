@@ -1,10 +1,13 @@
 import { LayoutDashboard, ArrowLeftRight, Wallet, BarChart2Icon, Settings, HelpCircleIcon, Menu, Ellipsis, X } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
-
+import { useTranslation } from 'react-i18next'
+import colors from "tailwindcss/colors";
 const Sidebar = () => {
   const [isdots, setIsdotsopen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const {t} = useTranslation()
+  const [accentColor, setAccentColor] = useState(colors.sky[950])
   return (
     <>
     <aside className='bg-sky-950 text-white max-w-80 min-w-70 p-8 hidden lg:flex min-h-screen flex-col justify-between'>
@@ -20,14 +23,14 @@ const Sidebar = () => {
         </div>
         </div>
         <div className='mt-10 flex flex-col gap-5 items-center'> 
-            <NavLink to="/dashboard/overview" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><LayoutDashboard/> Dashboard</NavLink>
-            <NavLink to="/dashboard/transactions" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><ArrowLeftRight/> My Transactions</NavLink>
-            <NavLink to="/dashboard/budget" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><Wallet/> Budget</NavLink>
-            <NavLink to="/dashboard/analytics" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><BarChart2Icon/> Analytics</NavLink>
+            <NavLink to="/dashboard/overview" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><LayoutDashboard/> {t('dashboard')}</NavLink>
+            <NavLink to="/dashboard/transactions" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><ArrowLeftRight/>{t('transactions')}</NavLink>
+            <NavLink to="/dashboard/budget" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><Wallet/>{t('budget')}</NavLink>
+            <NavLink to="/dashboard/analytics" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><BarChart2Icon/>{t('analytics')}</NavLink>
         </div>
         <div className='mt-10 flex flex-col gap-5 items-center flex-2 justify-end'>
-            <NavLink to="/dashboard/help" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><HelpCircleIcon/> Help center</NavLink>
-            <NavLink to="/dashboard/settings" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><Settings/> Settings</NavLink>
+            <NavLink to="/dashboard/help" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><HelpCircleIcon/>{t('help')}</NavLink>
+            <NavLink to="/dashboard/settings" className={({isActive}) =>  `flex p-2 pr-10 gap-3 ${isActive ? 'bg-white/20' : ''} w-full rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><Settings/>{t('settings')}</NavLink>
         </div>
         </div>
     </aside>

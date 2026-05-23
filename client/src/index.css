@@ -47,4 +47,12 @@ body {
     outline: none;
     background-color: transparent;
   }
+  textarea {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: transparent;
+    resize: none;
+  }
 }
