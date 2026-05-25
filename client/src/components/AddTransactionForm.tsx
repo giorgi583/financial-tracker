@@ -29,6 +29,13 @@ const AddTransactionForm = ( {setTransactions}: {setTransactions: React.Dispatch
     }
   return (
     <div className='bg-white rounded-2xl p-5 shadow-md flex-1'>
+        <div>
+            <h2 className='text-2xl font-bold mb-4'>Add Initial Balance</h2>
+            <div className='flex gap-4 mb-6 items-center relative'>
+                <input id='initialBalance' type="number" placeholder='Initial Balance' className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full' />
+                <button className='bg-linear-60 absolute right-0 from-blue-100 to-blue-200 text-blue-600 cursor-pointer rounded-lg px-4 py-2 transition active:scale-95 flex items-center justify-center'><Plus /></button>
+            </div>
+        </div>
         <form onSubmit={submit} className='col-span-1 md:col-span-2 lg:col-span-3'>
             <h2 className='text-2xl font-bold mb-4'>Add Transaction</h2>
             <div className='flex flex-col gap-4'>

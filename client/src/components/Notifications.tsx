@@ -12,8 +12,12 @@ const Notifications = () => {
 <div className='flex flex-col gap-3'>
     <h2 className='text-xl font-semibold'>Today</h2>
     <div className='flex flex-col gap-2'>
-<div className='rounded bg-gray-100 p-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit vitae, possimus soluta aliquid facilis perspiciatis.</div>
-<div className='rounded bg-gray-100 p-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit vitae, possimus soluta aliquid facilis perspiciatis.</div>
+<div className='rounded bg-gray-100 p-2 relative pb-4'><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit vitae, possimus soluta aliquid facilis perspiciatis.</p>
+    <p className='text-xs text-gray-400 absolute bottom-1 right-2'>25 minutes ago</p>
+</div>
+<div className='rounded bg-gray-100 p-2 relative pb-4'><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit vitae, possimus soluta aliquid facilis perspiciatis.</p>
+    <p className='text-xs text-gray-400 absolute bottom-1 right-2'>25 minutes ago</p>
+</div>
     </div>
     <h2 className='text-xl font-semibold'>Earlier</h2>
     <div className='flex flex-col gap-2'>

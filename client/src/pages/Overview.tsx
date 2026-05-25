@@ -1,3 +1,4 @@
+import AreaChart from "../components/AreaChart"
 import ContentOfDashboard from "../components/ContentOfDashboard"
 
 
@@ -12,7 +13,9 @@ const Overview = () => {
 <ContentOfDashboard title="Expense dynamics" type="spendingbycategory" className="col-span-2 row-span-2 max-sm:col-span-1 max-sm:row-span-3 bg-white rounded-2xl p-5" />
 <ContentOfDashboard title="Income vs Expenses" type="incomevsexpenses" className="col-span-1 row-span-3 bg-white rounded-2xl p-5" />
 <ContentOfDashboard title="Recent Transactions" type="recenttransactions" className="col-span-1 row-span-2 bg-white rounded-2xl p-5" />
-<ContentOfDashboard title="Spending by Category" type="spendingbycategory" className="col-span-1 row-span-2 bg-white rounded-2xl p-5" />
+<div className="row-span-2">
+  <AreaChart />
+</div>
     </div>
     </div>
   )
