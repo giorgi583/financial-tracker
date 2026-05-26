@@ -10,7 +10,7 @@ const Sidebar = () => {
   const [accentColor, setAccentColor] = useState(colors.sky[950])
   return (
     <>
-    <aside className='bg-sky-950 text-white max-w-80 min-w-70 p-8 hidden lg:flex min-h-screen flex-col justify-between'>
+    <aside className='bg-[var(--sidebar)] dark:bg-[var(--dark-sidebar)] text-white dark:text-gray-950 max-w-80 min-w-70 p-8 hidden lg:flex min-h-screen flex-col justify-between'>
         <div className='flex flex-col justify-between h-11/12 fixed'>
         <div className='flex-col flex'>
         <h1 className='text-3xl font-bold tracking-wide'>MONIFY</h1>
@@ -34,9 +34,9 @@ const Sidebar = () => {
         </div>
         </div>
     </aside>
-    <aside className={`flex lg:hidden bg-sky-950 text-white p-3 max-md:rounded-lg max-md:fixed max-md:bottom-4 max-md:left-4 z-40 max-md:right-4 justify-between items-center md:flex-col md:sticky md:top-0  ${isMenuOpen ? 'md:w-80' : 'md:w-20'} md:h-screen md:pt-10 md:justify-around md:px-0 transition-all duration-300`}>
+    <aside className={`flex lg:hidden bg-[var(--sidebar)] dark:bg-[var(--dark-sidebar)] text-white p-3 max-md:rounded-lg max-md:fixed max-md:bottom-4 max-md:left-4 z-40 max-md:right-4 justify-between items-center md:flex-col md:sticky md:top-0  ${isMenuOpen ? 'md:w-80' : 'md:w-20'} md:h-screen md:pt-10 md:justify-around md:px-0 transition-all duration-300`}>
 
-<button className={`hidden md:flex ${isMenuOpen ? 'absolute top-10 right-10' : ''}`} onClick={()=> setIsMenuOpen(!isMenuOpen)}>{ isMenuOpen ? <X/> : <Menu/>}</button>
+<div className={`hidden md:flex ${isMenuOpen ? 'absolute top-10 right-10' : ''}`} onClick={()=> setIsMenuOpen(!isMenuOpen)}>{ isMenuOpen ? <X/> : <Menu/>}</div>
 <div className='flex gap-6 max-sm:gap-3 items-center justify-between w-full px-5 max-sm:px-2 md:flex-col md:gap-6 md:items-center'> 
             <NavLink onClick={()=> setIsMenuOpen(false)} to="/dashboard/overview" className={({isActive}) =>  `flex p-2 gap-3  ${isActive ? 'bg-white/20' : ''} rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><LayoutDashboard/>{isMenuOpen && 'Dashboard'}</NavLink>
             <NavLink onClick={()=> setIsMenuOpen(false)} to="/dashboard/transactions" className={({isActive}) =>  `flex p-2 gap-3 ${isActive ? 'bg-white/20' : ''} rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><ArrowLeftRight/>{isMenuOpen && 'My Transactions'}</NavLink>
@@ -44,9 +44,9 @@ const Sidebar = () => {
             <NavLink onClick={()=> setIsMenuOpen(false)} to="/dashboard/analytics" className={({isActive}) =>  `flex p-2 gap-3 ${isActive ? 'bg-white/20' : ''} rounded-xl hover:bg-white/20 cursor-pointer text-lg items-center transition duration-300`}><BarChart2Icon/>{isMenuOpen && 'Analytics'}</NavLink>
             <NavLink onClick={()=> setIsMenuOpen(false)} to="/dashboard/help" className={({isActive}) =>  `flex max-md:hidden p-2 gap-3 ${isActive ? 'bg-white/20' : ''} rounded-xl hover:bg-white/20 cursor-pointer text-sm items-center transition duration-300`}><HelpCircleIcon/>{isMenuOpen && 'Help center'}</ NavLink>
                 <NavLink onClick={()=> setIsMenuOpen(false)} to="/dashboard/settings" className={({isActive}) =>  `flex max-md:hidden p-2  ${isActive ? 'bg-white/20' : ''} rounded-xl hover:bg-white/20 cursor-pointer text-sm items-center transition duration-300`}><Settings/>{isMenuOpen && 'Settings'}</ NavLink>
-        <button onClick={() => setIsdotsopen(!isdots)} className='md:align-bottom md:hidden'>
+        <div onClick={() => setIsdotsopen(!isdots)} className='md:align-bottom md:hidden'>
             <Ellipsis/>
-        </button>
+        </div>
         {isdots && (
             <div className='flex flex-col items-center bg-slate-800 p-4 rounded-lg absolute bottom-16 right-0 max-w-35'>
                 <NavLink onClick={()=> setIsdotsopen(false)} to="/dashboard/help" className='flex p-2 pr-10 gap-3 w-full rounded-xl hover:bg-white/20 cursor-pointer text-sm items-center transition duration-300'>Help</NavLink>

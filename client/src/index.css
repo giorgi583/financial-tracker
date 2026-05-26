@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');
 @import "tailwindcss";
 
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: "Google Sans Flex", sans-serif;;
 }
@@ -55,4 +58,53 @@ body {
     background-color: transparent;
     resize: none;
   }
+  button {
+    background: linear-gradient(90deg, var(--btnbg), var(--light-mainbg));
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+}
+:root {
+  --accent: #3b82f6;
+  --sidebar: #1d293d;
+  --dark-sidebar: #0ea5e9;
+  --mainbg: #2f3e55;
+  --light-mainbg: #ebf2ff;
+  --btnbg: #c8ddff;
+  --dark: #091a30;
+}
+
+.theme-green {
+  --accent: #22c55e;
+  --sidebar: #052e16;
+  --dark-sidebar: #16a34a;
+  --mainbg: #30473b;
+  --light-mainbg: #e0fced;
+  --btnbg: #cefed5;
+  --dark: #042311;
+}
+
+.theme-purple {
+  --accent: #a855f7;
+  --sidebar: #251246;
+  --dark-sidebar: #6d50f0;
+  --mainbg: #352d42;
+  --light-mainbg: #f3e8ff;
+  --btnbg: #e4d5ff;
+    --dark: #1a0c33;
+}
+
+.theme-red {
+  --accent: #f35500;
+  --sidebar: #450a0a;
+  --dark-sidebar: #d97706;
+  --mainbg: #342626;
+  --light-mainbg: #ffebe7;
+  --btnbg: #fdd0ca;
+  --dark: #220404;
 }

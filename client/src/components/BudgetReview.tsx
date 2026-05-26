@@ -11,7 +11,7 @@ const BudgetReview = () => {
       const [selectedMonth, setSelectedMonth] = React.useState<string>('');
   return (
     <div className="p-5 grid grid-cols-3 gap-4 mt-5 w-full max-md:grid-cols-1 max-xl:grid-cols-2">
-        <div className="bg-white rounded-2xl p-5 relative">
+        <div className="bg-white rounded-2xl p-5 relative dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">Monthly Budget overview</h2>
           <hr className="my-4"/>
           <p>total budget: $2,500</p>
@@ -19,7 +19,7 @@ const BudgetReview = () => {
           <p>remaining: $700</p>
           <p>usage: 70%</p>
         </div>
-        <div className="bg-white rounded-2xl p-5">
+        <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">Category Budget overview</h2>
           <hr />
           {categories.map((category, index) => (
@@ -33,7 +33,7 @@ const BudgetReview = () => {
             </div>
           ))}
         </div>
-        <div className="bg-white rounded-2xl p-5">
+        <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">progress bars</h2>
           <hr />
           {categories.map((category, index) => (

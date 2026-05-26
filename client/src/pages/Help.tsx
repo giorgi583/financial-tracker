@@ -1,9 +1,10 @@
 import {ChevronDownCircle, Contact, MessageCircleQuestion,PieChart,Rocket, ShieldCheck, TagIcon} from 'lucide-react'
-
+import { useTranslation } from 'react-i18next'
 const Help = () => {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col gap-10 w-full p-20 max-sm:p-5 max-sm:pb-20">
-      <h1 className="text-3xl font-bold max-sm:mt-15 flex items-center gap-3">Help & Support Center </h1>
+      <h1 className="text-3xl font-bold max-sm:mt-15 flex items-center gap-3">{t('Help & Support Center')}</h1>
       <p className="text-lg">Welcome to your financial command center! Whether you’re here to crush debt, save for a dream vacation, or just figure out where that extra $50 went last week, we’ve got you covered.</p>
 <hr />
 <div className="flex flex-col gap-12 ">
@@ -70,19 +71,19 @@ const Help = () => {
   <details className="flex flex-col gap-8">
     <summary className="text-2xl font-semibold flex items-center gap-3 cursor-pointer"> <MessageCircleQuestion size={30} /> Frequently Asked Questions <ChevronDownCircle size={30} /></summary>
     <div className="grid grid-cols-1 ">
-      <details className="p-5 border border-gray-950 col-span-1">
+      <details className="p-5 border border-gray-950 dark:border-white col-span-1">
         <summary className="text-lg flex items-center gap-3 cursor-pointer">How do I add a new bank account? <ChevronDownCircle size={20} /></summary>
       <p className='pt-5'>
 you can add a new bank account by clicking the "+" icon on the dashboard.
       </p>
       </details>
-      <details className="p-5 border border-gray-950 col-span-1">
+      <details className="p-5 border border-gray-950 dark:border-white col-span-1">
         <summary className="text-lg flex items-center gap-3 cursor-pointer">How do I add a new bank account? <ChevronDownCircle size={20} /></summary>
       <p className='pt-5'>
 you can add a new bank account by clicking the "+" icon on the dashboard.
       </p>
       </details>
-      <details className="p-5 border border-gray-950 col-span-1">
+      <details className="p-5 border border-gray-950 dark:border-white col-span-1">
         <summary className="text-lg flex items-center gap-3 cursor-pointer">How do I add a new bank account? <ChevronDownCircle size={20} /></summary>
       <p className='pt-5'>
 you can add a new bank account by clicking the "+" icon on the dashboard.

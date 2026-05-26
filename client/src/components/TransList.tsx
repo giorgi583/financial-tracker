@@ -16,9 +16,9 @@ const TransList = ({transactions}: {transactions: Transaction[]}) => {
   return (
     <div className="flex-1 min-w-0">
         <h2 className='text-2xl font-bold mb-4'>Transaction List</h2>
-        <table className='bg-white rounded-lg shadow-md max-md:mb-20 table-auto w-full'>
+        <table className='bg-white rounded-lg shadow-md max-md:mb-20 table-auto w-full dark:bg-[var(--sidebar)] dark:text-white'>
             <thead>
-                <tr className='bg-gray-100 text-left'>
+                <tr className='bg-[var(--accent)] text-left dark:bg-[var(--dark)] dark:text-white'>
                     <th className='text-left py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Type</th>
                 {isMobile ? null : <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Description</th>}
                     <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Amount</th>

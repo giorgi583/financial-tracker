@@ -34,5 +34,10 @@
     "updatePassword": "პაროლის განახლება",
     "saveChanges": "ცვლილებების შენახვა",
     "edit": "რედაქტირება",
-    "upload": "ატვირთვა"
+    "upload": "ატვირთვა",
+    "financialOverview": "-ის ფინანსური მიმოხილვა",
+    "yourTransactions": "-ის ტრანზაქციები",
+    "yourBudget": "-ის ბიუჯეტი",
+    "yourAnalytics": "-ის ანალიტიკა",
+    "Help & Support Center": "დახმარების და მხარდაჭერის ცენტრი"
 }

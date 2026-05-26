@@ -35,5 +35,10 @@
     "saveChanges": "save changes",
     "edit": "edit",
     "uploadAvatar": "upload avatar",
-    "upload": "upload"
+    "upload": "upload",
+    "financialOverview": "'s Financial Overview",
+    "yourTransactions": "'s transactions",
+    "yourBudget": "'s budget",
+    "yourAnalytics": "'s analytics",
+    "Help & Support Center": "Help & Support Center"
 }

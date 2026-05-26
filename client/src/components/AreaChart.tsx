@@ -13,7 +13,7 @@ const data = [
 ]
 const AreaChart = () => {
   return (
-    <div className="w-full h-full bg-white rounded-2xl p-5 pb-10">
+    <div className="w-full h-full bg-white dark:bg-[var(--sidebar)] dark:text-white rounded-2xl p-5 pb-10">
         <h4 className='text-xl font-semibold flex items-center gap-2 pb-5'>Spending by Category</h4>
     <ResponsiveContainer width="100%" height="100%">
       <AreaCHART

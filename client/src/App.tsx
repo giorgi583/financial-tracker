@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import {lazy, Suspense, useState} from 'react'
+import {lazy, Suspense, useEffect, useState} from 'react'
 import { useTranslation } from 'react-i18next';
 import './i18next';
 const Home = lazy(() => import('./pages/home')) 
@@ -15,8 +15,27 @@ const Help = lazy(() => import('./pages/Help'))
 const Loader = lazy(() => import('./components/Loader'))
 const Profile = lazy(() => import('./pages/Profile'))
 function App() {
-  const [theme, setTheme] = useState<{mode: string, color: string}>({mode: 'light', color: 'blue'});
+  const [theme, setTheme] = useState<{mode: string, color: string}>({mode: localStorage.getItem('mode') || 'light', color: localStorage.getItem('color') || 'blue'});
   const { t, i18n } = useTranslation();
+  useEffect(() => {
+    const language = localStorage.getItem('language') || 'en';
+    i18n.changeLanguage(language);
+
+    document.documentElement.classList.remove(
+    "theme-green",
+    "theme-purple",
+    "theme-red"
+  );
+
+  if (theme.color !== "blue") {
+    document.documentElement.classList.add(`theme-${theme.color}`);
+  }
+  if (theme.mode === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+  }, []);
   return (
     <BrowserRouter>
     <Suspense fallback={<Loader />} >
