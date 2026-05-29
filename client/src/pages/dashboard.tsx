@@ -4,8 +4,9 @@ import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, Us
 import { useState } from "react"
 import Notifications from "../components/Notifications"
 import Chat from "../components/Chat"
-
+import { useTranslation } from "react-i18next"
 const Dashboard = () => {
+  const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
   const pathnames = location.pathname.split('/').filter(x => x)
@@ -30,14 +31,14 @@ const [isChatOpen, setIsChatOpen] = useState(false)
 </div>
 {isProfileMenuOpen && (
   <div className="absolute -bottom-55 right-0 bg-white dark:bg-[var(--sidebar)] p-2 rounded-lg shadow-lg w-40 flex flex-col items-start gap-3 z-10">
-    <Link to="/dashboard/profile" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><User size={17} />Profile</Link>
-    <Link to="/dashboard/settings" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><Settings size={17} />Settings</Link>
-    <Link to="/dashboard/help" className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" ><HelpCircleIcon size={17} />Help</Link>
-  <p className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" onClick={()=> navigate('/')}><LogOutIcon size={17} /> Logout</p>
+    <Link to="/dashboard/profile" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><User size={17} />{t('profile')}</Link>
+    <Link to="/dashboard/settings" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><Settings size={17} />{t('settings')}</Link>
+    <Link to="/dashboard/help" className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" ><HelpCircleIcon size={17} />{t('help')}</Link>
+  <p className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" onClick={()=> navigate('/')}><LogOutIcon size={17} /> {t('logout')}</p>
 </div>)}
       </div>
       <Outlet />
-      <div className="rounded-full p-5 bg-[var(--mainbg)] dark:bg-[var(--light-mainbg)] fixed bottom-10 right-10 max-md:hidden cursor-pointer text-gray-950 dark:text-white" onClick={()=> setIsChatOpen(!isChatOpen)}><MessageSquareMoreIcon
+      <div className="rounded-full p-5 bg-[var(--mainbg)] dark:bg-[var(--accent)] fixed bottom-10 right-10 max-md:hidden cursor-pointer text-gray-950 dark:text-white" onClick={()=> setIsChatOpen(!isChatOpen)}><MessageSquareMoreIcon
       size={40} fill="white" className="cursor-pointer hover:scale-110 transition-transform duration-500 animate-bounce [animation-iteration-count:3]"/></div>
       <Chat active={isChatOpen}/>
       </div>

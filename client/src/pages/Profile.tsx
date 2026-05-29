@@ -14,7 +14,7 @@ const Profile = () => {
         <p className="text-xl mt-5 max-xl:text-lg">Email: <br></br> 2bY5K@example.com</p>
         <p className="text-lg mt-5 max-xl:text-md max-xl:max-w-xs">Bio: <br></br> Highly perspectived software developer with a passion for problem-solving and a strong commitment to excellence.</p>
         </div>
-        <button className="flex gap-2 cursor-pointer border-2 items-center absolute bottom-7 left-7 py-2 px-4 rounded-lg max-sm:top-7 max-sm:right-7 max-sm:bottom-auto max-sm:left-auto max-sm:py-1 max-sm:px-2 max-sm:text-sm">Edit Profile <Pencil size={16}/></button>
+        <button className="btn flex gap-2 cursor-pointer border-2 items-center absolute bottom-7 left-7 py-2 px-4 rounded-lg max-sm:top-7 max-sm:right-7 max-sm:bottom-auto max-sm:left-auto max-sm:py-1 max-sm:px-2 max-sm:text-sm">Edit Profile <Pencil size={16}/></button>
         </div>
         </div>
   )

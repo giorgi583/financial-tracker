@@ -1,39 +1,45 @@
-
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { addTransaction } from '../slices/transactionsSlice'
+import Loader from './Loader'
 import { Plus } from 'lucide-react'
 import React from 'react'
 type Transaction = {
-  id: number,
-    type: string,
-    description?: string,
-    amount: number,
-    category: string,
-    date: string,
-    createdAt: string,
-    updatedAt?: string
-}
-const AddTransactionForm = ( {setTransactions}: {setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>}) => {
-    const [transaction, setTransaction] = React.useState<Transaction>({
-        id: 0,
-        type: '',
-        description: '',
-        amount: 0,
-        category: '',
-        date: '',
-        createdAt: '',
-        updatedAt: ''
-    })
-    function submit(e: React.SyntheticEvent<HTMLFormElement>) {
-        e.preventDefault();
-        setTransactions(prev => [...prev, {...transaction, id: prev.length + 1, createdAt: new Date().toISOString()}]);
-        alert('Transaction added successfully!');
+  type: string;
+  description?: string;
+  amount: number;
+  category: string;
+  date: string;
+};
+const AddTransactionForm = () => {
+    const dispatch = useAppDispatch();
+const {status, error} = useAppSelector(state => state.transactions);
+const [transaction, setTransaction] = React.useState<Transaction>({
+    type: '',
+    description: '',
+    amount: 0,
+    category: '',
+    date: '',
+});
+const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+   const result = await dispatch(addTransaction(transaction))
+
+    if (addTransaction.rejected.match(result)) {
+      alert(error || 'Failed to add transaction') 
     }
-  return (
-    <div className='bg-white rounded-2xl p-5 shadow-md flex-1 dark:bg-[var(--sidebar)] dark:text-white'>
+
+    if (addTransaction.fulfilled.match(result)) {
+      alert('Transaction added successfully') 
+    }
+}
+
+   return (
+    <div className='bg-white rounded-2xl p-5 shadow-md flex-1 dark:bg-[var(--sidebar)] dark:text-white relative'>
         <div>
             <h2 className='text-2xl font-bold mb-4'>Add Initial Balance</h2>
             <div className='flex gap-4 mb-6 items-center relative'>
                 <input id='initialBalance' type="number" placeholder='Initial Balance' className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' />
-                <button className=' absolute right-0 cursor-pointer rounded-lg px-4 py-2 transition active:scale-95 flex items-center justify-center'><Plus /></button>
+                <button className='btn absolute right-0 cursor-pointer rounded-lg px-4 py-2 transition active:scale-95 flex items-center justify-center'><Plus /></button>
             </div>
         </div>
         <form onSubmit={submit} className='col-span-1 md:col-span-2 lg:col-span-3'>
@@ -52,20 +58,19 @@ const AddTransactionForm = ( {setTransactions}: {setTransactions: React.Dispatch
                 <label htmlFor='category'>Category</label>
                 <select id='category' onChange={(e)=> setTransaction(prev => ({...prev, category: e.target.value}))} required className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'>
                     <option value="">Select Category</option>
-                    {/* {categories.map((category) => (
-                        <option key={category.name} value={category.name.toLowerCase()}>
-                            {category.icon} {category.name}
-                        </option>
-                    ))} */}
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Entertainment">Entertainment</option>
                 </select>
                 <label htmlFor='date'>Date</label>
-                <input id='date' onChange={(e)=> setTransaction(prev => ({...prev, date: e.target.value}))} required type="date" name="" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
-                <button type="submit" className='cursor-pointer rounded-lg px-4 py-2 transition active:scale-95 flex items-center justify-center'><Plus className='mr-2'/>Add Transaction</button>
+                <input id='date' max={new Date().toISOString().split("T")[0]} onChange={(e)=> setTransaction(prev => ({...prev, date: e.target.value}))} required type="date" name="" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
+                <button type="submit" className='btn cursor-pointer rounded-lg px-4 py-2 transition active:scale-95 flex items-center justify-center'><Plus className='mr-2'/>Add Transaction</button>
         </div>
         </form>
-    </div>
-  )
-}
+    </div>    
+    )}
+
+
                     
 
 export default AddTransactionForm

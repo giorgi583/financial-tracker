@@ -6,7 +6,7 @@ const NotificationsSettings = () => {
   return (
     <div className='p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto'>
       <h2 className='text-3xl font-semibold pt-3 pb-3'>{t('notifications')} {t('settings')}</h2>
-      <button className='px-3 py-1 rounded-2xl cursor-pointer mb-4'>{t('saveChanges')}</button>
+      <button className='btn px-3 py-1 rounded-2xl cursor-pointer mb-4'>{t('saveChanges')}</button>
       <hr />
 <div className='p-5 flex items-center justify-between'>
   <h3 className='text-2xl font-semibold pt-5 pb-3'>Email notifications</h3>

@@ -27,7 +27,7 @@ const ProfileSettings = () => {
         <label htmlFor="bio">{t('bio')}:</label>
         <textarea id="bio" name="email" rows={3} cols={30} placeholder={t('updateYourBio')}/>
         </div>
-        <button onClick={(e) => {e.preventDefault(); setChangePassword(true)}} className='px-3 py-1 rounded-md cursor-pointer self-start'>{t('updatePassword')}</button>
+        <button onClick={(e) => {e.preventDefault(); setChangePassword(true)}} className='btn px-3 py-1 rounded-md cursor-pointer self-start'>{t('updatePassword')}</button>
         {changePassword && <div className='flex flex-col gap-4 relative'>
             <button className='absolute -top-10 right-10' onClick={(e) => {e.preventDefault(); setShowPassword(!showPassword)}}>
         {showPassword ? <EyeOff className='cursor-pointer hover:scale-110 transition-transform duration-500 ' /> : <Eye className='cursor-pointer hover:scale-110 transition-transform duration-500 ' /> }</button>
@@ -48,11 +48,11 @@ const ProfileSettings = () => {
    </div>
         <div className='flex flex-col gap-10 max-md:order-1 max-md:flex-row max-md:items-start max-md:w-full'>
           <div className='w-50 h-50 bg-gray-400 flex items-center justify-center rounded-full text-8xl text-white relative max-lg:w-30 max-lg:h-30 max-lg:text-5xl'>{selectedFile ? <img src={URL.createObjectURL(selectedFile)} alt="Profile" className='w-full h-full object-cover rounded-full' /> : 'JS'}
-          <button onClick={(e) => { e.preventDefault(); setShowUploadButton(!showUploadButton)}} className='absolute bottom-0 right-0 cursor-pointer text-lg text-gray-950 flex  items-center gap-1 border border-gray-300 rounded-lg py-1 px-3'>{t('edit')}<NotebookPenIcon color='black'/></button>
+          <button onClick={(e) => { e.preventDefault(); setShowUploadButton(!showUploadButton)}} className='btn absolute bottom-0 right-0 cursor-pointer text-lg text-gray-950 flex  items-center gap-1 border border-gray-300 rounded-lg py-1 px-3'>{t('edit')}<NotebookPenIcon color='black'/></button>
           <label htmlFor="fileInput" className={`text-lg absolute -bottom-10 px-3 py-1 right-0 text-gray-950 border-2 border-gray-300 rounded-md cursor-pointer ${showUploadButton ? 'block' : 'hidden'} hover:scale-105 transition-transform duration-500`}>Upload</label>
           <input type="file" accept="image/*" className='hidden' id="fileInput" onChange={handleFileChange} />
         </div>
-        <button className='px-3 py-1 rounded-md cursor-pointer'>{t('saveChanges')}</button>
+        <button className='btn px-3 py-1 rounded-md cursor-pointer'>{t('saveChanges')}</button>
         </div>
         </form>
         </div>

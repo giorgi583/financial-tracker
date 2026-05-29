@@ -22,7 +22,7 @@ const LimitsNgoals = () => {
           </select>
             <p className='text-xl'>Limit of {selectedCategory}: ${categories.find(c => c.name.toLowerCase() === selectedCategory)?.budget || 0}</p>
             <input type="number" placeholder='add a new limit' className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
-            <button className='px-4 py-2 rounded-lg'>Save</button>
+            <button className='btn px-4 py-2 rounded-lg'>Save</button>
       </div>
       <div className="bg-white rounded-2xl p-5 flex flex-col gap-4 dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">Create Goals</h2>
@@ -30,7 +30,7 @@ const LimitsNgoals = () => {
           <label htmlFor="">Set monthly savings goal</label>
           <div className='relative'>
          <input type="number" className='border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
-      <button className='p-3 rounded absolute right-[1px] top-[1px] cursor-pointer'><Plus size={16} color='blue' className='cursor-pointer active:scale-90'/></button></div>
+      <button className='btn p-3 rounded absolute right-[1px] top-[1px] cursor-pointer'><Plus size={16} className='cursor-pointer active:scale-90'/></button></div>
       </div>
     </div>
   )

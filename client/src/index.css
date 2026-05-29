@@ -8,7 +8,7 @@
 body {
   font-family: "Google Sans Flex", sans-serif;;
 }
-@layer base {
+@layer components {
   select {
     appearance: base-select;
   }
@@ -58,7 +58,7 @@ body {
     background-color: transparent;
     resize: none;
   }
-  button {
+  .btn {
     background: linear-gradient(90deg, var(--btnbg), var(--light-mainbg));
     border: 1px solid var(--accent);
     color: var(--accent);

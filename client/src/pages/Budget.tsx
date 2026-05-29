@@ -34,9 +34,9 @@ const Budget = () => {
             <option value="december">December</option>
           </select>
       <div className="flex gap-2 items-center mt-4 border border-gray-300 rounded-lg p-1 max-w-fit shadow-sm">
-        <button onClick={() => setSetcion('overview')} className={`${setcion === 'overview' ? ' rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Overview</button>
-        <button onClick={() => setSetcion('limits')} className={`${setcion === 'limits' ? ' rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Limits & Goals</button>
-        <button onClick={() => setSetcion('alerts')} className={`${setcion === 'alerts' ? ' rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'rounded-md py-1 px-3 text-slate-700 cursor-pointer'}`}>Alerts</button>
+        <button onClick={() => setSetcion('overview')} className={`${setcion === 'overview' ? 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Overview</button>
+        <button onClick={() => setSetcion('limits')} className={`${setcion === 'limits' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Limits & Goals</button>
+        <button onClick={() => setSetcion('alerts')} className={`${setcion === 'alerts' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer'}`}>Alerts</button>
       </div>
       {setcion === 'overview' && <BudgetReview />}
       {setcion === 'limits' && <LimitsNgoals />}

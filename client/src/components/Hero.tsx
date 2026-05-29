@@ -29,7 +29,7 @@ const Hero = () => {
 
                     <div className="flex items-center gap-2 md:pr-1">
                         <Link to="/register" className="text-gray-700 hover:text-gray-900 text-sm transition">
-                        <button className="hidden md:inline-block bg-sky-600 hover:bg-sky-700 text-white px-4 md:px-6 py-2 md:py-3 rounded-full text-xs md:text-sm transition cursor-pointer">
+                        <button className="!bg-sky-600 hover:bg-sky-700 !text-white hidden md:inline-block px-4 md:px-6 py-2 md:py-3 rounded-full text-xs md:text-sm transition cursor-pointer">
                             Sign Up
                         </button> </Link>
 

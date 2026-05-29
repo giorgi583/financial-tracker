@@ -7,7 +7,7 @@ const Alerts = () => {
         <h2 className="text-2xl font-semibold pb-3">Overspending alerts</h2>
         <hr className='my-4'/>
         <input type="number" placeholder='add a new limit' className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500'/>
-        <button className='px-4 py-2 rounded-lg'>Save</button>
+        <button className='btn px-4 py-2 rounded-lg'>Save</button>
       </div>
     </div>
   )
