@@ -1,8 +1,10 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import {lazy, Suspense, useEffect, useState} from 'react'
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './i18next';
+import { useAuth } from './Context';
+import { fetchUserPrefferences } from './slices/PreferenceSlice';
 const Home = lazy(() => import('./pages/home')) 
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register')) 
@@ -18,17 +20,20 @@ const Profile = lazy(() => import('./pages/Profile'))
 function App() {
 const theme = useSelector((state: any) => state.preference.theme);
 const color = useSelector((state: any) => state.preference.color);
+const lang = useSelector((state: any) => state.preference.lang);
+const currency = useSelector((state: any) => state.preference.currency);
+const { user} = useAuth();
+  const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   useEffect(() => {
-    const language = localStorage.getItem('language') || 'en';
-    i18n.changeLanguage(language);
-
+    i18n.changeLanguage(lang);
+  }, [lang]);
+  useEffect(() => {
     document.documentElement.classList.remove(
     "theme-green",
     "theme-purple",
     "theme-red"
   );
-
   if (color !== "blue") {
     document.documentElement.classList.add(`theme-${color}`);
   }
@@ -37,7 +42,12 @@ const color = useSelector((state: any) => state.preference.color);
   } else {
     document.documentElement.classList.remove("dark");
   }
-  }, []);
+  }, [theme, color]);
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserPrefferences() as any);
+    } 
+  }, [user]);
   return (
       <BrowserRouter>
         <Suspense fallback={<Loader />} >

@@ -1,8 +1,11 @@
 import React from 'react'
 import { Send } from "lucide-react"
-const Chat = ({active}: {active: boolean}) => {
+import { useAuth } from '../Context';
+const Chat = ({active}: {active: Boolean}) => {
+  const { user } = useAuth();
   return (
     <div className={`fixed bottom-35 right-5 p-10 rounded-2xl bg-white dark:bg-[var(--dark-sidebar)] text-gray-950 dark:text-white w-80 min-h-96 shadow-lg z-20 ${active ? 'flex' : 'hidden'} peer-focus:flex flex-col`}>
+        <h1 className='text-2xl font-bold mb-2'>Hello, {user.username}!</h1>
         <h2 className='text-2xl font-semibold'>Chat with us</h2>
         <p className='text-gray-500 dark:text-gray-300 text-sm mb-5'>Our support team is here to help you with any questions or issues you may have. Feel free to reach out to us!</p>
         <div className='flex flex-col gap-3'>

@@ -2,10 +2,9 @@ import { Op } from "sequelize";
 
 const {z} = require('zod');
 const Transaction = require('../modules/transaction-schema');
-async function addTransaction(req : any, res: any) {
-    console.log('Received transaction:', req.body);
-    const newTransaction = req.body;
+
 const transactionSchema = z.object({
+    userId: z.number(),
     type: z.enum(['income', 'expense']),
     description: z.string().max(50).optional(),
     amount: z.number(),
@@ -14,23 +13,33 @@ const transactionSchema = z.object({
         message: 'Date cannot be in the future',
     }),
 });
+async function addTransaction(req : any, res: any) {
+    console.log('Received transaction:', req.body);
+    const newTransaction = req.body;
+    const userId = req.user.id;
+    newTransaction.userId = userId;
 const validation = transactionSchema.safeParse(newTransaction);
 if (!validation.success) {
-    const error = JSON.parse(JSON.parse(validation.error.message));
-    return res.status(400).json({ success: false, message: error });
+
+    return res.status(400).json({ success: false, message: validation.error.errors });
 }
-const createdTransaction = await Transaction.create(newTransaction);
-if(!createdTransaction) {
+try {
+    const createdTransaction = await Transaction.create(newTransaction);
+    if(!createdTransaction) {
+        return res.status(500).json({ success: false, message: 'Failed to add transaction' });
+    }
+    return res.status(200).json({ success: true, message: 'Transaction added successfully', data: createdTransaction });
+} catch (error) {
+    console.error('Error adding transaction:', error);
     return res.status(500).json({ success: false, message: 'Failed to add transaction' });
 }
-return res.status(200).json({ success: true, message: 'Transaction added successfully', data: createdTransaction });
 }
-
 async function getTransactions(req: any, res: any) {
     const {description, maxAmount, minAmount, type, category, from, to, orderBy} = req.query;
     console.log('Query params:', req.query)
+    const userId = req.user.id;
     try {
-         const where: any = {};
+         const where: any = {userId};
   if (description) where.description = { [Op.like]: `%${description}%` };
   if (type)        where.type = type;
   if (category)    where.category = category;
@@ -60,7 +69,46 @@ async function getTransactions(req: any, res: any) {
     }
 }
 
+async function deleteTransaction(req: any, res: any) {
+    const { id } = req.params;
+    const userId = req.user.id;
+    try {
+        const deleted = await Transaction.destroy({ where: { id, userId } });
+        if (deleted) {
+            return res.status(200).json({ success: true, message: 'Transaction deleted successfully' });
+        } else {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting transaction:', error);
+        return res.status(500).json({ success: false, message: 'Failed to delete transaction' });
+    }
+}
+
+async function editTransaction(req: any, res: any) {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const validation = transactionSchema.partial().safeParse(updatedData);
+if (!validation.success) {
+  
+    return res.status(400).json({ success: false, message: validation.error.errors });
+}
+    try {
+        const userId = req.user.id;
+        const updated = await Transaction.update(updatedData, { where: { id, userId } });
+        if (updated) {
+            return res.status(200).json({ success: true, message: 'Transaction updated successfully' });
+        } else {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+    } catch (error) {
+        console.error('Error updating transaction:', error);
+        return res.status(500).json({ success: false, message: 'Failed to update transaction' });
+    }
+}
 module.exports = {
     addTransaction,
-    getTransactions
+    getTransactions,
+    deleteTransaction,
+    editTransaction
 }

@@ -1,8 +1,10 @@
 import { Search } from "lucide-react"
 import React from "react"
 import { useTranslation } from "react-i18next"
+import { useAuth } from "../Context"
 const Analytics = () => {
   const { t } = useTranslation()
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = React.useState("")
   const reports = [
     {
@@ -20,7 +22,7 @@ const Analytics = () => {
    
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4 max-sm:mt-8">John{t('yourAnalytics')}</h1>
+      <h1 className="text-3xl font-bold mb-4 max-sm:mt-8">{user.username}{t('yourAnalytics')}</h1>
       <p className="text-gray-600 dark:text-gray-400">This is the analytics page. Here you can view various metrics and insights about your finances. You can search for all the financial reports here.</p>
       <div className="mt-6 relative max-w-sm group peer focus-within:z-30 focus-within:bg-white dark:focus-within:bg-[var(--sidebar)]">
         <input 

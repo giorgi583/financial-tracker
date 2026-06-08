@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Check, SunIcon, Moon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
-import { setTheme, setColor, setLang, setCurrency } from '../slices/PreferenceSlice';
+import { setTheme, setColor, setLang, setCurrency, updateUserPrefferences } from '../slices/PreferenceSlice';
+import Loader from './Loader';
 const Prefferences = () => {
 const { t, i18n } = useTranslation();
 
@@ -12,13 +13,27 @@ const color = useSelector((state: any) => state.preference.color);
 const lang = useSelector((state: any) => state.preference.lang);
 const currency = useSelector((state: any) => state.preference.currency);
 
+const [selectedTheme, setSelectedTheme] = useState(theme);
+const [selectedColor, setSelectedColor] = useState(color);
+const [selectedLang, setSelectedLang] = useState(lang);
+const [selectedCurrency, setSelectedCurrency] = useState(currency);
 const saveChanges = () => {
-    localStorage.setItem('mode', theme);
-    localStorage.setItem('color', color);
-    localStorage.setItem('language', lang);
-    localStorage.setItem('currency', currency);
-    alert('Changes saved successfully!')
-}
+  // update Redux
+    dispatch(setTheme(selectedTheme));
+    dispatch(setColor(selectedColor));
+    dispatch(setLang(selectedLang));
+    dispatch(setCurrency(selectedCurrency));
+
+    // save to server with local state values, not Redux
+    dispatch(updateUserPrefferences({
+        theme: selectedTheme,
+        color: selectedColor,
+        lang: selectedLang,
+        currency: selectedCurrency
+    }) as any);
+    alert('Changes saved');
+  }
+
 useEffect(() => {
   document.documentElement.classList.remove(
     "theme-green",
@@ -26,15 +41,15 @@ useEffect(() => {
     "theme-red"
   );
 
-  if (color !== "blue") {
-    document.documentElement.classList.add(`theme-${color}`);
+  if (selectedColor !== "blue") {
+    document.documentElement.classList.add(`theme-${selectedColor}`);
   }
-  if (theme === "dark") {
+  if (selectedTheme === "dark") {
     document.documentElement.classList.add("dark");
   } else {
     document.documentElement.classList.remove("dark");
   }
-}, [theme, color]);
+}, [selectedTheme, selectedColor]);
   return (
     <div className='p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto'>
         <div className='flex justify-between items-center max-sm:flex-col max-sm:gap-5 max-sm:items-start'>
@@ -45,36 +60,36 @@ useEffect(() => {
             <h4 className='text-xl font-semibold flex items-center gap-2 pb-5'>{t('theme')} { theme === 'dark' ? <Moon /> : <SunIcon />}</h4>
             <hr />
             <div className='pt-5 '>
-                <p onClick={() => dispatch(setTheme('light'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('light')} {theme === 'light' &&  <Check />}</p>
-                <p onClick={() => dispatch(setTheme('dark'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('dark')} {theme === 'dark' &&  <Check />}</p>
+                <p onClick={() => setSelectedTheme('light')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('light')} {selectedTheme === 'light' &&  <Check />}</p>
+                <p onClick={() => setSelectedTheme('dark')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('dark')} {selectedTheme === 'dark' &&  <Check />}</p>
             </div>
             <h4 className='text-xl font-semibold flex items-center gap-2 pb-5'>{t('accentColor')}<p>{color}</p></h4>
             <hr />
-            <div className={`pt-5 flex gap-2 items-center pb-5 pl-3 rounded-2xl ${theme === 'dark' ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}`}>
-                <p onClick={() => dispatch(setColor('blue'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-sky-950'></span>{theme === 'light' && color === 'blue' && <Check />}</p>
-                <p onClick={() => dispatch(setColor('red'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-red-950'></span>{theme === 'light' && color === 'red' && <Check />}</p>
-                <p onClick={() => dispatch(setColor('green'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-green-900'></span>{theme === 'light' && color === 'green' && <Check />}</p>
-                <p onClick={() => dispatch(setColor('purple'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-violet-950'></span>{theme === 'light' && color === 'purple' && <Check />}</p>
+            <div className={`pt-5 flex gap-2 items-center pb-5 pl-3 rounded-2xl ${selectedTheme === 'dark' ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}`}>
+                <p onClick={() => setSelectedColor('blue')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-sky-950'></span>{selectedTheme === 'light' && selectedColor === 'blue' && <Check />}</p>
+                <p onClick={() => setSelectedColor('red')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-red-950'></span>{selectedTheme === 'light' && selectedColor === 'red' && <Check />}</p>
+                <p onClick={() => setSelectedColor('green')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-green-900'></span>{selectedTheme === 'light' && selectedColor === 'green' && <Check />}</p>
+                <p onClick={() => setSelectedColor('purple')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-violet-950'></span>{selectedTheme === 'light' && selectedColor === 'purple' && <Check />}</p>
             </div>
-             <div className={`pt-5 flex gap-2 items-center pb-5 pl-3 rounded-2xl ${theme === 'light' ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}`}>
-                <p onClick={() => dispatch(setColor('blue'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-sky-500'></span>{theme === 'dark' && color === 'blue' && <Check />}  </p>
-                <p onClick={() => dispatch(setColor('red'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-amber-600'></span>{theme === 'dark' && color === 'red' && <Check />}</p>
-                <p onClick={() => dispatch(setColor('green'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-green-600'></span>{theme === 'dark' && color === 'green' && <Check />}</p>
-                <p onClick={() => dispatch(setColor('purple'))} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-indigo-500'></span>{theme === 'dark' && color === 'purple' && <Check />}</p>
+             <div className={`pt-5 flex gap-2 items-center pb-5 pl-3 rounded-2xl ${selectedTheme === 'light' ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}`}>
+                <p onClick={() => setSelectedColor('blue')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-sky-500'></span>{selectedTheme === 'dark' && selectedColor === 'blue' && <Check />}  </p>
+                <p onClick={() => setSelectedColor('red')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-amber-600'></span>{selectedTheme === 'dark' && selectedColor === 'red' && <Check />}</p>
+                <p onClick={() => setSelectedColor('green')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-green-600'></span>{selectedTheme === 'dark' && selectedColor === 'green' && <Check />}</p>
+                <p onClick={() => setSelectedColor('purple')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 rounded-2xl'><span className='w-6 h-6 rounded-full bg-indigo-500'></span>{selectedTheme === 'dark' && selectedColor === 'purple' && <Check />}</p>
             </div>
         </div>
         <div className='pt-10'>
             <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>{t('language')}</h3>
             <hr />
             <div className='pt-5 '>
-                <p onClick={() => {i18n.changeLanguage('en'); dispatch(setLang('en'));}} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>English {lang === 'en' &&  <Check />}</p>
-                <p onClick={() => {i18n.changeLanguage('ka'); dispatch(setLang('ka'));}} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>ქართული {lang === 'ka' &&  <Check />}</p>
+                <p onClick={() => {i18n.changeLanguage('en'); setSelectedLang('en');}} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>English {selectedLang === 'en' &&  <Check />}</p>
+                <p onClick={() => {i18n.changeLanguage('ka'); setSelectedLang('ka');}} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>ქართული {selectedLang === 'ka' &&  <Check />}</p>
             </div>
         </div>
        <div className='pt-10'>
             <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>Set Currency <p>(current: {currency})</p></h3>
             <hr />
-           <select value={currency} onChange={(e) => dispatch(setCurrency(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs'>
+           <select value={currency} onChange={(e) => setSelectedCurrency(e.target.value)} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs'>
             <option value="USD">USD</option>
             <option value="EUR">EUR</option>
             <option value="GEL">GEL</option>

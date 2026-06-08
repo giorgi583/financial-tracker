@@ -1,19 +1,42 @@
 
-import { ClipboardListIcon } from "lucide-react"
+import { ArrowDown, ArrowUp, CheckSquare, ChevronLeft, ClipboardListIcon, Edit, Trash2, X } from "lucide-react"
 import { useAppSelector, useAppDispatch } from "../hooks"
-import { fetchTransactions } from "../slices/transactionsSlice";
-import { useEffect } from "react";
+import { fetchTransactions, removeTransaction, editTransaction } from "../slices/transactionsSlice";
+import { useEffect, useState } from "react";
 import Loader from "./Loader";
-
+type Transaction = {
+  type: string;
+  description?: string;
+  amount: number;
+  category: string;
+  date: string;
+};
 const isMobile = window.innerWidth <= 768;
 const TransList = ({filters}: any) => {
+
     const dispatch = useAppDispatch()
   const { transactions, status } = useAppSelector((state) => state.transactions)
     console.log(transactions)
     useEffect(() => {
     dispatch(fetchTransactions(filters)) // ← fetch on mount
   }, [dispatch])
- 
+ function deleteTransaction(id: number) {
+    if (confirm('Are you sure you want to delete this transaction?')) {
+    
+        dispatch(removeTransaction(id))
+        alert('Transactions deleted successfully!') }
+    }
+function updateTransaction(id: any, editedValues: any) {
+    if(confirm('Are you sure you want to edit this transaction?')) {
+         dispatch(editTransaction({id, ...editedValues}))
+        alert('Transaction edited successfully!')
+        setEditPanelOpen(false)
+        dispatch(fetchTransactions(filters))
+    }
+}
+const [editedValues, setEditedValues] = useState<any>({}); 
+  const [editPanelOpen, setEditPanelOpen] = useState(false);
+  const [transactionToEdit, setTransactionToEdit] = useState(null);
   return (
     <div className="flex-1 min-w-0">
         <h2 className='text-2xl font-bold mb-4'>Transaction List</h2>
@@ -29,12 +52,13 @@ const TransList = ({filters}: any) => {
                 {isMobile ? null : <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Description</th>}
                     <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Amount</th>
                     <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Category</th>
-                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Date</th>
+                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap flex gap-2 items-center'>Date {filters.orderBy === 'asc' ? <ArrowDown size={16} /> : filters.orderBy === 'desc' && <ArrowUp size={16} /> }</th>
                 </tr>
             </thead>
             <tbody>
                 {transactions && transactions.length > 0 ? transactions.map((tx: any) => (
-                    <tr key={tx.id}>
+                    <>
+                    <tr key={tx.id} className='border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100/30 dark:hover:bg-gray-600/20 relative group'>
                         <td className={tx.type === 'income' ? 'py-2 px-4 text-green-500 max-sm:px-1 max-sm:text-sm' : 'py-2 px-4 text-red-500 max-sm:px-1 max-sm:text-sm'}>
                             {tx.type}
                         </td>
@@ -42,7 +66,60 @@ const TransList = ({filters}: any) => {
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{tx.amount}</td>
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{tx.category}</td>
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{new Date(tx.date).toLocaleDateString('en-GB')}</td>
+                        <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute right-4 group-hover:flex hidden gap-4`}>
+                         <button onClick={() => deleteTransaction(tx.id)} className={`text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded cursor-pointer`}>
+                            <Trash2 size={18} />
+                        </button>
+                        <button onClick={() => {setTransactionToEdit(tx.id); setEditPanelOpen(true); setEditedValues({                   // pre-fill form with current values
+    type: tx.type,
+    description: tx.description,
+    amount: tx.amount,
+    category: tx.category,
+    date: tx.date.split('T')[0]
+  });}} className='text-blue-500 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded cursor-pointer'>
+                            <Edit size={18} />
+                        </button>
+                        </td>
+                       {isMobile && <td className="py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -right-6 gap-4"> <button onClick={() => {setTransactionToEdit(tx.id); setEditPanelOpen(true); setEditedValues({                   // pre-fill form with current values
+    type: tx.type,
+    description: tx.description,
+    amount: tx.amount,
+    category: tx.category,
+    date: tx.date.split('T')[0]
+  });}}><ChevronLeft size={15} /></button> <button><Trash2 size={15} /></button></td>}
                     </tr>
+                    {editPanelOpen && transactionToEdit === tx.id && (
+                        <tr className='bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 relative'>
+                            <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
+                                <select className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.type} onChange={(e) => setEditedValues({...editedValues, type: e.target.value})}>
+                                    <option value="income" selected={tx.type === 'income'}>Income</option>
+                                    <option value="expense" selected={tx.type === 'expense'}>Expense</option>
+                                </select>
+                            </td>
+                            {isMobile ? null : <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
+                                <input type="text" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.description} onChange={(e) => setEditedValues({...editedValues, description: e.target.value})} />
+                            </td>}
+                            <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
+                                <input type="number" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.amount} onChange={(e) => setEditedValues({...editedValues, amount: Number(e.target.value)})} />
+                            </td>
+                            <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
+                                <select className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.category} onChange={(e) => setEditedValues({...editedValues, category: e.target.value})}>
+                                    <option value="Food" selected={tx.category === 'Food'}>Food</option>
+                                    <option value="Transport" selected={tx.category === 'Transport'}>Transport</option>
+                                    <option value="Entertainment" selected={tx.category === 'Entertainment'}>Entertainment</option>
+                                    <option value="Health" selected={tx.category === 'Health'}>Health</option>
+                                    </select>
+                            </td>
+                            <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
+                                <input type="date" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.date} onChange={(e) => setEditedValues({...editedValues, date: e.target.value})} />
+                            </td>
+                            <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -left-26 flex gap-4`}>
+                                <button onClick={() => updateTransaction(transactionToEdit, editedValues)}  className='px-2 py-2 rounded-lg bg-white/40 cursor-pointer'><CheckSquare size={18} color='green' /></button>
+                                <button onClick={() => setEditPanelOpen(false)} className='bg-white/40 px-2 py-2 rounded-lg cursor-pointer'><X size={18} color='red' /></button>
+                            </td>
+                        </tr>
+                    )}
+                    </>
                 )) : (
                     <tr>
                         <td className='py-10 px-4 text-gray-200 text-5xl' colSpan={6} align="center" rowSpan={6}>
@@ -50,6 +127,7 @@ const TransList = ({filters}: any) => {
                         </td>
                     </tr>
                 )}
+                
             </tbody>
         </table>
     </div>

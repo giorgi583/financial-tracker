@@ -4,6 +4,7 @@ import BudgetReview from '../components/BudgetReview'
 import LimitsNgoals from '../components/LimitsNgoals'
 import { Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../Context'
 type category = {
   name: string,
   icon: string,
@@ -15,9 +16,10 @@ const Budget = () => {
   const [selectedCategory, setSelectedCategory] = React.useState<string>('')
   const [selectedMonth, setSelectedMonth] = React.useState<string>('');
   const [setcion, setSetcion] = React.useState<string>('overview');
+  const { user } = useAuth();
   return (
     <div className="p-8">
-      <h1 className="font-bold text-4xl max-sm:mt-8">John{t('yourBudget')}</h1>
+      <h1 className="font-bold text-4xl max-sm:mt-8">{user.username}{t('yourBudget')}</h1>
           <select className="border border-gray-300 rounded-lg px-3 py-1 " name="month" id="month" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             <option value="">Select Month</option>
             <option value="january">January</option>

@@ -4,7 +4,11 @@ import ProfileSettings from '../components/ProfileSettings'
 import Prefferences from '../components/Prefferences'
 import { useTranslation } from 'react-i18next'
 import NotificationsSettings from '../components/NotificationsSettings'
+import Security from '../components/Security'
+import { useSelector } from 'react-redux'
+import Loader from '../components/Loader'
 const Settings = () => {
+  const loading = useSelector((state: any) => state.preference.loading);
   const [setcion, setSetcion] = useState<string>('Profile')
   const { t} = useTranslation();
     
@@ -18,10 +22,10 @@ const Settings = () => {
         <button onClick={() => setSetcion('notifications')} className={`${setcion === 'notifications' ? 'btn ring-2 ring-[var(--accent)] ring-offset-2 rounded-md py-1 px-3  cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 cursor-pointer'}`}>{t('notifications')}</button>
               <button onClick={() => setSetcion('security')} className={`${setcion === 'security' ? 'btn ring-2 ring-[var(--accent)] ring-offset-2 rounded-md py-1 px-3  cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3  cursor-pointer'}`}>{t('security')}</button>
       </div>
-      {setcion === 'Profile' && <ProfileSettings />}
+      {setcion === 'Profile' && (loading ? <Loader /> : <ProfileSettings />)}
       {setcion === 'Prefferences' && <Prefferences />}
       {setcion === 'notifications' && <NotificationsSettings />}
-      {setcion === 'security' && <div>Security</div>}
+      {setcion === 'security' && <Security />}
 </div>
     </div>
   )

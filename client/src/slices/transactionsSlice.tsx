@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 
 type Transaction = {
+  id: number;
   type: string;
   description?: string;
   amount: number;
@@ -29,6 +30,7 @@ export const addTransaction = createAsyncThunk<Transaction, Omit<Transaction, 'i
       const res = await fetch('http://localhost:3000/api/transactions/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // important for cookie-based auth
         body: JSON.stringify(data),
       });
 
@@ -67,7 +69,10 @@ export const fetchTransactions = createAsyncThunk<Transaction[], Filters, { reje
       if (filters.from)     params.set('from', filters.from)
       if (filters.to)       params.set('to', filters.to)
         if (filters.orderBy) params.set('orderBy', filters.orderBy)
-      const res = await fetch(`http://localhost:3000/api/transactions?${params.toString()}`)
+      const res = await fetch(`http://localhost:3000/api/transactions?${params.toString()}`, {
+        method: 'GET',
+        credentials: 'include', // important for cookie-based auth
+      })
 
       if (!res.ok) return rejectWithValue('Failed to fetch transactions')
 
@@ -77,7 +82,50 @@ export const fetchTransactions = createAsyncThunk<Transaction[], Filters, { reje
       return rejectWithValue('Network error')
     }
   }
-)
+
+);
+
+export const removeTransaction = createAsyncThunk<number, number, { rejectValue: string }>(
+  'transactions/remove',
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/transactions/delete/${id}`, {
+        method: 'DELETE',
+        credentials: 'include', // important for cookie-based auth
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        return rejectWithValue(error.message);
+      }
+
+      return id;
+    } catch (err) {
+      return rejectWithValue('Network error, please try again');
+    }
+  }
+);
+export const editTransaction = createAsyncThunk<Transaction, {id: number} & Partial<Omit<Transaction, 'id'>>, { rejectValue: string }>(
+  'transactions/edit',
+  async (data, { rejectWithValue }) => {
+    try {      const res = await fetch(`http://localhost:3000/api/transactions/edit/${data.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // important for cookie-based auth
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        return rejectWithValue(error.message);
+      }
+const json = await res.json()
+      return json.data ?? json
+    } catch (err) {
+      return rejectWithValue('Network error, please try again');
+    }
+  }
+);
 export const transactionsSlice = createSlice({
     name: "transactions",
     initialState,
@@ -108,6 +156,23 @@ export const transactionsSlice = createSlice({
       state.status = 'failed'
       state.error = action.payload ?? 'Something went wrong'
     })
+      .addCase(removeTransaction.fulfilled, (state, action: PayloadAction<number>) => {
+        state.status = 'idle';
+        state.error = null;
+        state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
+      })
+      .addCase(removeTransaction.rejected, (state, action: PayloadAction<string | undefined>) => {
+        state.status = 'failed';
+        state.error = action.payload ?? 'Failed to remove transaction';
+      })
+      .addCase(editTransaction.fulfilled, (state, action) => {
+  const index = state.transactions.findIndex(tx => tx.id === action.payload.id)
+  if (index !== -1) state.transactions[index] = action.payload
+})
+.addCase(editTransaction.rejected, (state, action) => {
+  state.status = 'failed'
+  state.error = action.payload ?? 'Failed to edit transaction'
+})
     },
 });
 

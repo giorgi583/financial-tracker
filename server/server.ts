@@ -1,16 +1,26 @@
 const express = require('express');
+import './relations';
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const transactionsRouter = require('./routes/transactionsRoute');
 const sequelize = require('./utils/db');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
+app.use(cookieParser());
+// routes
+const transactionsRouter = require('./routes/transactionsRoute');
+const usersRouter = require('./routes/usersroute');
+const userPrefferencesRouter = require('./routes/userPrefferencesRoute');
 
-app.use(cors());
+// middleware and routes
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(bodyParser.json());
 app.use('/api/transactions', transactionsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/user-prefferences', userPrefferencesRouter);
 
-sequelize.sync()
+// sync database and start server
+sequelize.sync({ alter: true })
     .then(() => {
         console.log('Database synced successfully');
     })
