@@ -16,7 +16,7 @@ const UserPrefference = sequelize.define('userPrefferences', {
         defaultValue: 'light',
     },
     color: {
-        type: DataTypes.ENUM('blue', 'green', 'purple', 'orange'),
+        type: DataTypes.ENUM('blue', 'green', 'purple', 'red'),
         allowNull: false,
         defaultValue: 'blue',
     },

@@ -45,13 +45,16 @@ export const updateUserPrefferences = createAsyncThunk(
                 credentials: 'include', // important for cookie-based auth
                 body: JSON.stringify(updatedData),
             });
+             console.log('Response status:', res.status);
             if (!res.ok) {
                 const error = await res.json();
-                return rejectWithValue(error.message);
+                console.log('Error response:', error);
+                return rejectWithValue(error.message ?? 'update failed');
             }
             const json = await res.json();
             return json.data;
         } catch (err) {
+            console.log('Caught error:', err);
             return rejectWithValue('Network error, please try again');
         }   
     }
@@ -92,6 +95,7 @@ const preferenceSlice = createSlice({
                 state.loading = false;
             })
             .addCase(updateUserPrefferences.fulfilled, (state, action) => {
+                console.log('Update fulfilled, payload:', action.payload);
                 state.loading = false;
                 if(action.payload) {
                     state.theme = action.payload.theme;
@@ -103,7 +107,8 @@ const preferenceSlice = createSlice({
             .addCase(updateUserPrefferences.pending, (state) => {  
             state.loading = true;
         })
-        .addCase(updateUserPrefferences.rejected, (state) => {  
+        .addCase(updateUserPrefferences.rejected, (state, action) => {  
+            console.log('Update rejected:', action.payload);
             state.loading = false;
         });
     },

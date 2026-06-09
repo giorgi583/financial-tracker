@@ -5,7 +5,7 @@ const userPrefferenceSchema = z.object({
     theme: z.enum(['light', 'dark']),
     currency: z.enum(['USD', 'EUR', 'GEL']),
     lang: z.enum(['en', 'ka']),
-    color: z.enum(['blue', 'green', 'purple', 'orange']),
+    color: z.enum(['blue', 'green', 'purple', 'red']),
 });
 
 const getUserPrefferences = async (req: any, res: any) => {
@@ -24,10 +24,13 @@ const getUserPrefferences = async (req: any, res: any) => {
 };
 
 const updateUserPrefferences = async (req: any, res: any) => {
+    console.log('Update called, userId:', req.user?.id);
+    console.log('Update body:', req.body);
     const userId = req.user.id;
     const updatedData = req.body;
     const validation = userPrefferenceSchema.partial().safeParse(updatedData);
     if (!validation.success) {
+        console.log('Validation failed:', JSON.stringify(validation.error));
         return res.status(400).json({ success: false, message: validation.error.errors });
     }
     try {
