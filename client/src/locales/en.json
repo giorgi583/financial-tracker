@@ -25,6 +25,8 @@
     "changePassword": "Change password",
     "UpdateProfile": "Update profile",
     "name": "Name",
+    "username": "Username",
+    "fullName": "Full name",
     "bio": "Bio",
     "updateYourName": "Update your name",
     "updateYourBio": "Update your bio",
@@ -42,5 +44,10 @@
     "yourAnalytics": "'s analytics",
     "Help & Support Center": "Help & Support Center",
     "today": "Today",
-    "earlier": "Earlier"
+    "earlier": "Earlier",
+    "setCurrency": "Set currency",
+    "current": "current",
+    "profile_info": "Profile information",
+    "avatar": "Avatar"
+
 }

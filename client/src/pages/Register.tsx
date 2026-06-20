@@ -1,6 +1,7 @@
 import {MailIcon, LockIcon, UserIcon, Eye, EyeOff} from 'lucide-react'
 import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom'
+import {toast} from 'react-hot-toast'
 const Register = () => {
     const navigate = useNavigate();
     const [newUser, setNewUser] = useState({
@@ -21,7 +22,7 @@ const Register = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3000/api/users/register', {
+            const response = await fetch('http://localhost:3100/api/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ const Register = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log(data);
-                alert('Registration successful! Please log in.');
+                toast.success('Registration successful! Please log in.');
                 setNewUser({ username: '', email: '', password: '', confirmPassword: '' });
                 navigate('/login');
             } else {

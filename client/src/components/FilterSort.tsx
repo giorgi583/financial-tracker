@@ -2,12 +2,13 @@ import { ChevronUp, RefreshCcw } from 'lucide-react'
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 import { fetchTransactions } from '../slices/transactionsSlice';
+import {toast} from 'react-hot-toast';
 const isMobile = window.innerWidth < 768;
 const FilterSort = ({filters, setFilters}: any) => {
     const dispatch = useAppDispatch();
     function applyFilters() {
 dispatch(fetchTransactions(filters))
-alert('Filters applied!')
+toast.success('Filters applied!')
     }
    
     const [showFilters, setShowFilters] = useState(false);
@@ -73,8 +74,8 @@ alert('Filters applied!')
             <p className='font-medium text-md mt-4'>Sort by Date</p>
             <select value={filters.orderBy} onChange={(e) => setFilters({...filters, orderBy: e.target.value})} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full'>
                 <option value="">None</option>
-                <option value="asc">Newest to Oldest</option>
-                <option value="desc">Oldest to Newest</option>
+                <option value="desc">Newest to Oldest</option>
+                <option value="asc">Oldest to Newest</option>
             </select>
         </div>
     </div>

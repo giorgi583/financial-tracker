@@ -18,6 +18,15 @@ const User = sequelize.define('users', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    resetPasswordToken: {
+  type: DataTypes.STRING,
+  allowNull: true,
+},
+
+resetPasswordExpires: {
+  type: DataTypes.DATE,
+  allowNull: true,
+},
 });
 
 module.exports = User;

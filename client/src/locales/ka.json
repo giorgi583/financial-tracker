@@ -25,6 +25,8 @@
     "changePassword": "პაროლის შეცვლა",
     "UpdateProfile": "პროფილის განახლება",
     "name": "სახელი",
+    "fullName": "სახელი და გვარი",
+    "username": "მომხმარებელი სახელი",
     "bio": "ბიო",
     "updateYourName": "შენი სახელის განახლება",
     "updateYourBio": "შენი ბიოს განახლება",
@@ -41,5 +43,9 @@
     "yourAnalytics": "-ის ანალიტიკა",
     "Help & Support Center": "დახმარების და მხარდაჭერის ცენტრი",
     "today": "დღეს",
-    "earlier": "ადრე"
+    "earlier": "ადრე",
+    "setCurrency": "დააყენე ვალუტა",
+    "current": "აქტიური",
+    "profile_info": "პროფილის ინფორმაცია",
+    "avatar": "ავატარი"
 }

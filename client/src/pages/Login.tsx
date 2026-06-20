@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context';
+import { toast } from 'react-hot-toast';
 const Login = () => {
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,7 @@ const Login = () => {
         const password = user.password;
         const rememberMe = user.rememberMe;
         try {
-            const response = await fetch('http://localhost:3000/api/users/login', {
+            const response = await fetch('http://localhost:3100/api/users/login', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -36,7 +37,7 @@ const Login = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log(data);
-                alert('Login successful! Welcome back.');
+                toast.success('Login successful! Welcome back.');
                 setUser({ email: '', password: '', rememberMe: false });
                 await refetch();
                 navigate('/dashboard');
@@ -46,7 +47,7 @@ const Login = () => {
             }
         } catch (err) {
             console.error('Error during login:', err);
-            setError('An error occurred during login. Please try again later.');
+            setError(err instanceof Error ? err.message : 'An error occurred during login. Please try again later.');
         } }
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -69,7 +70,7 @@ const Login = () => {
                     <input id="checkbox" type="checkbox" checked={user.rememberMe} onChange={(e) => setUser({...user, rememberMe: e.target.checked})} />
                     <label htmlFor="checkbox">Remember me</label>
                 </div>
-                <a className="text-blue-600 underline" href="#">Forgot Password</a>
+                <Link className="text-blue-600 underline" to="/forgot-password">Forgot Password</Link>
             </div>
             <button type="submit" className="w-full cursor-pointer mb-3 bg-indigo-500 hover:bg-indigo-600/90 transition py-2.5 rounded text-white font-medium">Log In</button>
             <p className="text-center mt-4">Don't have an account? <Link to="/register" className="text-blue-500 underline">Signup</Link></p>

@@ -3,6 +3,7 @@ import { addTransaction } from '../slices/transactionsSlice'
 import Loader from './Loader'
 import { Plus } from 'lucide-react'
 import React from 'react'
+import { toast } from 'react-hot-toast'
 type Transaction = {
   type: string;
   description?: string;
@@ -25,11 +26,11 @@ const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
    const result = await dispatch(addTransaction(transaction))
 
     if (addTransaction.rejected.match(result)) {
-      alert(error || 'Failed to add transaction') 
+      toast.error(error || 'Failed to add transaction') 
     }
 
     if (addTransaction.fulfilled.match(result)) {
-      alert('Transaction added successfully') 
+      toast.success('Transaction added successfully') 
     }
 }
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, setColor, setLang, setCurrency, updateUserPrefferences } from '../slices/PreferenceSlice';
 import Loader from './Loader';
+import {toast}  from 'react-hot-toast'
 const Prefferences = () => {
 const { t, i18n } = useTranslation();
 
@@ -35,7 +36,7 @@ const saveChanges = () => {
     .then((result: any) => {
         console.log('Server response:', result);
     });
-    alert('Changes saved');
+    toast.success('Changes saved');
   }
 
 useEffect(() => {
@@ -91,7 +92,7 @@ useEffect(() => {
             </div>
         </div>
        <div className='pt-10'>
-            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>Set Currency <p>(current: {currency})</p></h3>
+            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>{t('setCurrency')}<p>({t('current')}: {currency})</p></h3>
             <hr />
            <select value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs'>
             <option value="USD">USD</option>

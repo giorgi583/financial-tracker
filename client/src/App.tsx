@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './i18next';
 import { useAuth } from './Context';
 import { fetchUserPrefferences } from './slices/PreferenceSlice';
+import ResetPass from './pages/ResetPass';
 const Home = lazy(() => import('./pages/home')) 
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register')) 
@@ -17,6 +18,7 @@ const Budget = lazy(() => import('./pages/Budget'))
 const Help = lazy(() => import('./pages/Help'))
 const Loader = lazy(() => import('./components/Loader'))
 const Profile = lazy(() => import('./pages/Profile'))
+const ForgotPass = lazy(() => import('./pages/ForgotPass'))
 function App() {
 const theme = useSelector((state: any) => state.preference.theme);
 const color = useSelector((state: any) => state.preference.color);
@@ -65,6 +67,8 @@ const { user} = useAuth();
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPass />} />
+        <Route path="/reset-password" element={<ResetPass />} />
       </Routes>
     </Suspense>
     </BrowserRouter>

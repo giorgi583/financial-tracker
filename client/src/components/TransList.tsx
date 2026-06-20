@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp, CheckSquare, ChevronLeft, ClipboardListIcon, Edit, 
 import { useAppSelector, useAppDispatch } from "../hooks"
 import { fetchTransactions, removeTransaction, editTransaction } from "../slices/transactionsSlice";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import Loader from "./Loader";
 type Transaction = {
   type: string;
@@ -22,14 +23,13 @@ const TransList = ({filters}: any) => {
   }, [dispatch])
  function deleteTransaction(id: number) {
     if (confirm('Are you sure you want to delete this transaction?')) {
-    
         dispatch(removeTransaction(id))
-        alert('Transactions deleted successfully!') }
+        toast.success('Transactions deleted successfully!') }
     }
 function updateTransaction(id: any, editedValues: any) {
     if(confirm('Are you sure you want to edit this transaction?')) {
          dispatch(editTransaction({id, ...editedValues}))
-        alert('Transaction edited successfully!')
+        toast.success('Transaction edited successfully!')
         setEditPanelOpen(false)
         dispatch(fetchTransactions(filters))
     }
