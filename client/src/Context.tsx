@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 const dispatch = useDispatch();
   const logout = () => {
-    fetch('http://localhost:3100/api/users/logout', {
+    fetch('http://localhost:3200/api/users/logout', {
         method: 'POST',
         credentials: 'include',
     }).finally(() => {
@@ -25,7 +25,7 @@ const dispatch = useDispatch();
 };
   const fetchUser = (showloading = true) => {
     if (showloading) setLoading(true);
-    fetch('http://localhost:3100/api/users/me', {
+    fetch('http://localhost:3200/api/users/me', {
       credentials: 'include',
       headers: {
             'Cache-Control': 'no-cache',  // add this

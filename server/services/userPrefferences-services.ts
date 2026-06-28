@@ -6,6 +6,7 @@ const userPrefferenceSchema = z.object({
     currency: z.enum(['USD', 'EUR', 'GEL']),
     lang: z.enum(['en', 'ka']),
     color: z.enum(['blue', 'green', 'purple', 'red']),
+    initialBalance: z.number(),
 });
 
 const getUserPrefferences = async (req: any, res: any) => {
@@ -22,8 +23,10 @@ const getUserPrefferences = async (req: any, res: any) => {
         return res.status(500).json({ success: false, message: 'Failed to fetch prefferences' });
     }
 };
-
+console.log('hi')
 const updateUserPrefferences = async (req: any, res: any) => {
+    process.stdout.write('FUNCTION CALLED\n');
+    console.log('function called');
     console.log('Update called, userId:', req.user?.id);
     console.log('Update body:', req.body);
     const userId = req.user.id;
@@ -36,7 +39,7 @@ const updateUserPrefferences = async (req: any, res: any) => {
     try {
         const [updated] = await UserPrefference.update(updatedData, { where: { userId } });
         if (updated) {
-            const updatedPrefferences = await UserPrefference.findOne({ where: { userId } });
+            const updatedPrefferences = await UserPrefference.findOne({ where: { userId }, raw: true });
             return res.status(200).json({ success: true, data: updatedPrefferences });
         } else {
             return res.status(404).json({ success: false, message: 'Prefferences not found' });

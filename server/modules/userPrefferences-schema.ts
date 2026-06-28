@@ -30,6 +30,11 @@ const UserPrefference = sequelize.define('userPrefferences', {
         allowNull: false,
         defaultValue: 'USD',
     },
+    initialBalance: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0,
+    }
 });
 
 module.exports = UserPrefference;

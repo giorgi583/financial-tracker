@@ -40,7 +40,7 @@ const [editedValues, setEditedValues] = useState<any>({});
   return (
     <div className="flex-1 min-w-0">
         <h2 className='text-2xl font-bold mb-4'>Transaction List</h2>
-        <table className='bg-white rounded-lg shadow-md max-md:mb-20 table-auto w-full dark:bg-[var(--sidebar)] dark:text-white'>
+        <table className='bg-white rounded-lg shadow-md max-md:mb-20 table-auto w-[95%] dark:bg-[var(--sidebar)] dark:text-white'>
             {status === 'loading' && (
                 <div className="w-full h-full relative">
                     <Loader />
@@ -58,7 +58,7 @@ const [editedValues, setEditedValues] = useState<any>({});
             <tbody>
                 {transactions && transactions.length > 0 ? transactions.map((tx: any) => (
                     <>
-                    <tr key={tx.id} className='border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100/30 dark:hover:bg-gray-600/20 relative group'>
+                    <tr key={tx.id} className={`border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100/30 dark:hover:bg-gray-600/20  relative group ${tx.type === 'income' ? 'bg-green-100 dark:bg-green-900' : 'bg-red-100 dark:bg-red-900'}`} style ={{backgroundColor: (tx.id === transactionToEdit && editPanelOpen) ? 'var(--btnbg)' : '', color: (tx.id === transactionToEdit && editPanelOpen) ? 'var(--dark-sidebar)' : ''}}>
                         <td className={tx.type === 'income' ? 'py-2 px-4 text-green-500 max-sm:px-1 max-sm:text-sm' : 'py-2 px-4 text-red-500 max-sm:px-1 max-sm:text-sm'}>
                             {tx.type}
                         </td>
@@ -66,8 +66,8 @@ const [editedValues, setEditedValues] = useState<any>({});
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{tx.amount}</td>
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{tx.category}</td>
                         <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>{new Date(tx.date).toLocaleDateString('en-GB')}</td>
-                        <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute right-4 group-hover:flex hidden gap-4`}>
-                         <button onClick={() => deleteTransaction(tx.id)} className={`text-red-500 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded cursor-pointer`}>
+                        <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -right-10 group-hover:flex hidden gap-4`}>
+                         <button onClick={() => deleteTransaction(tx.id)} className={`text-red-600 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 rounded cursor-pointer`}>
                             <Trash2 size={18} />
                         </button>
                         <button onClick={() => {setTransactionToEdit(tx.id); setEditPanelOpen(true); setEditedValues({                   // pre-fill form with current values
@@ -113,9 +113,9 @@ const [editedValues, setEditedValues] = useState<any>({});
                             <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
                                 <input type="date" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.date} onChange={(e) => setEditedValues({...editedValues, date: e.target.value})} />
                             </td>
-                            <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -left-26 flex gap-4`}>
-                                <button onClick={() => updateTransaction(transactionToEdit, editedValues)}  className='px-2 py-2 rounded-lg bg-white/40 cursor-pointer'><CheckSquare size={18} color='green' /></button>
-                                <button onClick={() => setEditPanelOpen(false)} className='bg-white/40 px-2 py-2 rounded-lg cursor-pointer'><X size={18} color='red' /></button>
+                            <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -right-12 flex flex-col gap-1 -top-1`}>
+                                <button onClick={() => updateTransaction(transactionToEdit, editedValues)}  className='px-1 py-1 rounded-lg bg-white/40 cursor-pointer'><CheckSquare size={17} color='green' /></button>
+                                <button onClick={() => setEditPanelOpen(false)} className='bg-white/40 px-1 py-1 rounded-lg cursor-pointer'><X size={17} color='red' /></button>
                             </td>
                         </tr>
                     )}

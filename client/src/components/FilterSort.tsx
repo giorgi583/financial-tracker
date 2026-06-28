@@ -65,10 +65,10 @@ toast.success('Filters applied!')
         </div>
         <div>
             <p className='font-medium text-md mt-4'>Filter by Date</p>
-            <label className='text-sm text-gray-100'>From</label>
+            <label className='text-sm '>From</label>   
             <input type="date" value={filters.from} onChange={(e) => setFilters({...filters, from: e.target.value})} max={new Date().toISOString().split("T")[0]} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' />
-            <label className='text-sm text-gray-100 mt-2'>To</label>
-            <input type="date" value={filters.to} onChange={(e) => setFilters({...filters, to: e.target.value})} max={new Date().toISOString().split("T")[0]} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full mt-2' />
+            <label className='text-sm mt-2'>To</label>
+            <input type="date" value={filters.to} onChange={(e) => setFilters({...filters, to: e.target.value})} max={new Date().toISOString().split("T")[0]} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' />
         </div>
         <div>
             <p className='font-medium text-md mt-4'>Sort by Date</p>

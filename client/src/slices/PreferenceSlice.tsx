@@ -5,6 +5,7 @@ type PreferenceState = {
     color: string;
     lang: string;
     currency: string;
+    initialBalance: number;
     loading?: boolean;
 };
 const initialState: PreferenceState = {
@@ -12,6 +13,7 @@ const initialState: PreferenceState = {
     color: 'blue',
     lang: 'en',
     currency: 'USD',
+    initialBalance: 0,
     loading: false,
 };
 
@@ -19,7 +21,7 @@ export const fetchUserPrefferences = createAsyncThunk(
     'preference/fetch',
     async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch('http://localhost:3100/api/user-prefferences', {
+            const res = await fetch('http://localhost:3200/api/user-prefferences', {
                 method: 'GET',
                 credentials: 'include', // important for cookie-based auth
             });
@@ -39,10 +41,10 @@ export const updateUserPrefferences = createAsyncThunk(
     'preference/update',
     async (updatedData: Partial<PreferenceState>, { rejectWithValue }) => {
         try {
-            const res = await fetch('http://localhost:3100/api/user-prefferences/update', {
+            const res = await fetch('http://localhost:3200/api/user-prefferences/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // important for cookie-based auth
+                credentials: 'include', 
                 body: JSON.stringify(updatedData),
             });
              console.log('Response status:', res.status);
@@ -52,6 +54,7 @@ export const updateUserPrefferences = createAsyncThunk(
                 return rejectWithValue(error.message ?? 'update failed');
             }
             const json = await res.json();
+            console.log('Response data:', json);
             return json.data;
         } catch (err) {
             console.log('Caught error:', err);
@@ -75,6 +78,9 @@ const preferenceSlice = createSlice({
         setCurrency: (state, action) => {
             state.currency = action.payload;
         },
+        setInitialBalance: (state, action) => {
+            state.initialBalance = action.payload;
+        },
         resetPreferences: () => initialState
     },
     extraReducers: (builder) => {
@@ -89,6 +95,7 @@ const preferenceSlice = createSlice({
                     state.color = action.payload.color;
                     state.lang = action.payload.lang;
                     state.currency = action.payload.currency;
+                    state.initialBalance = action.payload.initialBalance;
                 }
             })
             .addCase(fetchUserPrefferences.rejected, (state) => {
@@ -102,6 +109,7 @@ const preferenceSlice = createSlice({
                     state.color = action.payload.color;
                     state.lang = action.payload.lang;
                     state.currency = action.payload.currency;
+                    state.initialBalance = action.payload.initialBalance;
                 }
             })
             .addCase(updateUserPrefferences.pending, (state) => {  
@@ -114,5 +122,5 @@ const preferenceSlice = createSlice({
     },
 });
 
-export const { setTheme, setColor, setLang, setCurrency, resetPreferences } = preferenceSlice.actions;
+export const { setTheme, setColor, setLang, setCurrency, resetPreferences, setInitialBalance } = preferenceSlice.actions;
 export default preferenceSlice.reducer;

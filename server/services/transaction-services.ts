@@ -6,7 +6,7 @@ const Transaction = require('../modules/transaction-schema');
 const transactionSchema = z.object({
     userId: z.number(),
     type: z.enum(['income', 'expense']),
-    description: z.string().max(50).optional(),
+    description: z.string().max(70).optional(),
     amount: z.number(),
     category: z.string(),
     date: z.string().refine((value: string) => { return new Date(value) <= new Date()}, {
@@ -20,7 +20,6 @@ async function addTransaction(req : any, res: any) {
     newTransaction.userId = userId;
 const validation = transactionSchema.safeParse(newTransaction);
 if (!validation.success) {
-
     return res.status(400).json({ success: false, message: validation.error.errors });
 }
 try {

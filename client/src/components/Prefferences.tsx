@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Check, SunIcon, Moon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
-import { setTheme, setColor, setLang, setCurrency, updateUserPrefferences } from '../slices/PreferenceSlice';
+import { setTheme, setColor, setLang, setCurrency, updateUserPrefferences, setInitialBalance } from '../slices/PreferenceSlice';
 import Loader from './Loader';
 import {toast}  from 'react-hot-toast'
 const Prefferences = () => {
@@ -13,11 +13,13 @@ const theme = useSelector((state: any) => state.preference.theme);
 const color = useSelector((state: any) => state.preference.color);
 const lang = useSelector((state: any) => state.preference.lang);
 const currency = useSelector((state: any) => state.preference.currency);
+const initialBalance = useSelector((state: any) => state.preference.initialBalance);
 
 const [selectedTheme, setSelectedTheme] = useState(theme);
 const [selectedColor, setSelectedColor] = useState(color);
 const [selectedLang, setSelectedLang] = useState(lang);
 const [selectedCurrency, setSelectedCurrency] = useState(currency);
+const [initialBalanceValue, setInitialBalanceValue] = useState(initialBalance);
 const saveChanges = () => {
   console.log('Saving:', { selectedTheme, selectedColor, selectedLang, selectedCurrency });
   // update Redux
@@ -25,13 +27,15 @@ const saveChanges = () => {
     dispatch(setColor(selectedColor));
     dispatch(setLang(selectedLang));
     dispatch(setCurrency(selectedCurrency));
+    dispatch(setInitialBalance(initialBalanceValue));
 
     // save to server with local state values, not Redux
     dispatch(updateUserPrefferences({
         theme: selectedTheme,
         color: selectedColor,
         lang: selectedLang,
-        currency: selectedCurrency
+        currency: selectedCurrency,
+        initialBalance: initialBalanceValue
     }) as any)
     .then((result: any) => {
         console.log('Server response:', result);
@@ -99,6 +103,11 @@ useEffect(() => {
             <option value="EUR">EUR</option>
             <option value="GEL">GEL</option>
             </select>
+        </div>
+        <div>
+          <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10'>Add initial balance  {initialBalance && `(${initialBalance} ${currency})`}</h3>
+          <hr />
+          <input type="number" value={initialBalanceValue} onChange={(e) => setInitialBalanceValue(Number(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs' />
         </div>
     </div>
   )
