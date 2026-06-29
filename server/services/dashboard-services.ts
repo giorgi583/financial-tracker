@@ -15,27 +15,26 @@ export const getDashboardData = async (req: any, res: any) => {
             where: { userId }
         })
         const initialBalance = user?.initialBalance || 0;
- 
+        const currency = user?.currency || 'USD';
         const totalIncome = AllTransactions.reduce((sum: number, t: any) => sum + (t.type === 'income' ? t.amount : 0), 0);
         const totalExpense = AllTransactions.reduce((sum: number, t: any) => sum + (t.type === 'expense' ? t.amount : 0), 0);
         const balance = initialBalance + totalIncome - totalExpense;
         // dgeebi tarigebs shoris
         const daysDiff = Math.ceil((new Date(to).getTime() - new Date(from).getTime()) / (1000 * 60 * 60 * 24));
+        console.log('daysDiff:', daysDiff);
         // ra aigos nishnulad dge, kvira, tu tve
-        const granularity = daysDiff <= 31 ? 'day' : daysDiff <= 90 ? 'week' : 'month';
-        const [income, expense, spendingByCategory, recentTransactions, trend] = await Promise.all([
+        const granularity = daysDiff <= 31 ? 'day' : daysDiff <= 130 ? 'week' : 'month';
+        const [income, expense, spendingByCategory, recentTransactions, trend, largestExpense] = await Promise.all([
             Transaction.sum('amount', { where: {...where, type: 'income'}}),
             Transaction.sum('amount', { where: {...where, type: 'expense'}}),
             Transaction.findAll({ where: { ...where, type: 'expense' },  attributes: ['category', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']], group: ['category'], order: [[Sequelize.literal('amount'), 'DESC']], raw: true }),
             Transaction.findAll({ where: { userId }, order: [['date', 'DESC']], limit: 5, raw: true }),
-            Transaction.findAll({ where,
-    attributes: [
-        [Sequelize.fn('DATE_TRUNC', granularity, Sequelize.col('date')), 'period'],
-        'type',
-        [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']
-    ],
-    group: ['period', 'type'],
-    order: [[Sequelize.literal('period'), 'ASC']],
+            Transaction.findAll({ where, attributes: [[Sequelize.fn('DATE_TRUNC', granularity, Sequelize.col('date')), 'period'], 'type',
+        [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']], group: ['period', 'type'], order: [[Sequelize.literal('period'), 'ASC']], raw: true }),
+         Transaction.findOne({
+    where: { ...where, type: 'expense' },
+    order: [['amount', 'DESC']],
+    attributes: ['description', 'amount', 'category', 'date'],
     raw: true
 })
         ])
@@ -49,7 +48,7 @@ const byCategoryWithPercentage = spendingByCategory.map((c: any) => ({
 
 const topCategories = byCategoryWithPercentage.slice(0, 3);
            
-        return res.status(200).json({ success: true, data: { income, expense, balance, spendingByCategory, recentTransactions, trend, topCategories } });
+        return res.status(200).json({ success: true, data: { income, expense, balance, spendingByCategory, recentTransactions, trend, granularity, topCategories, largestExpense, currency } });
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
         return res.status(500).json({ success: false, message: 'Failed to fetch dashboard data' });

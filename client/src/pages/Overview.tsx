@@ -2,7 +2,7 @@ import AreaChart from "../components/AreaChart"
 import ContentOfDashboard from "../components/ContentOfDashboard"
 import { useTranslation } from "react-i18next"
 import { useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../Context";
 import { startOfMonth, endOfMonth, subMonths, startOfYear, endOfYear, subYears } from 'date-fns';
 type Period =
@@ -15,9 +15,9 @@ type Period =
 const Overview = () => {
   const { t } = useTranslation()
 const { user } = useAuth();
-const [selectedPeriod, setSelectedPeriod] = useState<Period>('this_month');
-async function getOverview(e: React.SubmitEvent<HTMLFormElement>) {
-  e.preventDefault();
+const [selectedPeriod, setSelectedPeriod] = useState<Period>('all_time');
+const [data, setData] = useState<object>({});
+async function getOverview() {
   const dateRange: { from: Date | null; to: Date | null } = getDateRange(selectedPeriod);
   try {
     const response = await fetch(`http://localhost:3200/api/dashboard/overview?from=${dateRange.from}&to=${dateRange.to}`, {
@@ -28,6 +28,7 @@ async function getOverview(e: React.SubmitEvent<HTMLFormElement>) {
       credentials: 'include',
     });
     const data = await response.json();
+    setData(data);
     console.log(data);
   } catch (error: any) {
     console.error(error);
@@ -54,13 +55,15 @@ function getDateRange(preset: string) {
       return { from: null, to: null };
   }
 }
-
+ useEffect(() => {
+   getOverview();
+ }, [selectedPeriod]);
   return (
     <div className="flex flex-col gap-8 w-full p-8">
     <h1 className="text-3xl font-bold max-sm:mt-7">{user.username}{t('financialOverview')}</h1>
-    <form onSubmit={getOverview} className="flex gap-2 max-md:flex-col max-w-100 items-center">
+    <form className="flex gap-2 max-md:flex-col max-w-100 items-center">
       <label >Select Period: </label>
-      <select defaultValue={'this_month'} onChange={(e) => setSelectedPeriod(e.target.value as Period)} className="border border-gray-300 rounded-lg px-3 py-1">
+      <select defaultValue={'all_time'} onChange={(e) => setSelectedPeriod(e.target.value as Period)} className="border border-gray-300 rounded-lg px-3 py-1">
      <option value="this_month">this month</option>
      <option value="last_month">last month</option>
      <option value="last_3_months">last 3 months</option>
@@ -70,17 +73,16 @@ function getDateRange(preset: string) {
       </select>
       <button type="submit" className="btn rounded-md py-1 px-3 cursor-pointer">Apply</button>
       </form>
-    <div className="grid grid-cols-3 grid-rows-5 w-full gap-4 h-full max-sm:grid-cols-1 max-sm:grid-rows-14">
-<ContentOfDashboard title="Total Income"  type="income" className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<ContentOfDashboard title="Total Expenses"  type="expenses" className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<ContentOfDashboard title="Budget Progress" type="Budget Progress" className="col-span-1 row-span-2 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<ContentOfDashboard title="Expense dynamics" type="spendingbycategory" className="col-span-2 row-span-2 max-sm:col-span-1 max-sm:row-span-3 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<ContentOfDashboard title="Income vs Expenses" type="incomevsexpenses" className="col-span-1 row-span-3 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<ContentOfDashboard title="Recent Transactions" type="recenttransactions" className="col-span-1 row-span-2 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" />
-<div className="row-span-2">
-  <AreaChart />
-</div>
+  { data &&  <div className="grid grid-cols-3 grid-rows-5 w-full gap-4 h-full max-sm:grid-cols-1 max-sm:grid-rows-14">
+<ContentOfDashboard title="Current balance"  className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Totals"  className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Spending by category" className="col-span-1 row-span-2 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Expense dynamics trend" className="col-span-2 row-span-2 max-sm:col-span-1 max-sm:row-span-3 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Top categories" className="col-span-1 row-span-3 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Recent Transactions" className="col-span-1 row-span-2 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title="Largest expense" className="col-span-1 row-span-2 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white" data={data} period={selectedPeriod}/>
     </div>
+}
     </div>
   )
 }
