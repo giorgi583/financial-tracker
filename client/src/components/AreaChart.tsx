@@ -42,10 +42,10 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
   return (
     chartData && 
     <div className="w-full h-full bg-white dark:bg-[var(--sidebar)] mt-10 ">
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <AreaCHART
-        width={400}
-      height={300}
+        width={300}
+      height={400}
       data={chartData}
     >
         <XAxis dataKey="period" />
@@ -53,7 +53,7 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
         <CartesianGrid strokeDasharray="5 5" />
         <Tooltip />
         <Legend />
-      <Area type="monotone" dataKey="expense" stroke="#82ca9d" fill="#82ca9d"  />
+      <Area type="monotone" dataKey="expense" stroke="var(--accent)" fill="var(--accent)"  />
     </AreaCHART>
     </ResponsiveContainer>
     </div>

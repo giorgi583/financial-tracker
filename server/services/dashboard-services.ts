@@ -3,9 +3,11 @@ const { Sequelize } = require('sequelize');
 const UserPrefference = require('../modules/userPrefferences-schema');
 const Transaction = require('../modules/transaction-schema');
 
+
 export const getDashboardData = async (req: any, res: any) => {
     const { from, to } = req.query; 
     console.log('Query params:', req.query)
+    console.log('currency')  
     const userId = req.user.id;
     const where : any = { userId };
     if(from !=='null' && to !== 'null') where.date = { [Op.between]: [new Date(from), new Date(to)] };
@@ -28,7 +30,7 @@ export const getDashboardData = async (req: any, res: any) => {
             Transaction.sum('amount', { where: {...where, type: 'income'}}),
             Transaction.sum('amount', { where: {...where, type: 'expense'}}),
             Transaction.findAll({ where: { ...where, type: 'expense' },  attributes: ['category', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']], group: ['category'], order: [[Sequelize.literal('amount'), 'DESC']], raw: true }),
-            Transaction.findAll({ where: { userId }, order: [['date', 'DESC']], limit: 5, raw: true }),
+            Transaction.findAll({ where: { userId }, order: [['date', 'DESC']], limit: 6, raw: true }),
             Transaction.findAll({ where, attributes: [[Sequelize.fn('DATE_TRUNC', granularity, Sequelize.col('date')), 'period'], 'type',
         [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']], group: ['period', 'type'], order: [[Sequelize.literal('period'), 'ASC']], raw: true }),
          Transaction.findOne({
@@ -47,7 +49,7 @@ const byCategoryWithPercentage = spendingByCategory.map((c: any) => ({
 }));
 
 const topCategories = byCategoryWithPercentage.slice(0, 3);
-           
+         
         return res.status(200).json({ success: true, data: { income, expense, balance, spendingByCategory, recentTransactions, trend, granularity, topCategories, largestExpense, currency } });
     } catch (error) {
         console.error('Error fetching dashboard data:', error);

@@ -27,7 +27,7 @@ export const addTransaction = createAsyncThunk<Transaction, Omit<Transaction, 'i
   'transactions/add',
   async (data, { rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:3200/api/transactions/add', {
+      const res = await fetch('http://localhost:3300/api/transactions/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // important for cookie-based auth
@@ -69,7 +69,7 @@ export const fetchTransactions = createAsyncThunk<Transaction[], Filters, { reje
       if (filters.from)     params.set('from', filters.from)
       if (filters.to)       params.set('to', filters.to)
         if (filters.orderBy) params.set('orderBy', filters.orderBy)
-      const res = await fetch(`http://localhost:3200/api/transactions?${params.toString()}`, {
+      const res = await fetch(`http://localhost:3300/api/transactions?${params.toString()}`, {
         method: 'GET',
         credentials: 'include', // important for cookie-based auth
       })
@@ -89,7 +89,7 @@ export const removeTransaction = createAsyncThunk<number, number, { rejectValue:
   'transactions/remove',
   async (id, { rejectWithValue }) => {
     try {
-      const res = await fetch(`http://localhost:3200/api/transactions/delete/${id}`, {
+      const res = await fetch(`http://localhost:3300/api/transactions/delete/${id}`, {
         method: 'DELETE',
         credentials: 'include', // important for cookie-based auth
       });
@@ -108,7 +108,7 @@ export const removeTransaction = createAsyncThunk<number, number, { rejectValue:
 export const editTransaction = createAsyncThunk<Transaction, {id: number} & Partial<Omit<Transaction, 'id'>>, { rejectValue: string }>(
   'transactions/edit',
   async (data, { rejectWithValue }) => {
-    try {      const res = await fetch(`http://localhost:3200/api/transactions/edit/${data.id}`, {
+    try {      const res = await fetch(`http://localhost:3300/api/transactions/edit/${data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // important for cookie-based auth

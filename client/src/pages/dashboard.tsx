@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate, Link, Navigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
-import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, User, Settings, HelpCircleIcon} from "lucide-react"
+import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, User, Settings, HelpCircleIcon, User2} from "lucide-react"
 import { useState, useEffect } from "react"
 import Notifications from "../components/Notifications"
 import Chat from "../components/Chat"
@@ -36,7 +36,7 @@ if (user === null) {
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
       </div>
 <div className="flex items-center gap-4">
-  <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center">{user.username.charAt(0).toUpperCase()}</div>
+  <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center"><User2 size={25}/></div>
   <div className="flex flex-col"><p className="font-semibold">{user.username}</p> <p className="text-sm flex items-center gap-1">{currentPage}<ChevronDown onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} size={15} className="cursor-pointer"/></p></div>
 </div>
 {isProfileMenuOpen && (

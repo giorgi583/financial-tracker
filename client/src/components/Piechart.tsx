@@ -12,7 +12,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF", "#FF19AF"
 const Piechart = ({data}: {data: any}) => {
     console.log(data?.spendingByCategory);
   return (
-     <div className="mt-5"> { data &&
+     <div className="mt-1"> { data &&
    <ResponsiveContainer width="100%" height={400}>
       <PieChart>
         <Pie
@@ -21,7 +21,7 @@ const Piechart = ({data}: {data: any}) => {
           nameKey="category"
           cx="50%"
           cy="50%"
-          outerRadius={100}
+          outerRadius={90}
           label
         >
           {data?.spendingByCategory.map((entry: any, index: number) => (
