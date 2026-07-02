@@ -52,17 +52,18 @@ const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
                 <label htmlFor='category'>Category</label>
                 <select id='category' onChange={(e)=> setTransaction(prev => ({...prev, category: e.target.value}))} required className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'>
                     <option value="">Select Category</option>
-                    <option value="Food">Food</option>
-                    <option value="Transport">Transport</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Health">Health</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Education">Education</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value='Salary'>Salary</option>
-                    <option value='Gift'>Gift</option>
-                    <option value='Investment'>Investment</option>
-                    <option value='Loan'>Loan</option>
+                    <option disabled={transaction.type === 'income'} value="Food">Food</option>
+                    <option disabled={transaction.type === 'income'} value="Transport">Transport</option>
+                    <option disabled={transaction.type === 'income'} value="Entertainment">Entertainment</option>
+                    <option disabled={transaction.type === 'income'} value="Healthcare">Healthcare</option>
+                    <option disabled={transaction.type === 'income'} value="Clothing">Clothing</option>
+                    <option disabled={transaction.type === 'income'} value="Education">Education</option>
+                    <option disabled={transaction.type === 'income'} value="Utilities">Utilities</option>
+                    <option disabled={transaction.type === 'expense'} value='Salary'>Salary</option>
+                    <option disabled={transaction.type === 'expense'} value='Gift'>Gift</option>
+                    <option disabled={transaction.type === 'expense'} value='Investment'>Investment</option>
+                    <option disabled={transaction.type === 'income'} value='Shopping'>Shopping</option>
+                    <option disabled={transaction.type === 'income'} value='Travel'>Travel</option> 
                     <option value="Other">Other</option>
                 </select>
                 <label htmlFor='date'>Date</label>

@@ -10,7 +10,7 @@ const ResetPass = () => {
     const handlePasswordChange = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-           const response = await fetch('http://localhost:3100/api/users/reset-password', {
+           const response = await fetch('http://localhost:3400/api/users/reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

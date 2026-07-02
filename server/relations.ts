@@ -1,6 +1,7 @@
 const User = require('./modules/users-schema');
 const Transaction = require('./modules/transaction-schema');
 const UserPrefference = require('./modules/userPrefferences-schema');
+const Budget = require('./modules/budget-schema');
 const sequelize = require('./utils/db');
 
 
@@ -9,6 +10,9 @@ Transaction.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasOne(UserPrefference, { foreignKey: 'userId', onDelete: 'CASCADE' });
 UserPrefference.belongsTo(User, { foreignKey: 'userId' });
+
+User.hasMany(Budget, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Budget.belongsTo(User, { foreignKey: 'userId' });
 
 User.addHook('afterCreate', async (user: any) => {
   await UserPrefference.create({ userId: user.id });

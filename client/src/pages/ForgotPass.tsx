@@ -5,7 +5,7 @@ const ForgotPass = () => {
     const handleReset = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            fetch('http://localhost:3100/api/users/forgot-password', {
+            fetch('http://localhost:3400/api/users/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

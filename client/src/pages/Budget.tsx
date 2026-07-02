@@ -1,24 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Alerts from '../components/Alerts'
 import BudgetReview from '../components/BudgetReview'
 import LimitsNgoals from '../components/LimitsNgoals'
 import { Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../Context'
-type category = {
-  name: string,
-  icon: string,
-  budget: number
+type budget = {
+  category: string,
+  amount: number,
+  spent: number,
+  remaining: number,
+  percentage: number,
+  alarming: boolean
 }
 const Budget = () => {
   const { t } = useTranslation()
-  const [categories, setCategories] = React.useState<category[]>([]);
+  const [budget, setBudget] = React.useState<budget[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState<string>('')
   const [selectedMonth, setSelectedMonth] = React.useState<string>('');
   const [setcion, setSetcion] = React.useState<string>('overview');
+  const [currency, setCurrency] = React.useState<string>('');
   const { user } = useAuth();
+
+  const getBudgets = async () => {
+    try {
+      const response = await fetch('http://localhost:3400/api/budgets', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      setBudget(data.data);
+      setCurrency(data.currency);
+    }
+    catch (error) {
+      console.error('Error fetching budgets:', error);
+    }
+  };
+  useEffect(() => {
+    getBudgets();
+  }, []);
   return (
-    <div className="p-8">
+    <div className="p-8 w-full max-md:p-5 max-sm:p-2">
       <h1 className="font-bold text-4xl max-sm:mt-8">{user.username}{t('yourBudget')}</h1>
           <select className="border border-gray-300 rounded-lg px-3 py-1 " name="month" id="month" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             <option value="">Select Month</option>
@@ -40,8 +65,8 @@ const Budget = () => {
         <button onClick={() => setSetcion('limits')} className={`${setcion === 'limits' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Limits & Goals</button>
         <button onClick={() => setSetcion('alerts')} className={`${setcion === 'alerts' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer'}`}>Alerts</button>
       </div>
-      {setcion === 'overview' && <BudgetReview />}
-      {setcion === 'limits' && <LimitsNgoals />}
+      {setcion === 'overview' && <BudgetReview budget={budget} setBudget={setBudget} currency={currency} />}
+      {setcion === 'limits' && <LimitsNgoals setBudget={setBudget} />}
       {setcion === 'alerts' && <Alerts />}
     </div>
   )

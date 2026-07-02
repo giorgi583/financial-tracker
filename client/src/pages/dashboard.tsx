@@ -52,7 +52,6 @@ if (user === null) {
       size={40} fill="white" className="cursor-pointer hover:scale-110 transition-transform duration-500 animate-bounce [animation-iteration-count:3]"/></div>
       <Chat active={isChatOpen}/>
       </div>
-    
   )
 }
 

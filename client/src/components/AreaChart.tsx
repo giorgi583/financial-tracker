@@ -1,7 +1,24 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Area, AreaChart as AreaCHART, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
 const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
+  const [height, setHeight] = React.useState<number>(0);
+
+    useEffect(() => {
+  const updateHeight = () => {
+    if (window.innerWidth < 640) {
+      setHeight(200);
+    }  else {
+      setHeight(400);
+    }
+  };
+
+  updateHeight();
+  window.addEventListener("resize", updateHeight);
+
+  return () => window.removeEventListener("resize", updateHeight);
+}, []);
+
   console.log(data?.granularity);
   const formatOptions: any = {
   day: {
@@ -42,7 +59,7 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
   return (
     chartData && 
     <div className="w-full h-full bg-white dark:bg-[var(--sidebar)] mt-10 ">
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={height}>
       <AreaCHART
         width={300}
       height={400}

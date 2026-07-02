@@ -22,7 +22,7 @@ const Login = () => {
         const password = user.password;
         const rememberMe = user.rememberMe;
         try {
-            const response = await fetch('http://localhost:3300/api/users/login', {
+            const response = await fetch('http://localhost:3400/api/users/login', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

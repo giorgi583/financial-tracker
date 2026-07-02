@@ -55,12 +55,18 @@ toast.success('Filters applied!')
             <select value={filters.category} onChange={(e) => setFilters({...filters, category: e.target.value})} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full'>
                 <option value="">All</option>
                 <option value="Food">Food</option>
-                <option value="Transport">Transport</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Health">Health</option>
-                <option value="others">Others</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Education">Education</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value='Salary'>Salary</option>
+                    <option value='Gift'>Gift</option>
+                    <option value='Investment'>Investment</option>
+                    <option value='Shopping'>Shopping</option>
+                    <option value='Travel'>Travel</option> 
+                    <option value="Other">Other</option>
             </select>
         </div>
         <div>

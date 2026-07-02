@@ -5,18 +5,20 @@ const bodyParser = require('body-parser');
 const sequelize = require('./utils/db');
 const cookieParser = require('cookie-parser');
 const app = express();
-const PORT = 3300;
+const PORT = 3400;
 app.use(cookieParser());
 // routes
 const transactionsRouter = require('./routes/transactionsRoute');
 const usersRouter = require('./routes/usersroute');
 const userPrefferencesRouter = require('./routes/userPrefferencesRoute');
 const dashboardRouter = require('./routes/dashboardRoute');
+const budgetRouter = require('./routes/budgetRoute');
 
 // middleware and routes
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(bodyParser.json());
 app.use('/api/transactions', transactionsRouter);
+app.use('/api/budgets', budgetRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/user-prefferences', userPrefferencesRouter);
 app.use('/api/dashboard', dashboardRouter);
