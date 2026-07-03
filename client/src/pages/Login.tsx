@@ -14,7 +14,9 @@ const Login = () => {
         password: '',
         rememberMe: false
     });
+    const apiUrl = import.meta.env.VITE_API_URL;
     console.log(user.rememberMe);
+    console.log(apiUrl);
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError(null);
@@ -22,7 +24,7 @@ const Login = () => {
         const password = user.password;
         const rememberMe = user.rememberMe;
         try {
-            const response = await fetch('http://localhost:3400/api/users/login', {
+            const response = await fetch(`${apiUrl}/users/login`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

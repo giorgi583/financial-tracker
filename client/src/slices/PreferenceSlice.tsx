@@ -16,12 +16,12 @@ const initialState: PreferenceState = {
     initialBalance: 0,
     loading: false,
 };
-
+const apiUrl = import.meta.env.VITE_API_URL;
 export const fetchUserPrefferences = createAsyncThunk(
     'preference/fetch',
     async (_, { rejectWithValue }) => {
         try {
-            const res = await fetch('http://localhost:3400/api/user-prefferences', {
+            const res = await fetch(`${apiUrl}/user-prefferences`, {
                 method: 'GET',
                 credentials: 'include', // important for cookie-based auth
             });
@@ -41,7 +41,7 @@ export const updateUserPrefferences = createAsyncThunk(
     'preference/update',
     async (updatedData: Partial<PreferenceState>, { rejectWithValue }) => {
         try {
-            const res = await fetch('http://localhost:3400/api/user-prefferences/update', {
+            const res = await fetch(`${apiUrl}/user-prefferences/update`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include', 

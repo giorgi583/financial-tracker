@@ -6,7 +6,7 @@ const UserPrefference = require('../modules/userPrefferences-schema');
 
 const budgetSchema = z.object({
     amount: z.number().positive('Amount must be a positive number'),
-    category: z.enum(['Food', 'Transport', 'Entertainment', 'Utilities', 'Healthcare', 'Education', 'Shopping', 'Travel', 'Clothing']),
+    category: z.enum(['Food', 'Transport', 'Entertainment', 'Utilities', 'Healthcare', 'Education', 'Shopping', 'Travel', 'Clothing', 'Other']),
 });
 
 

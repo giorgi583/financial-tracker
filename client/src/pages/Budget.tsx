@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import Alerts from '../components/Alerts'
 import BudgetReview from '../components/BudgetReview'
 import LimitsNgoals from '../components/LimitsNgoals'
@@ -6,6 +6,7 @@ import { Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../Context'
 type budget = {
+  id: number,
   category: string,
   amount: number,
   spent: number,
@@ -13,6 +14,7 @@ type budget = {
   percentage: number,
   alarming: boolean
 }
+const apiUrl = import.meta.env.VITE_API_URL;
 const Budget = () => {
   const { t } = useTranslation()
   const [budget, setBudget] = React.useState<budget[]>([]);
@@ -22,9 +24,9 @@ const Budget = () => {
   const [currency, setCurrency] = React.useState<string>('');
   const { user } = useAuth();
 
-  const getBudgets = async () => {
+  const getBudgets = useCallback( async () => {
     try {
-      const response = await fetch('http://localhost:3400/api/budgets', {
+      const response = await fetch(`${apiUrl}/budgets`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -33,40 +35,26 @@ const Budget = () => {
       });
       const data = await response.json();
       setBudget(data.data);
+      console.log('Fetched budgets:', data.data);
       setCurrency(data.currency);
     }
     catch (error) {
       console.error('Error fetching budgets:', error);
     }
-  };
+  }, []);
   useEffect(() => {
     getBudgets();
-  }, []);
+  }, [getBudgets]);
   return (
     <div className="p-8 w-full max-md:p-5 max-sm:p-2">
       <h1 className="font-bold text-4xl max-sm:mt-8">{user.username}{t('yourBudget')}</h1>
-          <select className="border border-gray-300 rounded-lg px-3 py-1 " name="month" id="month" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-            <option value="">Select Month</option>
-            <option value="january">January</option>
-            <option value="february">February</option>
-            <option value="march">March</option>
-            <option value="april">April</option>
-            <option value="may">May</option>
-            <option value="june">June</option>
-            <option value="july">July</option>
-            <option value="august">August</option>
-            <option value="september">September</option>
-            <option value="october">October</option>
-            <option value="november">November</option>
-            <option value="december">December</option>
-          </select>
       <div className="flex gap-2 items-center mt-4 border border-gray-300 rounded-lg p-1 max-w-fit shadow-sm">
         <button onClick={() => setSetcion('overview')} className={`${setcion === 'overview' ? 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Overview</button>
         <button onClick={() => setSetcion('limits')} className={`${setcion === 'limits' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer '}`}>Limits & Goals</button>
         <button onClick={() => setSetcion('alerts')} className={`${setcion === 'alerts' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer'}`}>Alerts</button>
       </div>
-      {setcion === 'overview' && <BudgetReview budget={budget} setBudget={setBudget} currency={currency} />}
-      {setcion === 'limits' && <LimitsNgoals setBudget={setBudget} />}
+      {setcion === 'overview' && <BudgetReview budget={budget} onBudgetUpdated={getBudgets} currency={currency} />}
+      {setcion === 'limits' && <LimitsNgoals  onBudgetUpdated={getBudgets}/>}
       {setcion === 'alerts' && <Alerts />}
     </div>
   )

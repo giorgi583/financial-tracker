@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast';
+
+const apiUrl = import.meta.env.VITE_API_URL;
 const ForgotPass = () => {
     const [email, setEmail] = useState('');
     const handleReset = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            fetch('http://localhost:3400/api/users/forgot-password', {
+            fetch(`${apiUrl}/users/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

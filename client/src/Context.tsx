@@ -9,13 +9,13 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
+const apiUrl = import.meta.env.VITE_API_URL;
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 const dispatch = useDispatch();
   const logout = () => {
-    fetch('http://localhost:3400/api/users/logout', {
+    fetch(`${apiUrl}/users/logout`, {
         method: 'POST',
         credentials: 'include',
     }).finally(() => {
@@ -25,7 +25,7 @@ const dispatch = useDispatch();
 };
   const fetchUser = (showloading = true) => {
     if (showloading) setLoading(true);
-    fetch('http://localhost:3400/api/users/me', {
+    fetch(`${apiUrl}/users/me`, {
       credentials: 'include',
       headers: {
             'Cache-Control': 'no-cache',  // add this

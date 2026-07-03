@@ -7,10 +7,11 @@ const ResetPass = () => {
     const [showPassword, setShowPassword] = useState(false);
     const token = new URLSearchParams(window.location.search).get('token');
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_API_URL;
     const handlePasswordChange = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-           const response = await fetch('http://localhost:3400/api/users/reset-password', {
+           const response = await fetch(`${apiUrl}/users/reset-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

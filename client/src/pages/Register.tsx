@@ -13,6 +13,7 @@ const Register = () => {
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState("");
+    const apiUrl = import.meta.env.VITE_API_URL;
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError(null);
@@ -22,7 +23,7 @@ const Register = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3400/api/users/register', {
+            const response = await fetch(`${apiUrl}/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

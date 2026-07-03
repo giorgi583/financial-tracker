@@ -8,6 +8,7 @@ const categories = [
     { name: 'Shopping', icon: '🛍️', fill: 'pink-100' },
     { name: 'Travel', icon: '✈️', fill: 'indigo-100' },
     { name: 'Clothing', icon: '👗', fill: 'teal-100' },
+    { name: 'Other', icon: '📦', fill: 'gray-100' },
 ];
 
 export default categories;

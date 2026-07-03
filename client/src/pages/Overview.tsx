@@ -20,10 +20,11 @@ const [selectedPeriod, setSelectedPeriod] = useState<Period>('all_time');
 const [loading, setLoading] = useState(true);
 const [data, setData] = useState<object>({});
 const dateRange: { from: Date | null; to: Date | null } = getDateRange(selectedPeriod);
+const apiUrl = import.meta.env.VITE_API_URL;
 async function getOverview() {
   setLoading(true);
   try {
-    const response = await fetch(`http://localhost:3400/api/dashboard/overview?from=${dateRange.from}&to=${dateRange.to}`, {
+    const response = await fetch(`${apiUrl}/dashboard/overview?from=${dateRange.from}&to=${dateRange.to}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
