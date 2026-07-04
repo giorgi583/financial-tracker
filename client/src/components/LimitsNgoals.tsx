@@ -1,9 +1,10 @@
-import React from 'react'
-import { Edit, Plus, X } from 'lucide-react'
+import React, { useEffect, useState} from 'react'
+import { ArrowBigDownDash, CheckCircle, CheckCircleIcon, CircleAlertIcon, Edit, Plus, X, Trash } from 'lucide-react'
 import {toast } from 'react-hot-toast'
 import categories from '../assets/categories'
+import ProgressChart from './RadialBarChart';
 const apiUrl = import.meta.env.VITE_API_URL;
-const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
+const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBudgetUpdated: () => void, onGoalsUpdated: () => void, currency: string, goals: any}) => {
           const [selectedCategory, setSelectedCategory] = React.useState<string>('')
           const [limit, setLimit] = React.useState<number>(0);
           const [setLimitWindowOpen, setSetLimitWindowOpen] = React.useState<boolean>(false);
@@ -13,6 +14,17 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
           const [goalTitle, setGoalTitle] = React.useState<string>('');
           const [goalDeadline, setGoalDeadline] = React.useState<string>('');
           const [goalWindowOpen, setGoalWindowOpen] = React.useState<boolean>(false);
+          const [longTermSavings, setLongTermSavings] = React.useState<any>([]);
+          const [cutDownSpending, setCutDownSpending] = React.useState<any>([]);
+          const [monthlySavings, setmonthlySavings] = React.useState<any>([]);
+          const [monthlyIncome, setMonthlyIncome] = React.useState<any>([]);
+           const currencySymbol =
+  {
+    USD: "$",
+    EUR: "€",
+    GEL: "₾",
+  }[currency] ?? "$";
+  console.log(cutDownSpending);
       const setBudgets = async () => {
         try {
           const response = await fetch(`${apiUrl}/budgets`, {
@@ -65,7 +77,7 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
               try {
                 const response = await fetch(`${apiUrl}/goals`, {
                   method: 'POST',
-                  body: JSON.stringify({ type: goalToSet, category: selectedCategory || null, targetAmount: goalAmount, title: goalTitle, deadline: goalDeadline || null }),
+                  body: JSON.stringify({ type: goalToSet, ...selectedCategory ? { category: selectedCategory } : {}, targetAmount: goalAmount, title: goalTitle, ...goalDeadline ? { deadline: goalDeadline } : {} }),
                   headers: {
                     'Content-Type': 'application/json',
                   },
@@ -76,6 +88,7 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
                   throw new Error(data.error);
                 }
                 toast.success('Goal created successfully!');
+                onGoalsUpdated();
                 console.log(data);
               } catch (error) {
                 toast.error('Error creating goal, it may already exist');
@@ -88,13 +101,25 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
               setGoalWindowOpen(false);
               setSelectedCategory('');
             }
+            const divideGoals = ()=> {
+              const longTermSaving = goals.filter((goal: any) => goal.type === 'Long_term_savings');
+              const shortTermGoals = goals.filter((goal: any) => goal.type === 'monthly_savings');
+              const cutDownSpending = goals.filter((goal: any) => goal.type === 'Cut_down_spending');
+              const increaseMonthlyIncome = goals.filter((goal: any) => goal.type === 'Increase_monthly_income');
+              setLongTermSavings(longTermSaving);
+              setCutDownSpending(cutDownSpending);
+              setmonthlySavings(shortTermGoals);
+              setMonthlyIncome(increaseMonthlyIncome);
+            }
+            useEffect(() => {
+              divideGoals();
+            },[goals])
   return (
-    <div className="p-5 grid grid-cols-3 gap-4 mt-5 w-full max-md:grid-cols-1 max-xl:grid-cols-2">
+    <div>
+    <div className="p-5 grid grid-cols-3 grid-rows-1 gap-4 mt-5 w-full max-md:grid-cols-1 max-xl:grid-cols-2">
     
-      <div className="bg-white rounded-2xl p-5  dark:bg-[var(--sidebar)] dark:text-white shadow">
-      <h2 className="text-2xl font-semibold pb-3 mb-5">Set new Limits</h2>
-        
-          <button onClick={() => {setSetLimitWindowOpen(true); console.log(setLimitWindowOpen)}} className='btn py-2 mt-5 rounded-lg flex items-center gap-1 justify-start group'><Plus className='scale-0 group-hover:scale-100 transition-all duration-300 ' size={18}/>Add</button>
+      <div className="bg-white rounded-2xl p-5 row-span-1 dark:bg-[var(--sidebar)] dark:text-white shadow-xl">       
+          <button onClick={() => {setSetLimitWindowOpen(true); console.log(setLimitWindowOpen)}} className='btn w-full h-full rounded-lg flex flex-col items-center gap-5 text-4xl justify-center group opacity-80 hover:opacity-100 border-4 border-dashed border-[var(--accent)] active:scale-95'>Add a new Limit<Plus className='scale-0 group-hover:scale-100 transition-all duration-300 ' size={45}/></button>
       </div>
        { (setLimitWindowOpen || editLimitWindowOpen) && 
        <div className = "fixed top-0 left-0 w-full h-full backdrop-blur bg-black/20 flex items-center justify-center z-50">
@@ -117,15 +142,14 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
             {editLimitWindowOpen && <button onClick={editBudgets} className='btn px-4 py-2 rounded-lg'>Save</button>}
       </div>
       </div>}
-      <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow">
-          <h2 className="text-2xl font-semibold pb-3">Edit limits</h2>
-          <button onClick={() => {setEditLimitWindowOpen(true), setSetLimitWindowOpen(false)}} className='btn  py-2 mt-5 rounded-lg flex items-center gap-1 justify-start group'><Edit className='scale-0 group-hover:scale-100 transition-all duration-300 ' size={18}/>Edit</button>
+      <div className="bg-white rounded-2xl row-span-1 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl">
+          <button onClick={() => {setEditLimitWindowOpen(true), setSetLimitWindowOpen(false)}} className='btn w-full h-full rounded-lg flex items-center flex-col text-4xl gap-5 justify-center group opacity-80 active:scale-95 border-4 border-dashed border-[var(--accent) hover:opacity-100'>Update Your Limits<Edit className='scale-0 group-hover:scale-100 transition-all duration-300 ' size={40}/></button>
       </div>
-      <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow">
+      <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl row-span-1">
         <h2 className="text-2xl font-semibold pb-3">Set your goals</h2>
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 '>
         <button onClick={() => {setGoalToSet('Long_term_savings'); setGoalWindowOpen(true)}} className='bg-amber-500 px-4 py-2 rounded-lg cursor-pointer hover:opacity-80 active:scale-95'>Long term savings</button>
-        <button onClick={() => {setGoalToSet('Monthly_savings'); setGoalWindowOpen(true)}} className='bg-indigo-500 px-4 py-2 rounded-lg cursor-pointer hover:opacity-80 active:scale-95'>Monthly savings</button>
+        <button onClick={() => {setGoalToSet('monthly_savings'); setGoalWindowOpen(true)}} className='bg-indigo-500 px-4 py-2 rounded-lg cursor-pointer hover:opacity-80 active:scale-95'>Monthly savings</button>
         <button onClick={() => {setGoalToSet('Cut_down_spending'); setGoalWindowOpen(true)}} className='bg-green-500 px-4 py-2 rounded-lg cursor-pointer hover:opacity-80 active:scale-95'>Cut down spending</button>
         <button onClick={() => {setGoalToSet('Increase_monthly_income'); setGoalWindowOpen(true)}} className='bg-cyan-500 px-4 py-2 rounded-lg cursor-pointer hover:opacity-80 active:scale-95'>Increase monthly income</button>
         </div>
@@ -151,6 +175,7 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
             <div className='flex flex-col gap-4'>
               <label>Choose Category</label>
               <select required value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'>
+               <option value=''>Select a category</option>
                {categories.map((category) => (
               <option className='flex items-center gap-3' key={category.name} value={category.name}>{category.name}<p>{category.icon}</p></ option>
             ))}
@@ -161,7 +186,72 @@ const LimitsNgoals = ({onBudgetUpdated}: {onBudgetUpdated: () => void}) => {
         </div>
       )}
     </div>
-  
+      <div className='grid grid-cols-2 gap-4 grid-rows-[1fr_2fr] bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl'>
+      
+      {monthlySavings.length > 0 && <div className='bg-violet-500/25 rounded-lg p-5 text-violet-500 relative'>
+      <button className='absolute top-5 right-5 text-2xl flex gap-2'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
+      <h3 className='text-2xl font-semibold mb-5'>Your monthly savings goal</h3>
+      <div className='flex items-center gap-5'>
+       <div className='rounded bg-violet-100 p-5 flex flex-col gap-2 text-xl'>
+        <p className='font-semibold'>targeted amount: {currencySymbol} {monthlySavings[0]?.targetAmount}</p>
+        <p>Current savings: {currencySymbol} {monthlySavings[0]?.currentAmount}</p>
+        <p> {Math.ceil((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getTime() -
+      new Date().getTime()
+    ) / (1000 * 60 * 60 * 24)
+  )}{' '}
+  days left</p>
+       </div>
+       <div>
+        <ProgressChart percentage={monthlySavings[0]?.percentage || 0} color='violet'/>
+       </div>
+        </div>
+      </div>}
+      { monthlyIncome.length > 0 && <div className='bg-cyan-500/25 rounded-lg p-5 relative'>
+      <button className='absolute top-5 right-5 text-2xl flex gap-2 text-cyan-500'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
+      <h3 className='text-2xl font-semibold mb-5 text-cyan-300'>Your monthly income goal</h3>
+      <div className='flex items-center gap-5'>
+        <div className='rounded flex flex-col gap-2'>
+       <p className='text-2xl font-semibold text-cyan-300'>Current income: {currencySymbol} {monthlyIncome[0]?.currentAmount}</p>
+       <ArrowBigDownDash className='w-10 h-10 text-cyan-300'/>
+       <p className='text-2xl font-semibold text-cyan-300'>Target income: {currencySymbol} {monthlyIncome[0]?.targetAmount}</p>
+       </div>
+       <div><ProgressChart percentage={monthlyIncome[0]?.percentage || 0} color='cyan'/></div>
+        </div>
+      </div>}
+      {cutDownSpending.length > 0 && <div className='bg-green-500/25 rounded-lg p-5'>
+      <h3 className='text-2xl font-semibold mb-5 text-green-400'>Your cut down spending goal</h3>
+      <div className='flex flex-col gap-5'>
+      {cutDownSpending.map((item: any) => (
+        <div className='flex items-center gap-5' key={item.id}>
+          <div className={`rounded-lg ${item.percentage === 0 ? 'bg-red-100' : 'bg-green-100'} p-2 flex gap-10 text-xl w-full relative`}>
+            <p className={`font-semibold ${item.percentage === 0 ? 'text-red-700' : 'text-green-800'}`}>{item.category}</p>
+            {item.percentage === 0 ? <p className='text-red-700'>Overspent By - {item.currentAmount - item.targetAmount} {currencySymbol} </p>: <p className='text-green-800'>Saved - {item.percentage}%</p>}
+            <div className={` h-full rounded-lg bg-green-500 absolute top-0 left-0 opacity-50`} style={{width: `${item.percentage}%`}}></div>
+            <button className='absolute top-2 right-2 text-2xl flex gap-2'><Edit color='green' className='cursor-pointer active:scale-95'/><Trash color='red' className='cursor-pointer active:scale-95'/></button>
+          </div>
+        </div>
+      ))
+        
+      }</div></div>}
+      
+      {longTermSavings.length > 0 && <div className='bg-amber-500/25 rounded-lg p-5 text-xl text-orange-600 relative'>
+      <button className='absolute top-5 right-5 text-2xl flex gap-2'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
+       <h3 className='text-2xl font-semibold mb-5'>Your long term savings goal</h3>
+       <div className='flex flex-col items-center gap-5'>
+        <div className='dark:bg-amber-100 p-5 rounded flex flex-col gap-2 items-center'>
+       <p className='font-semibold'>targeted amount: {currencySymbol} {longTermSavings[0]?.targetAmount}</p>
+       <p>Current savings: {currencySymbol} {longTermSavings[0]?.currentAmount}</p>
+       <p>Deadline: {longTermSavings[0]?.deadline.split('T')[0]}</p>
+       <p>Days left: {Math.max(Math.ceil((new Date(longTermSavings[0]?.deadline).getTime() - new Date().getTime())/1000/60/60/24), 0)}</p>
+       </div>
+       <div className='bg-amber-100 flex flex-col items-center p-4 rounded'><p>Progress</p> 
+       <ArrowBigDownDash size={40}/> </div>
+       {longTermSavings[0]?.status === 'active' ? <div>
+        <ProgressChart percentage={longTermSavings[0]?.percentage || 0} color='orange'/>
+        </div> : longTermSavings[0]?.status === 'completed' ? <CheckCircleIcon className='w-30 h-30 text-green-500'/> : <CircleAlertIcon className='w-30 h-30 text-red-500'/>}
+      </div></div>}
+      </div>
+  </div>
   )
 }
 

@@ -36,14 +36,15 @@ if (user === null) {
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
       </div>
 <div className="flex items-center gap-4">
-  <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center"><User2 size={25}/></div>
+  <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center"><User2 size={20}/></div>
   <div className="flex flex-col"><p className="font-semibold">{user.username}</p> <p className="text-sm flex items-center gap-1">{currentPage}<ChevronDown onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} size={15} className="cursor-pointer"/></p></div>
 </div>
 {isProfileMenuOpen && (
-  <div className="absolute -bottom-55 right-0 bg-white dark:bg-[var(--sidebar)] p-2 rounded-lg shadow-lg w-40 flex flex-col items-start gap-3 z-10">
+  <div className="absolute -bottom-58 right-0 bg-white dark:bg-[var(--sidebar)] p-2 rounded-lg shadow-lg w-40 flex flex-col items-start gap-3 z-10">
     <Link to="/dashboard/profile" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><User size={17} />{t('profile')}</Link>
     <Link to="/dashboard/settings" className=" w-full p-2 hover:bg-gray-200/50 rounded-md cursor-pointer flex items-center gap-2"><Settings size={17} />{t('settings')}</Link>
     <Link to="/dashboard/help" className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" ><HelpCircleIcon size={17} />{t('help')}</Link>
+    <hr className="w-full bg-black dark:bg-white opacity-30"></hr>
   <p className="p-2 hover:bg-gray-200/50 rounded-md cursor-pointer w-full flex items-center gap-2" onClick={()=> logout()}><LogOutIcon size={17} /> {t('logout')}</p>
 </div>)}
       </div>

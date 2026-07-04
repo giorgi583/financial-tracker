@@ -8,7 +8,7 @@ const goalSchema = z.object({
     type: z.enum(['Long_term_savings', 'monthly_savings', 'Cut_down_spending', 'Increase_monthly_income']),
     title: z.string(),
     targetAmount: z.number(),
-    deadline: z.date().optional(),
+    deadline: z.coerce.date().min(new Date()).optional(),
     category: z.string().optional()
 });
 
@@ -18,10 +18,24 @@ export const createGoal = async (req: any, res: any) => {
     console.log(req.body);
     const parsedData = goalSchema.safeParse(req.body);
     if (!parsedData.success) {
+        console.log(parsedData.error);
         return res.status(400).json({success: false, message: 'Invalid data'});
     }
       if (parsedData.data.type === 'Cut_down_spending' && !parsedData.data.category) {
         return res.status(400).json({ success: false, message: 'Category is required for spending cut goals' });
+    }
+    if (parsedData.data.type === 'Cut_down_spending' ) {
+     const existingGoal = await Goal.findOne({ where: { userId, type: 'Cut_down_spending', category: parsedData.data.category } });
+        if (existingGoal) {
+            console.log('A spending cut goal for this category already exists');
+            return res.status(400).json({ success: false, message: 'A spending cut goal for this category already exists' });
+        }
+    }
+    else {
+        const existingGoal = await Goal.findOne({ where: { userId, type: parsedData.data.type } });
+        if (existingGoal) {
+            return res.status(400).json({ success: false, message: 'A goal of this type already exists' });
+        }
     }
     try {
        
@@ -42,7 +56,7 @@ export const getGoals = async (req: any, res: any) => {
     const now = new Date();
     const from = new Date(now.getFullYear(), now.getMonth(), 1);
     const to = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
+    const isEndOfMonth = now.getDate() === to.getDate();
     try {
         const goals = await Goal.findAll({ where: { userId }, raw: true });
 
@@ -67,12 +81,12 @@ export const getGoals = async (req: any, res: any) => {
                 switch (goal.type) {
                     case 'Long_term_savings':
                         currentAmount = currentBalance;
-                        status = currentAmount >= goal.targetAmount ? 'completed' : 'active';
+                        status = now <= goal.deadline && currentAmount >= goal.targetAmount ? 'completed' : now <= goal.deadline ? 'active' : 'failed';
                         break;
 
                     case 'monthly_savings':
                         currentAmount = monthlySavings;
-                        status = currentAmount >= goal.targetAmount ? 'completed' : 'active';
+                        status = isEndOfMonth && currentAmount >= goal.targetAmount ? 'completed' : 'active';
                         break;
 
                     case 'Cut_down_spending':
@@ -85,7 +99,7 @@ export const getGoals = async (req: any, res: any) => {
                             }
                         }) || 0;
                         // reversed — lower spending is better
-                        status = currentAmount <= goal.targetAmount ? 'completed' : 'active';
+                        status = currentAmount >= goal.targetAmount ? 'failed' : 'active';
                         break;
 
                     case 'Increase_monthly_income':
@@ -102,7 +116,7 @@ export const getGoals = async (req: any, res: any) => {
                     ...goal,
                     currentAmount,
                     status,
-                    percentage: Math.min(percentage, 100)  // cap at 100%
+                    percentage: Math.min(Math.max(percentage, 0), 100)  // cap at 100%
                 };
             })
         );

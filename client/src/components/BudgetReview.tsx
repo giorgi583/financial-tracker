@@ -4,6 +4,7 @@ import categories from '../assets/categories'
 import { toast } from 'react-hot-toast'
 import { RadialBarChart, PolarAngleAxis, RadialBar } from "recharts";
 import { FaExclamationCircle } from 'react-icons/fa';
+import ProgressChart from './RadialBarChart';
 type budget = {
   id: number,
   category: string,
@@ -65,7 +66,7 @@ const budgetSummary = {
         <div className="bg-white rounded-2xl p-5 relative dark:bg-[var(--sidebar)] dark:text-white ">
           <h2 className="text-2xl font-semibold pb-3">Overall Budget overview</h2>
           <hr/>
-          <div className="flex items-center justify-between flex-col mt-3">
+          <div className="flex items-center justify-between flex-col mt-3 h-[90%]">
           <div className="flex flex-col gap-2 items-center">
           <p className="font-semibold text-2xl">Total budget: {currencySymbol} {budgetSummary.totalBudget.toFixed(2)}</p>
           <p className="font-semibold text-2xl">Spent: {currencySymbol} {budgetSummary.totalSpent.toFixed(2)}</p>
@@ -74,41 +75,9 @@ const budgetSummary = {
           <p className={budgetSummary.percentage > 100 ? "font-semibold text-2xl rounded-lg text-red-500 bg-red-100 p-3" : "font-semibold text-2xl rounded-lg bg-[var(--accent)] p-3"}>Usage</p>
            <div ><ArrowBigDown size={25} color='var(--accent)' fill='var(--sidebar)'/></div>
           </div>
+          <div className="flex flex-col gap-2 items-center justify-between h-full">
           <div className="flex flex-col items-center justify-center mt-5">
-          <RadialBarChart
-  width={200}
-  height={200}
-  cx="50%"
-  cy="50%"
-  innerRadius="70%"
-  outerRadius="100%"
-  barSize={15}
-  data={[{value: Math.min(budgetSummary.percentage, 100)}]}
-  startAngle={90}
-  endAngle={-270}
->
-  <PolarAngleAxis
-    type="number"
-    domain={[0, 100]}
-    angleAxisId={0}
-    tick={false}
-  />
-  <RadialBar
-    dataKey="value"
-    background 
-    cornerRadius={10}
-    fill={budgetSummary.percentage > 100 ? "#ef4444" : "var(--accent)"}
-  />
-  <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        className={`text-3xl font-bold fill-current ${budgetSummary.percentage > 100 ? "text-red-500" : "text-[var(--accent)]"} `}
-    >
-        {Math.round(budgetSummary.percentage)}%
-    </text>
-</RadialBarChart>
+          <ProgressChart percentage={budgetSummary.percentage} color={'var(--accent)'}/>
   <div>
   <p className="text-center mt-5 text-2xl">You are <span className={`font-semibold ${budgetSummary.percentage > 100 ? "text-red-500" : "text-[var(--accent)]"}`}>{budgetSummary.percentage > 100 ? "over" : "under"}</span> budget</p>
   </div>
@@ -117,16 +86,15 @@ const budgetSummary = {
    <p className='flex items-center gap-2'> <TriangleAlert size={20} color='var(--accent)'/> Warning! </p>
     <p> This calculations are based on <strong>your</strong> monthly category limits. Transactions that aren't in the categories that you have set budget for will not be included</p>
   </div>
+  </div>
         </div>
         </div>
         <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">Limits by category</h2>
           <hr />
-          <div className='bg-gray-500/10 p-3 rounded-lg mt-5 text-gray-600 dark:text-gray-300 flex items-start flex-col gap-2'>
-            <FaExclamationCircle size={20} color='var(--accent)' className='inline-block mr-2'/> 
-            <p>All limits are based on your monthly category limits, so its recommended to set limits for all categories. You can inspect and delete them in this section.</p>
-          </div>
-          {budget && budget.map((budget, index) => (
+          <div className="flex flex-col justify-between h-[95%]">
+            <div>
+            {budget && budget.map((budget, index) => (
             <div key={index} className="flex items-center justify-between border-2 border-[var(--accent)] gap-3 my-4 has-[button:hover]:text-white has-[button:hover]:bg-red-400 p-2 rounded-md transition-all duration-300">
               <p>{budget.category}</p>
               <p className="flex-1 text-right"> {currencySymbol} {budget.amount}</p>
@@ -135,6 +103,12 @@ const budgetSummary = {
               
             </div>
           ))}
+          </div>
+          <div className='bg-gray-500/10 p-3 rounded-lg mt-5 text-gray-600 dark:text-gray-300 flex items-start flex-col gap-2'>
+            <FaExclamationCircle size={20} color='var(--accent)' className='inline-block mr-2'/> 
+            <p>All limits are based on your monthly category limits, so its recommended to set limits for all categories. You can inspect and delete them in this section.</p>
+          </div>
+          </div>
         </div>
         <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
           <h2 className="text-2xl font-semibold pb-3">Progress bars</h2>

@@ -22,10 +22,6 @@ const Goal = sequelize.define('Goal', {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
-    currentAmount: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
     deadline: {
         type: DataTypes.DATE,
         allowNull: true, 

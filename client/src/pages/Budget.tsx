@@ -21,9 +21,27 @@ const Budget = () => {
   const [selectedCategory, setSelectedCategory] = React.useState<string>('')
   const [selectedMonth, setSelectedMonth] = React.useState<string>('');
   const [setcion, setSetcion] = React.useState<string>('overview');
+  const [goals, setGoals] = React.useState<any[]>([]);
   const [currency, setCurrency] = React.useState<string>('');
   const { user } = useAuth();
 
+  const getGoals = useCallback( async () => {
+    try {
+      const response = await fetch(`${apiUrl}/goals`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      console.log('Fetched goals:', data.data);
+      setGoals(data.data);
+    }
+    catch (error) {
+      console.error('Error fetching goals:', error);
+    }
+  }, [])
   const getBudgets = useCallback( async () => {
     try {
       const response = await fetch(`${apiUrl}/budgets`, {
@@ -45,6 +63,9 @@ const Budget = () => {
   useEffect(() => {
     getBudgets();
   }, [getBudgets]);
+   useEffect(() => {
+    getGoals();
+  }, [getGoals]);
   return (
     <div className="p-8 w-full max-md:p-5 max-sm:p-2">
       <h1 className="font-bold text-4xl max-sm:mt-8">{user.username}{t('yourBudget')}</h1>
@@ -54,7 +75,7 @@ const Budget = () => {
         <button onClick={() => setSetcion('alerts')} className={`${setcion === 'alerts' ? ' btn rounded-md py-1 px-3 text-slate-700 cursor-pointer font-semibold' : 'btn rounded-md py-1 px-3 text-slate-700 cursor-pointer'}`}>Alerts</button>
       </div>
       {setcion === 'overview' && <BudgetReview budget={budget} onBudgetUpdated={getBudgets} currency={currency} />}
-      {setcion === 'limits' && <LimitsNgoals  onBudgetUpdated={getBudgets}/>}
+      {setcion === 'limits' && <LimitsNgoals  onBudgetUpdated={getBudgets} onGoalsUpdated={getGoals} currency={currency} goals={goals}/>}
       {setcion === 'alerts' && <Alerts />}
     </div>
   )
