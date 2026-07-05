@@ -78,7 +78,7 @@ function getDateRange(preset: string) {
      <option value="last_year">last year</option>
      <option value="all_time">all time</option>
       </select>
-      <button type="submit" className="btn rounded-md py-1 px-3 cursor-pointe flex items-center gap-2">{loading ? <LoaderCircle className="animate-spin size-5 font-bold" /> : ''}Apply</button>
+      <button type="submit" className="btn rounded-md py-1 px-3 cursor-pointe flex items-center gap-2">{loading ? (<><LoaderCircle className="animate-spin size-5 font-bold" /> Loading </>) : ('Apply')}</button>
       { dateRange.from && dateRange.to && <div className="flex items-center gap-2 bg-gray-600/30 rounded-full px-3 py-1"><Check size={16} /> <p className="text-lg whitespace-nowrap flex items-center gap-3"><Calendar1 size={16} />{dateRange.from?.toLocaleDateString("en-US",{day: 'numeric', month: 'short', year: 'numeric'})} - {dateRange.to?.toLocaleDateString("en-US",{day: 'numeric', month: 'short', year: 'numeric'})}</p> </div>}
       </form>
   { data &&  <div className="grid grid-cols-3 grid-rows-4 w-full gap-4 max-xl:grid-cols-2 max-xl:grid-rows-6 max-sm:grid-cols-1 max-sm:grid-rows-9 " >

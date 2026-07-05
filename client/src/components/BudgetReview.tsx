@@ -62,13 +62,13 @@ const budgetSummary = {
         )
       }
   return (
-    <div className="p-5 grid grid-cols-3 gap-4 mt-5 w-full max-md:grid-cols-1 max-xl:grid-cols-2">
+    <div className="p-5 grid grid-cols-3 gap-4 mt-5 w-full max-sm:grid-cols-1 max-xl:grid-cols-2">
         <div className="bg-white rounded-2xl p-5 relative dark:bg-[var(--sidebar)] dark:text-white ">
           <h2 className="text-2xl font-semibold pb-3">Overall Budget overview</h2>
           <hr/>
           <div className="flex items-center justify-between flex-col mt-3 h-[90%]">
           <div className="flex flex-col gap-2 items-center">
-          <p className="font-semibold text-2xl">Total budget: {currencySymbol} {budgetSummary.totalBudget.toFixed(2)}</p>
+          <p className="font-semibold text-2xl">Total: {currencySymbol} {budgetSummary.totalBudget.toFixed(2)}</p>
           <p className="font-semibold text-2xl">Spent: {currencySymbol} {budgetSummary.totalSpent.toFixed(2)}</p>
           <div ><ArrowBigDown size={25} color='var(--accent)' fill='var(--sidebar)'/></div>
           <p className="font-semibold text-2xl">Remaining: {currencySymbol} {budgetSummary.remaining.toFixed(2)}</p>
@@ -110,16 +110,16 @@ const budgetSummary = {
           </div>
           </div>
         </div>
-        <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
+        <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white max-xl:col-span-2 max-sm:col-span-1">
           <h2 className="text-2xl font-semibold pb-3">Progress bars</h2>
           <hr />
-          <div className="w-full">
+          <div className="w-full grid grid-cols-1 max-xl:grid-cols-2 max-xl:gap-x-4 max-sm:grid-cols-1">
           {budget && budget.map((b, index) => (
             <div key={index} className={`grid grid-cols-[max-content_max-content_1fr] gap-3 my-4 w-full grid-rows-2 border-2 text-black border-gray-200 p-2 rounded-md ${b.alarming ? 'border-red-500 bg-red-100' : b.percentage > 80 ? 'border-yellow-500 bg-yellow-100' : 'border-green-500 bg-green-100'}`}>
               <p className="col-span-1 row-span-1 mr-4 font-semibold">{b.category}</p>
               <p className="col-span-1 row-span-1 ml-4 w-fit">{b.percentage > 100 ?  <CircleAlert color = 'red' size = {20} />  : b.percentage > 80 ? <TriangleAlert color = 'orange' size = {20}/> : <CircleCheck color = 'green' size = {20}/>}</p>
-              <p className="col-span-1 row-span-1 font-semibold justify-self-end">{currencySymbol} {b.spent} / {currencySymbol} {b.amount}</p>
-              <div className=" bg-gray-300 rounded-full h-4  col-span-3">
+              <p className="col-span-1 row-span-1 font-semibold justify-self-end">{b.spent}/{b.amount}</p>
+              <div className=" bg-gray-300 rounded-full h-4 col-span-3">
               <div className= {`${b.percentage > 100 ? 'bg-red-500' : b.percentage > 80 ? 'bg-yellow-500' : 'bg-green-500'} h-4 rounded-full transition-all duration-300`} style={{ width: `${b.percentage > 100 ? 100 : b.percentage}%` }}></div>
               </div>
             </div>

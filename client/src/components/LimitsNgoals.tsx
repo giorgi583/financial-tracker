@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import { ArrowBigDownDash, CheckCircle, CheckCircleIcon, CircleAlertIcon, Edit, Plus, X, Trash } from 'lucide-react'
+import { ArrowBigDownDash, CheckCircle, CheckCircleIcon, CircleAlertIcon, Edit, Plus, X, Trash,  ClipboardList, ArrowBigLeftDashIcon, ArrowBigRightDashIcon } from 'lucide-react'
 import {toast } from 'react-hot-toast'
 import categories from '../assets/categories'
 import ProgressChart from './RadialBarChart';
@@ -18,6 +18,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
           const [cutDownSpending, setCutDownSpending] = React.useState<any>([]);
           const [monthlySavings, setmonthlySavings] = React.useState<any>([]);
           const [monthlyIncome, setMonthlyIncome] = React.useState<any>([]);
+          const [editGoalWindowOpen, setEditGoalWindowOpen] = React.useState<boolean>(false);
            const currencySymbol =
   {
     USD: "$",
@@ -49,7 +50,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         setSelectedCategory('');
         setLimit(0);
             }
-            const editBudgets = async () => {
+     const editBudgets = async () => {
         try {
           const response = await fetch(`${apiUrl}/api/budgets`, {
             method: 'PATCH',
@@ -101,6 +102,79 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
               setGoalWindowOpen(false);
               setSelectedCategory('');
             }
+            const editGoals = async (id: number) => {
+              console.log(typeof goalAmount, goalAmount);
+              try {
+                const response = await fetch(`${apiUrl}/goals/${id}`, {
+                  method: 'PATCH',
+                  body: JSON.stringify({ targetAmount: goalAmount, ...goalTitle ? { title: goalTitle } : {}, ...goalDeadline ? { deadline: goalDeadline } : {} }),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  credentials: 'include',
+                });
+                const data = await response.json();
+                if(!data.success) {
+                  throw new Error(data.error);
+                }
+                toast.success('Goal updated successfully!');
+                onGoalsUpdated();
+                console.log(data);
+                }
+                 catch (error) {
+                  toast.error("error updating goal, you may not have set a goal for this category yet");
+                  console.error('Error fetching budgets:', error);
+                }
+                setGoalToSet('');
+                setEditGoalWindowOpen(false);
+                setGoalTitle('');
+                setGoalAmount(0);
+                setGoalDeadline('');
+                }
+              const deleteGoals = async (id: number) => {
+                const confirm = window.confirm('Are you sure you want to delete this goal?');
+                if (!confirm) {
+                  return;
+                }
+                try {
+                  const response = await fetch(`${apiUrl}/goals/${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include',
+                  });
+                  const data = await response.json();
+                  if(!data.success) {
+                    throw new Error(data.error);
+                  }
+                  toast.success('Goal deleted successfully!');
+                  onGoalsUpdated();
+                  console.log(data);
+                } catch (error) {
+                  toast.error("error deleting goal, you may not have set a goal for this category yet");
+                  console.error('Error fetching budgets:', error);
+                }
+              }
+            const handleGoalSubmit = (goal: any) => {
+              switch(goal) {
+                case 'long_term_savings':
+                  const id = longTermSavings[0]?.id;
+                  editGoals(id);
+                  break;
+                case 'cut_down_spending':
+                  const id2 = cutDownSpending.find((goal: any) => goal.category === selectedCategory)?.id;
+                  editGoals(id2);
+                  break;
+                case 'monthly_savings':
+                  const id3 = monthlySavings[0]?.id;
+                  editGoals(id3);
+                  break;
+                case 'monthly_income':
+                  const id4 = monthlyIncome[0]?.id;
+                  editGoals(id4);
+                  break;
+                default:
+                  break;
+              }
+            }
             const divideGoals = ()=> {
               const longTermSaving = goals.filter((goal: any) => goal.type === 'Long_term_savings');
               const shortTermGoals = goals.filter((goal: any) => goal.type === 'monthly_savings');
@@ -116,7 +190,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
             },[goals])
   return (
     <div>
-    <div className="p-5 grid grid-cols-3 grid-rows-1 gap-4 mt-5 w-full max-md:grid-cols-1 max-xl:grid-cols-2">
+    <div className="p-5 grid grid-cols-3 grid-rows-1 max-lg:grid-cols-2 gap-4 mt-5 w-full max-md:grid-cols-1">
     
       <div className="bg-white rounded-2xl p-5 row-span-1 dark:bg-[var(--sidebar)] dark:text-white shadow-xl">       
           <button onClick={() => {setSetLimitWindowOpen(true); console.log(setLimitWindowOpen)}} className='btn w-full h-full rounded-lg flex flex-col items-center gap-5 text-4xl justify-center group opacity-80 hover:opacity-100 border-4 border-dashed border-[var(--accent)] active:scale-95'>Add a new Limit<Plus className='scale-0 group-hover:scale-100 transition-all duration-300 ' size={45}/></button>
@@ -159,7 +233,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
           <form onSubmit={setGoals} className="bg-white rounded-2xl p-5 flex flex-col gap-6 dark:bg-[var(--sidebar)] dark:text-white relative min-w-100 max-w-lg">
             <button onClick={() => {setGoalToSet(''); setGoalWindowOpen(false)}} className='bg-red-500 text-white px-2 py-2 cursor-pointer rounded absolute top-2 right-2'><X/></button>
             <h2 className="text-2xl font-semibold pb-3">Set a new Goal</h2>
-            {goalToSet && <p className='text-xl py-5 font-semibold'>{goalToSet}</p>}
+            {goalToSet && <p className='text-xl py-5 font-semibold'>{goalToSet.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>}
             <div className='flex flex-col gap-4'>
               <label>Enter your goal amount</label>
               <input required type="number" placeholder='add amount' value={goalAmount} onChange={(e) => setGoalAmount(Number(e.target.value))} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
@@ -173,7 +247,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
             <input required type="text" placeholder='add a title for your goal' value={goalTitle} onChange={(e) => setGoalTitle(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
             {goalToSet === 'Cut_down_spending' &&
             <div className='flex flex-col gap-4'>
-              <label>Choose Category</label>
+              <label>Choose Category</label><span className='text-sm text-gray-500'>your can only set one goal for each category!</span>
               <select required value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'>
                <option value=''>Select a category</option>
                {categories.map((category) => (
@@ -186,13 +260,13 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         </div>
       )}
     </div>
-      <div className='grid grid-cols-2 gap-4 grid-rows-[1fr_2fr] bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl'>
+      <div className='grid grid-cols-2 gap-4 grid-rows-[1fr_2fr] max-xl:grid-rows-2 max-[900px]:grid-cols-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl'>
       
-      {monthlySavings.length > 0 && <div className='bg-violet-500/25 rounded-lg p-5 text-violet-500 relative'>
-      <button className='absolute top-5 right-5 text-2xl flex gap-2'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
-      <h3 className='text-2xl font-semibold mb-5'>Your monthly savings goal</h3>
-      <div className='flex items-center gap-5'>
-       <div className='rounded bg-violet-100 p-5 flex flex-col gap-2 text-xl'>
+      {monthlySavings.length > 0 ? <div className='bg-violet-500/25 rounded-lg p-5 text-violet-500 relative'>
+      <button className='absolute top-5 right-5 text-xl flex gap-2 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('monthly_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlySavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+      <h3 className='text-2xl font-semibold mb-5 max-xl:text-xl'>Your monthly savings goal</h3>
+      <div className='flex items-center gap-5 max-xl:flex-col'>
+       <div className='rounded bg-violet-100 p-5 flex flex-col gap-2 text-xl max-xl:text-lg max-xl:p-3'>
         <p className='font-semibold'>targeted amount: {currencySymbol} {monthlySavings[0]?.targetAmount}</p>
         <p>Current savings: {currencySymbol} {monthlySavings[0]?.currentAmount}</p>
         <p> {Math.ceil((new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getTime() -
@@ -205,40 +279,50 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         <ProgressChart percentage={monthlySavings[0]?.percentage || 0} color='violet'/>
        </div>
         </div>
+      </div> : <div className='bg-violet-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
+      <p className='text-2xl font-semibold text-indigo-200'>You have not set a monthly savings goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-indigo-200'/>
       </div>}
-      { monthlyIncome.length > 0 && <div className='bg-cyan-500/25 rounded-lg p-5 relative'>
-      <button className='absolute top-5 right-5 text-2xl flex gap-2 text-cyan-500'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
-      <h3 className='text-2xl font-semibold mb-5 text-cyan-300'>Your monthly income goal</h3>
-      <div className='flex items-center gap-5'>
-        <div className='rounded flex flex-col gap-2'>
-       <p className='text-2xl font-semibold text-cyan-300'>Current income: {currencySymbol} {monthlyIncome[0]?.currentAmount}</p>
-       <ArrowBigDownDash className='w-10 h-10 text-cyan-300'/>
-       <p className='text-2xl font-semibold text-cyan-300'>Target income: {currencySymbol} {monthlyIncome[0]?.targetAmount}</p>
+      { monthlyIncome.length > 0 ? <div className='bg-cyan-500/25 rounded-lg p-5 relative'>
+      <button className='absolute top-5 right-5 text-xl flex gap-2 text-cyan-500 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('monthly_income'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlyIncome[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+      <h3 className='text-2xl font-semibold mb-5 text-cyan-400 max-xl:text-xl'>Your monthly income goal</h3>
+      <div className='flex items-center gap-5 max-xl:flex-col'>
+        <div className='rounded flex flex-col text-xl items-center gap-2 bg-cyan-50 p-5 max-xl:text-lg max-xl:p-3'>
+       <p className='font-semibold text-cyan-400'>Current income: {currencySymbol} {monthlyIncome[0]?.currentAmount}</p>
+       <p className='font-semibold text-cyan-400'>Target income: {currencySymbol} {monthlyIncome[0]?.targetAmount}</p>
+       <p className='font-semibold text-cyan-400 flex items-center'>Progress <ArrowBigRightDashIcon className='w-10 h-10 text-cyan-400'/></p>
        </div>
-       <div><ProgressChart percentage={monthlyIncome[0]?.percentage || 0} color='cyan'/></div>
+        {monthlyIncome[0]?.status === 'active' && <div><ProgressChart percentage={monthlyIncome[0]?.percentage || 0} color='cyan'/></div>}
+        {monthlyIncome[0]?.status === 'completed' &&  <CheckCircle className='w-40 h-40 text-cyan-300'/>}
         </div>
+      </div> : <div className='bg-cyan-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
+      <p className='text-2xl font-semibold text-cyan-200'>You have not set a monthly income goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-cyan-200'/>
       </div>}
-      {cutDownSpending.length > 0 && <div className='bg-green-500/25 rounded-lg p-5'>
-      <h3 className='text-2xl font-semibold mb-5 text-green-400'>Your cut down spending goal</h3>
+      {cutDownSpending.length > 0 ? <div className='bg-green-500/25 rounded-lg p-5'>
+      <h3 className='text-2xl font-semibold mb-5 text-green-400 max-xl:text-xl'>Your cut down spending goal</h3>
       <div className='flex flex-col gap-5'>
       {cutDownSpending.map((item: any) => (
         <div className='flex items-center gap-5' key={item.id}>
-          <div className={`rounded-lg ${item.percentage === 0 ? 'bg-red-100' : 'bg-green-100'} p-2 flex gap-10 text-xl w-full relative`}>
+          <div className={`rounded-lg ${item.percentage === 0 ? 'bg-red-100' : 'bg-green-100'} p-2 flex items-center gap-10 max-xl:gap-4 text-xl max-xl:text-lg max-xl:p-1 w-full relative`}>
             <p className={`font-semibold ${item.percentage === 0 ? 'text-red-700' : 'text-green-800'}`}>{item.category}</p>
-            {item.percentage === 0 ? <p className='text-red-700'>Overspent By - {item.currentAmount - item.targetAmount} {currencySymbol} </p>: <p className='text-green-800'>Saved - {item.percentage}%</p>}
+            {item.percentage === 0 ? <p className='text-red-700 max-xl:text-sm'>Overspent - {item.currentAmount - item.targetAmount} {currencySymbol} </p>: <p className='text-green-800 max-xl:text-sm'>Saved - {item.percentage}%</p>}
             <div className={` h-full rounded-lg bg-green-500 absolute top-0 left-0 opacity-50`} style={{width: `${item.percentage}%`}}></div>
-            <button className='absolute top-2 right-2 text-2xl flex gap-2'><Edit color='green' className='cursor-pointer active:scale-95'/><Trash color='red' className='cursor-pointer active:scale-95'/></button>
+            <button className='absolute top-2 right-2 text-xl max-xl:text-sm flex items-center gap-1'><Edit  onClick={() => {setGoalToSet('cut_down_spending'); setSelectedCategory(item.category); setEditGoalWindowOpen(true)}} color='green' className='cursor-pointer active:scale-95 max-xl:w-5'/><Trash onClick={()=> deleteGoals(item.id)}  color='red' className='cursor-pointer active:scale-95 max-xl:w-5'/></button>
           </div>
         </div>
       ))
         
-      }</div></div>}
+      }</div></div> : <div className='bg-green-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
+      <p className='text-2xl font-semibold text-green-200'>You have not set a monthly spending goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-green-200'/>
+      </div>}
       
-      {longTermSavings.length > 0 && <div className='bg-amber-500/25 rounded-lg p-5 text-xl text-orange-600 relative'>
-      <button className='absolute top-5 right-5 text-2xl flex gap-2'><Edit className='cursor-pointer active:scale-95'/><Trash className='cursor-pointer active:scale-95'/></button>
-       <h3 className='text-2xl font-semibold mb-5'>Your long term savings goal</h3>
+      {longTermSavings.length > 0 ? <div className='bg-amber-500/25 rounded-lg p-5 text-xl text-orange-600 relative'>
+      <button className='absolute top-4 right-4 text-xl flex gap-2 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('long_term_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(longTermSavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+       <h3 className='text-2xl font-semibold mb-5 max-xl:text-xl max-lg:mr-3'>Your long term savings goal</h3>
        <div className='flex flex-col items-center gap-5'>
-        <div className='dark:bg-amber-100 p-5 rounded flex flex-col gap-2 items-center'>
+        <div className='dark:bg-amber-100 p-5 rounded flex flex-col gap-2 items-center max-xl:text-lg max-xl:p-2'>
        <p className='font-semibold'>targeted amount: {currencySymbol} {longTermSavings[0]?.targetAmount}</p>
        <p>Current savings: {currencySymbol} {longTermSavings[0]?.currentAmount}</p>
        <p>Deadline: {longTermSavings[0]?.deadline.split('T')[0]}</p>
@@ -248,9 +332,49 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
        <ArrowBigDownDash size={40}/> </div>
        {longTermSavings[0]?.status === 'active' ? <div>
         <ProgressChart percentage={longTermSavings[0]?.percentage || 0} color='orange'/>
-        </div> : longTermSavings[0]?.status === 'completed' ? <CheckCircleIcon className='w-30 h-30 text-green-500'/> : <CircleAlertIcon className='w-30 h-30 text-red-500'/>}
-      </div></div>}
+        </div> : longTermSavings[0]?.status === 'completed' ? <CheckCircleIcon className='w-40 h-40 text-amber-500'/> : <CircleAlertIcon className='w-30 h-30 text-red-500'/>}
+      </div></div> :
+      <div className='bg-amber-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
+      <p className='text-2xl font-semibold text-orange-200'>You have not set a long-term savings goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-orange-200'/>
+      </div>}
       </div>
+      {editGoalWindowOpen && <div className="fixed top-0 left-0 w-full h-full backdrop-blur bg-black/20 flex items-center justify-center z-50">
+      <form className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 relative min-w-130">
+        <button onClick={() => {setGoalToSet(''); setSelectedCategory(''); setEditGoalWindowOpen(false)}} className='bg-red-500 text-white px-2 py-2 cursor-pointer rounded absolute top-2 right-2'><X/></button>
+        <h2 className="text-2xl font-semibold mb-4">Edit {goalToSet.split('_').join(' ')}</h2>
+        {selectedCategory && <div className="mb-4">Category: {selectedCategory} </div>}
+        <div className="mb-4 flex flex-col gap-3">
+          <label >Enter new title</label>
+          <input
+            type="text"
+            placeholder="Enter new title"
+            value={goalTitle}
+            onChange={(e: any) => setGoalTitle(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+          />
+          <label className="block text-gray-600 dark:text-gray-400">Amount:</label>
+          <input
+            type="number"
+            placeholder="Enter new target amount"
+            value={goalAmount}
+            onChange={(e: any) => setGoalAmount(Number(e.target.value))}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+          />
+          {goalToSet === 'long_term_savings' && <div>
+          <label className="block text-gray-600 dark:text-gray-400">New Deadline:</label>
+          <input
+            type="date"
+            required
+            value={goalDeadline}
+            onChange={(e: any) => setGoalDeadline(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+          />
+          </div>}
+        </div>
+        <button onClick={(e) => {e.preventDefault(); handleGoalSubmit(goalToSet)}} className="bg-[var(--accent)] text-white px-4 cursor-pointer py-2 rounded hover:bg-[var(--accent)]/80">Submit</button>
+      </form>
+      </div>}
   </div>
   )
 }

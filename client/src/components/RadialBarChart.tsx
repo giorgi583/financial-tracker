@@ -32,7 +32,7 @@ const ProgressChart = ({percentage, color}: {percentage: number, color: string})
             y="50%"
             textAnchor="middle"
             dominantBaseline="middle"
-            className={`text-3xl font-bold fill-current ${percentage > 100 ? "text-red-500" : color} `}
+            className={`text-3xl font-bold fill-current ${percentage > 100 ? "text-red-500" : color}`}
         >
             {Math.round(percentage)}%
         </text>
