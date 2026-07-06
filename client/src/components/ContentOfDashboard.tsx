@@ -28,7 +28,7 @@ useEffect(() => {
       <h2 className="text-md font-semibold text-gray-700 dark:text-gray-200 mb-4">{title}</h2>
       <hr className="mb-4 text-[var(--accent)]" ></hr>
       <div className="mt-4">{title === 'Expense dynamics trend' && <AreaChart data={data.data} currencySign={currencySign}/>}
-      {title === 'Spending by category' && <Piechart data={data.data} />}
+      {title === 'Spending by category' && <Piechart data={data.data?.spendingByCategory} />}
       {title === 'Current balance' && <div className="flex justify-center flex-col gap-10 items-center h-full"> <p className="mt-4 text-6xl font-semibold"> {data.data?.balance} {currencySign}</p> <p className="text-2xl font-semibold flex items-center gap-2">{data.data?.balance < 0 ? <TriangleAlertIcon className="text-red-500"/> : data.data?.balance < 100 ? <TriangleAlertIcon className="text-yellow-500"/> : <CheckCircle2Icon className="text-green-500"/> } {data.data?.balance < 0 ? 'You are in debt' : data.data?.balance < 100 ? 'You are running low' : 'You are in credit'}</p> </div>}
       {title === 'Totals' && <div className="mt-4 flex gap-4 flex-col "> 
         <p className="text-green-500 text-xl font-semibold">Income: {data.data?.income || 0} {currencySign}</p>

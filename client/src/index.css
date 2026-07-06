@@ -8,6 +8,15 @@
 body {
   font-family: "Google Sans Flex", sans-serif;;
 }
+
+
+@layer utilities {
+  .scrollbar-hide {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 @layer components {
   select {
     appearance: base-select;

@@ -31,9 +31,7 @@ const [alerts, setAlerts] = React.useState<any[]>([]);
       useEffect(() => {
         getAlerts();
       }, []);
-      if(loading) {
-        return <Loader/>
-      }
+
   return (
     <div className="p-5 grid grid-cols-1 gap-4 mt-5 w-full max-md:grid-cols-1">
         <div className='bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white'>
