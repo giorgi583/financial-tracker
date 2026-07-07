@@ -42,8 +42,8 @@ const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
                 <label htmlFor='type'>Type</label>
                 <select id='type' onChange={(e)=> setTransaction(prev => ({...prev, type: e.target.value}))} required className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select]'>
                     <option value="">Select Type</option>
-                    <option value="income">Income</option>
-                    <option value="expense">Expense</option>
+                    <option disabled={transaction.category === 'Food' || transaction.category === 'Transport' || transaction.category === 'Entertainment' || transaction.category === 'Healthcare' || transaction.category === 'Utilities' || transaction.category === 'Clothing' || transaction.category === 'Education' || transaction.category === 'Shopping' || transaction.category === 'Travel'} value="income">Income</option>
+                    <option disabled={transaction.category === 'Salary' || transaction.category === 'Investment' || transaction.category === 'Gift'} value="expense">Expense</option>
                 </select>
                 <label htmlFor='description'>Description</label>
                 <input id='description' onChange={(e)=> setTransaction(prev => ({...prev, description: e.target.value}))} type="text" maxLength={70} placeholder='Description' className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]' />

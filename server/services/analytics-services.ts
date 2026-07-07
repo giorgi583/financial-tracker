@@ -62,8 +62,9 @@ export const trendByCategory = async (req: any, res: any) => {
     const { from, to, category } = req.query;
     const where: any = { userId };
     where.date = { [Op.between]: [new Date(from as string), new Date(to as string)] };
+    where.category = category;
     const daysDiff = Math.ceil((new Date(to).getTime() - new Date(from).getTime()) / (1000 * 60 * 60 * 24));
-    const granularity = daysDiff === 0 ? 'hour' : daysDiff <= 31 ? 'day' : daysDiff <= 90 ? 'week' : 'month';
+    const granularity = daysDiff < 1 ? 'hour' : daysDiff <= 31 ? 'day' : daysDiff <= 90 ? 'week' : 'month';
 try {
     const trend = await Transaction.findAll({
             where,
@@ -76,7 +77,7 @@ try {
             raw: true
         });
     if(trend.length === 0) return res.status(404).json({ success: false, error: 'Transactions not found' });
-    return res.status(200).json({ success: true, data: trend });
+    return res.status(200).json({ success: true, data: trend, granularity });
 }
 catch (error) {
     console.error(error);

@@ -1,25 +1,11 @@
 import React, {useEffect} from 'react'
 import { Area, AreaChart as AreaCHART, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
-const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
-  const [height, setHeight] = React.useState<number>(0);
+const AreaChart2 = ({data, granularity}: {data: any, granularity: string}) => {
 
-    useEffect(() => {
-  const updateHeight = () => {
-    if (window.innerWidth < 640) {
-      setHeight(200);
-    }  else {
-      setHeight(400);
-    }
-  };
 
-  updateHeight();
-  window.addEventListener("resize", updateHeight);
 
-  return () => window.removeEventListener("resize", updateHeight);
-}, []);
-
-  console.log(data?.granularity);
+  console.log(data);
   const formatOptions: any = {
     hour: {
       day: "numeric",
@@ -39,22 +25,21 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
   },
 };
   let chartData;
-  if(data?.trend?.length > 0) {
+  if(data?.length > 0) {
    chartData = Object.values(
-  data.trend.reduce((acc : any, item: any) => {
+  data.reduce((acc : any, item: any) => {
     const period = new Date(item.period).toLocaleDateString("en-US", 
-    formatOptions[data.granularity]
+    formatOptions[granularity]
     );
 
     if (!acc[period]) {
       acc[period] = {
         period,
-        income: 0,
-        expense: 0,
+        amount: 0,
       };
     }
 
-    acc[period][item.type] = item.amount;
+    acc[period].amount = item.amount;
 
   
     return acc;
@@ -63,7 +48,7 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
   return (
     chartData && 
     <div className="w-full h-full bg-white dark:bg-[var(--sidebar)] mt-10 ">
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={300}>
       <AreaCHART
         width={300}
       height={400}
@@ -74,11 +59,11 @@ const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
         <CartesianGrid strokeDasharray="5 5" />
         <Tooltip />
         <Legend />
-      <Area type="monotone" dataKey="expense" stroke="var(--accent)" fill="var(--accent)"  />
+      <Area type="monotone" dataKey="amount" stroke="var(--accent)" fill="var(--accent)"  />
     </AreaCHART>
     </ResponsiveContainer>
     </div>
   )
 }
 
-export default AreaChart
+export default AreaChart2
