@@ -96,7 +96,7 @@ body {
 
 .theme-green {
   --accent: #22c55e;
-  --sidebar: #052e16;
+  --sidebar: #203326;
   --dark-sidebar: #16a34a;
   --mainbg: #30473b;
   --light-mainbg: #e0fced;
@@ -106,7 +106,7 @@ body {
 
 .theme-purple {
   --accent: #a855f7;
-  --sidebar: #251246;
+  --sidebar: #292334;
   --dark-sidebar: #6d50f0;
   --mainbg: #352d42;
   --light-mainbg: #f3e8ff;
@@ -116,7 +116,7 @@ body {
 
 .theme-red {
   --accent: #f35500;
-  --sidebar: #450a0a;
+  --sidebar: #2d1d1d;
   --dark-sidebar: #d97706;
   --mainbg: #342626;
   --light-mainbg: #ffebe7;

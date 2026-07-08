@@ -52,7 +52,7 @@ const Login = () => {
             setError(err instanceof Error ? err.message : 'An error occurred during login. Please try again later.');
         } }
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen bg-blue-100">
     <form onSubmit={handleSubmit} className="bg-white text-gray-500 max-w-[340px] w-full mx-4 md:p-6 p-4 py-8 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
             <h2 className="text-2xl font-bold mb-9 text-center text-gray-800">Welcome Back</h2>
             <div className="flex items-center my-2 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">

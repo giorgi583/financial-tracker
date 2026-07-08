@@ -188,11 +188,50 @@ catch (error) {
     message: 'Failed to reset password'
   });
 } }
+
+async function updatePassword(req: any, res: any) {
+  const userId = req.user.id;
+  const { oldPassword, newPassword } = req.body;
+  try {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: 'Invalid password' });
+    }
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    return res.status(200).json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    return res.status(500).json({ success: false, message: 'Failed to update password' });
+  }
+}
+async function updateName(req: any, res: any) {
+  const userId = req.user.id;
+  const { name } = req.body;
+  try {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    user.username = name;
+    await user.save();
+    return res.status(200).json({ success: true, message: 'Name updated successfully' });
+  } catch (error) {
+    console.error('Error updating name:', error);
+    return res.status(500).json({ success: false, message: 'Failed to update name' });
+  }
+}
 module.exports = {
     register,
     login,
     logout,
     getProfile,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    updatePassword,
+    updateName
 }

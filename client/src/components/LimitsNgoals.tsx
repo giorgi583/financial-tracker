@@ -280,8 +280,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
        </div>
         </div>
       </div> : <div className='bg-violet-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
-      <p className='text-2xl font-semibold text-indigo-200'>You have not set a monthly savings goal yet!</p>
-      <ClipboardList className='w-40 h-40 text-indigo-200'/>
+      <p className='text-2xl font-semibold text-indigo-400'>You have not set a monthly savings goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-indigo-400'/>
       </div>}
       { monthlyIncome.length > 0 ? <div className='bg-cyan-500/25 rounded-lg p-5 relative'>
       <button className='absolute top-5 right-5 text-xl flex gap-2 text-cyan-500 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('monthly_income'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlyIncome[0]?.id)} className='cursor-pointer active:scale-95'/></button>
@@ -296,8 +296,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         {monthlyIncome[0]?.status === 'completed' &&  <CheckCircle className='w-40 h-40 text-cyan-300'/>}
         </div>
       </div> : <div className='bg-cyan-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
-      <p className='text-2xl font-semibold text-cyan-200'>You have not set a monthly income goal yet!</p>
-      <ClipboardList className='w-40 h-40 text-cyan-200'/>
+      <p className='text-2xl font-semibold text-cyan-400'>You have not set a monthly income goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-cyan-400'/>
       </div>}
       {cutDownSpending.length > 0 ? <div className='bg-green-500/25 rounded-lg p-5'>
       <h3 className='text-2xl font-semibold mb-5 text-green-400 max-xl:text-xl'>Your cut down spending goal</h3>
@@ -314,8 +314,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
       ))
         
       }</div></div> : <div className='bg-green-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
-      <p className='text-2xl font-semibold text-green-200'>You have not set a monthly spending goal yet!</p>
-      <ClipboardList className='w-40 h-40 text-green-200'/>
+      <p className='text-2xl font-semibold text-green-400'>You have not set a monthly spending goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-green-400'/>
       </div>}
       
       {longTermSavings.length > 0 ? <div className='bg-amber-500/25 rounded-lg p-5 text-xl text-orange-600 relative'>
@@ -335,8 +335,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         </div> : longTermSavings[0]?.status === 'completed' ? <CheckCircleIcon className='w-40 h-40 text-amber-500'/> : <CircleAlertIcon className='w-30 h-30 text-red-500'/>}
       </div></div> :
       <div className='bg-amber-500/25 rounded-lg p-5 flex flex-col items-center justify-center'>
-      <p className='text-2xl font-semibold text-orange-200'>You have not set a long-term savings goal yet!</p>
-      <ClipboardList className='w-40 h-40 text-orange-200'/>
+      <p className='text-2xl font-semibold text-orange-400'>You have not set a long-term savings goal yet!</p>
+      <ClipboardList className='w-40 h-40 text-orange-400'/>
       </div>}
       </div>
       {editGoalWindowOpen && <div className="fixed top-0 left-0 w-full h-full backdrop-blur bg-black/20 flex items-center justify-center z-50">

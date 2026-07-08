@@ -25,13 +25,13 @@ const ForgotPass = () => {
         }
     }
   return (
-    <div className="flex items-center justify-center min-h-screen gap-4 bg-gray-50">
+    <div className="flex items-center justify-center min-h-screen gap-4 bg-blue-100">
         <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col gap-4">
         <h1 className="text-3xl font-semibold">Request password reset</h1>
         <p>Please enter the email address registered to your account and check your inbox.</p>
         <form onSubmit={handleReset} className="mt-4 flex flex-col">
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button type="submit" className="btn mt-4 px-4 py-2 rounded-lg">Request Reset link</button>
+            <button type="submit" className="bg-blue-500 text-white mt-4 px-4 py-2 rounded-lg">Request Reset link</button>
         </form>
         </div>
     </div>

@@ -60,8 +60,8 @@ useEffect(() => {
   }
 }, [selectedTheme, selectedColor]);
   return (
-    <div className='p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto'>
-        <div className='flex justify-between items-center max-sm:flex-col max-sm:gap-5 max-sm:items-start'>
+    <div id='prefferences' className='p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto bg-slate-400/10 rounded-3xl max-sm:w-11/12'>
+        <div className='flex flex-col gap-5 justify-between max-sm:flex-col max-sm:gap-5 max-sm:items-start'>
         <h2 className='text-3xl font-semibold'>{t('prefferences')}</h2>
          <button onClick={saveChanges} className='btn px-3 py-1 rounded-2xl '>{t('saveChanges')}</button> </div>
         <div className='pt-10 flex flex-col'>
@@ -105,7 +105,7 @@ useEffect(() => {
             </select>
         </div>
         <div>
-          <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10'>Add initial balance  {initialBalance && `(${initialBalance} ${currency})`}</h3>
+          <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10'>{t('addInitialBalance')} {initialBalance && `(${initialBalance} ${currency})`}</h3>
           <hr />
           <input type="number" value={initialBalanceValue} onChange={(e) => setInitialBalanceValue(Number(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs' />
         </div>
