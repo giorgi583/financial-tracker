@@ -1,7 +1,6 @@
-import AreaChart from "../components/AreaChart"
+
 import ContentOfDashboard from "../components/ContentOfDashboard"
 import { useTranslation } from "react-i18next"
-import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../Context";
 import { startOfMonth, endOfMonth, subMonths, startOfYear, endOfYear, subYears } from 'date-fns';
@@ -69,26 +68,26 @@ function getDateRange(preset: string) {
     <div className="flex flex-col gap-8 w-full p-8 max-md:py-23 max-md:p-5 max-[400px]:p-3">
     <h1 className="text-3xl font-bold max-sm:mt-7">{user.username}{t('financialOverview')}</h1>
     <form onSubmit={(e) => {e.preventDefault(); getOverview()}} className="flex gap-2  max-w-200 items-center max-md:flex-col max-md:items-start max-md:gap-3">
-      <label >Select Period: </label>
+      <label >{t('selectPeriod')}: </label>
       <select defaultValue={'all_time'} onChange={(e) => setSelectedPeriod(e.target.value as Period)} className="border cursor-pointer border-gray-300 rounded-lg px-3 py-1">
-     <option value="this_month">this month</option>
-     <option value="last_month">last month</option>
-     <option value="last_3_months">last 3 months</option>
-     <option value="this_year">this year</option>
-     <option value="last_year">last year</option>
-     <option value="all_time">all time</option>
+     <option value="this_month">{t('thisMonth')}</option>
+     <option value="last_month">{t('lastMonth')}</option>
+     <option value="last_3_months">{t('last3Months')}</option>
+     <option value="this_year">{t('thisYear')}</option>
+     <option value="last_year">{t('lastYear')}</option>
+     <option value="all_time">{t('allTime')}</option>
       </select>
-      <button type="submit" className="btn rounded-md py-1 px-3 cursor-pointe flex items-center gap-2">{loading ? (<><LoaderCircle className="animate-spin size-5 font-bold" /> Loading </>) : ('Apply')}</button>
+      <button type="submit" className="btn rounded-md py-1 px-3 cursor-pointe flex items-center gap-2">{loading ? (<><LoaderCircle className="animate-spin size-5 font-bold" /> {t('loading')} </>) : (t('apply'))}</button>
       { dateRange.from && dateRange.to && <div className="flex items-center gap-2 bg-gray-600/30 rounded-full px-3 py-1"><Check size={16} /> <p className="text-lg whitespace-nowrap flex items-center gap-3"><Calendar1 size={16} />{dateRange.from?.toLocaleDateString("en-US",{day: 'numeric', month: 'short', year: 'numeric'})} - {dateRange.to?.toLocaleDateString("en-US",{day: 'numeric', month: 'short', year: 'numeric'})}</p> </div>}
       </form>
   { data &&  <div className="grid grid-cols-3 grid-rows-4 w-full gap-4 max-xl:grid-cols-2 max-xl:grid-rows-6 max-sm:grid-cols-1 max-sm:grid-rows-9 " >
-<ContentOfDashboard title="Current balance"  className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Totals"  className="col-span-1 row-span-1 bg-white max-xl:order-2 rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Spending by category" className="col-span-1 row-span-2 bg-white rounded-2xl max-sm:order-3 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Expense dynamics trend" className="col-span-2 row-span-2 max-xl:order-4 max-sm:col-span-1 max-sm:row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] shadow-lg dark:text-white" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Recent Transactions" className="col-span-1 row-span-2 max-xl:order-5 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Top categories" className="col-span-1 row-span-1 bg-white rounded-2xl max-xl:order-6 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
-<ContentOfDashboard title="Largest expense" className="col-span-1 row-span-1 bg-white rounded-2xl max-xl:order-7 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} period={selectedPeriod}/>
+<ContentOfDashboard title={t('currentBalance')}  className="col-span-1 row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
+<ContentOfDashboard title={t('totals')}  className="col-span-1 row-span-1 bg-white max-xl:order-2 rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
+<ContentOfDashboard title={t('spendingByCategory')} className="col-span-1 row-span-2 bg-white rounded-2xl max-sm:order-3 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
+<ContentOfDashboard title={t('expenseDynamicsTrend')} className="col-span-2 row-span-2 max-xl:order-4 max-sm:col-span-1 max-sm:row-span-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] shadow-lg dark:text-white" data={data} />
+<ContentOfDashboard title={t('recentTransactions')} className="col-span-1 row-span-2 max-xl:order-5 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
+<ContentOfDashboard title={t('topCategories')} className="col-span-1 row-span-1 bg-white rounded-2xl max-xl:order-6 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
+<ContentOfDashboard title={t('largestExpense')} className="col-span-1 row-span-1 bg-white rounded-2xl max-xl:order-7 p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-lg" data={data} />
     </div>
 }
     </div>

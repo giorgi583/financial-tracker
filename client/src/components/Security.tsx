@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-hot-toast'
@@ -52,16 +52,16 @@ const Security = () => {
         {showPassword ? <EyeOff className='cursor-pointer hover:scale-110 transition-transform duration-500 ' /> : <Eye className='cursor-pointer hover:scale-110 transition-transform duration-500 ' /> }</button>
           <div className='flex gap-3 items-center max-sm:flex-col max-sm:items-start'> 
         <label htmlFor="password">{t('oldPassword')}</label>
-        <input type={showPassword ? 'text' : 'password'} value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} id="password" name="password" placeholder={t('oldPassword')}/>
+        <input id='oldpassword' name='password' type={showPassword ? 'text' : 'password'} value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} placeholder={t('oldPassword')}/>
         </div>
           <div className='flex gap-3 items-center max-sm:flex-col max-sm:items-start'> 
         <label htmlFor="password">{t('newPassword')}</label>
-        <input type={showPassword ? 'text' : 'password'} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} id="password" name="password" placeholder={t('newPassword')}/>
+        <input id='newpassword' name='password' type={showPassword ? 'text' : 'password'} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder={t('newPassword')}/>
        
         </div>
         <div className='flex gap-3 items-center max-sm:flex-col max-sm:items-start'>
         <label htmlFor="password">{t('confirmPassword')}</label>
-        <input type={showPassword ? 'text' : 'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} id="password" name="password" placeholder={t('confirmPassword')}/>
+        <input id='confirmpassword' name='password' type={showPassword ? 'text' : 'password'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder={t('confirmPassword')}/>
        
         </div> <button onClick={(e) => {e.preventDefault(); updatePassword()}} className='btn px-3 py-1 rounded-md cursor-pointer self-start'>{t('saveChanges')}</button> </div>}
     </div>

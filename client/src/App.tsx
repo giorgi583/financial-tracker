@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import {lazy, Suspense, useEffect, useState} from 'react'
+import {lazy, Suspense, useEffect} from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import './i18next';
@@ -23,10 +23,10 @@ function App() {
 const theme = useSelector((state: any) => state.preference.theme);
 const color = useSelector((state: any) => state.preference.color);
 const lang = useSelector((state: any) => state.preference.lang);
-const currency = useSelector((state: any) => state.preference.currency);
+
 const { user} = useAuth();
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(lang);
   }, [lang]);

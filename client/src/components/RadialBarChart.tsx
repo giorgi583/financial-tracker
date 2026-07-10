@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { RadialBarChart, PolarAngleAxis, RadialBar } from "recharts";
 
 const ProgressChart = ({percentage, color}: {percentage: number, color: string}) => {

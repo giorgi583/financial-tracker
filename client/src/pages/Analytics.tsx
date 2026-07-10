@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "../Context"
 import { startOfMonth, endOfMonth, parse, format, startOfWeek, endOfWeek, isBefore } from 'date-fns';
@@ -161,7 +161,7 @@ const getTrend = async (from: string, to: string) => {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4 max-sm:mt-8">{user.username}{t('yourAnalytics')}</h1>
-      <select onChange={(e) => setPeriod(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">
+      <select id="period" name="period" onChange={(e) => setPeriod(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">
         <option value="">Select period</option>
         <option value="year">Year</option>
         <option value="month">Month</option>
@@ -171,9 +171,9 @@ const getTrend = async (from: string, to: string) => {
        {( (period === "year" && year) || ( period === "month" && month) || (period === "week" && week) || ((from && to) && period === "custom")) ? <button onClick={retrieveData} className="btn ml-5 rounded-lg p-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] max-lg:text-sm">
                 Generate reports
         </button> : <span className="ml-5 text-xl ">Please select a period to generate reports</span>}
-       {period === "month" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Month:</label><input max={maxMonth} onChange={(e) => setMonth(String(e.target.value))} value={month} type='month' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
-       {period === "week" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Week:</label><input max={maxWeek} onChange={(e) => setWeek(String(e.target.value))} value={week} type='week' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
-       {period === 'year' && <div className="p-3 my-2 flex flex-col gap-2 items-start">Select Year:<select
+       {period === "month" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Month:</label><input id="month" name="month" max={maxMonth} onChange={(e) => setMonth(String(e.target.value))} value={month} type='month' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
+       {period === "week" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Week:</label><input id="week" name="week" max={maxWeek} onChange={(e) => setWeek(String(e.target.value))} value={week} type='week' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
+       {period === 'year' && <div className="p-3 my-2 flex flex-col gap-2 items-start">Select Year:<select id="year" name="year"
   value={year}
   onChange={(e) => setYear(Number(e.target.value))}
 >
@@ -184,8 +184,8 @@ const getTrend = async (from: string, to: string) => {
   ))}
 </select></div>}
 {period === 'custom' && <div className="p-3 my-2 flex gap-2 items-center">
-  <label>From</label><input max={maxDate} onChange={(e) => setFrom(String(e.target.value))} value={from} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
-  <label>To</label><input max={maxDate} onChange={(e) => setTo(String(e.target.value))} value={to} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
+  <label>From</label><input id="from" name="from" max={maxDate} onChange={(e) => setFrom(String(e.target.value))} value={from} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
+  <label>To</label><input id="to" name="to" max={maxDate} onChange={(e) => setTo(String(e.target.value))} value={to} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
 </div>}
       <p className="text-gray-600 dark:text-gray-400 mt-5">This is the analytics page. Here you can view various metrics and insights about your finances. You can search for all the financial reports here. All of the reports are generated based on your transactions and the selected period.</p>
      

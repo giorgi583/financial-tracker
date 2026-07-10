@@ -30,7 +30,7 @@ const ForgotPass = () => {
         <h1 className="text-3xl font-semibold">Request password reset</h1>
         <p>Please enter the email address registered to your account and check your inbox.</p>
         <form onSubmit={handleReset} className="mt-4 flex flex-col">
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input name="email" id="email" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <button type="submit" className="bg-blue-500 text-white mt-4 px-4 py-2 rounded-lg">Request Reset link</button>
         </form>
         </div>

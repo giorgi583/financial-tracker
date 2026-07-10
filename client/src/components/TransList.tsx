@@ -5,16 +5,11 @@ import { fetchTransactions, removeTransaction, editTransaction } from "../slices
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Loader from "./Loader";
-type Transaction = {
-  type: string;
-  description?: string;
-  amount: number;
-  category: string;
-  date: string;
-};
+import { useTranslation } from "react-i18next";
+
 const isMobile = window.innerWidth <= 768;
 const TransList = ({filters}: any) => {
-
+const { t } = useTranslation()
     const dispatch = useAppDispatch()
   const { transactions, status } = useAppSelector((state) => state.transactions)
     console.log(transactions)
@@ -39,7 +34,7 @@ const [editedValues, setEditedValues] = useState<any>({});
   const [transactionToEdit, setTransactionToEdit] = useState(null);
   return (
     <div className="flex-1 min-w-0">
-        <h2 className='text-2xl font-bold mb-4'>Transaction List</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('transList')}</h2>
         <table className='bg-white rounded-lg shadow-md max-md:mb-20 table-auto w-[95%] dark:bg-[var(--sidebar)] dark:text-white'>
             {status === 'loading' && (
                 <div className="w-full h-full relative">
@@ -48,11 +43,11 @@ const [editedValues, setEditedValues] = useState<any>({});
             )}
             <thead>
                 <tr className='bg-[var(--accent)] text-left dark:bg-[var(--dark)] dark:text-white'>
-                    <th className='text-left py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Type</th>
-                {isMobile ? null : <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Description</th>}
-                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Amount</th>
-                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>Category</th>
-                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap flex gap-2 items-center'>Date {filters.orderBy === 'asc' ? <ArrowDown size={16} /> : filters.orderBy === 'desc' && <ArrowUp size={16} /> }</th>
+                    <th className='text-left py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>{t('type')}</th>
+                {isMobile ? null : <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>{t('description')}</th>}
+                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>{t('amount')}</th>
+                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap'>{t('category')}</th>
+                    <th className='py-2 px-4 max-sm:px-1 max-sm:text-sm truncate overflow-hidden whitespace-nowrap flex gap-2 items-center'>{t('date')} {filters.orderBy === 'asc' ? <ArrowDown size={16} /> : filters.orderBy === 'desc' && <ArrowUp size={16} /> }</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,27 +86,35 @@ const [editedValues, setEditedValues] = useState<any>({});
                     {editPanelOpen && transactionToEdit === tx.id && (
                         <tr className='bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 relative'>
                             <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
-                                <select className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.type} onChange={(e) => setEditedValues({...editedValues, type: e.target.value})}>
+                                <select id="type" name="type" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.type} onChange={(e) => setEditedValues({...editedValues, type: e.target.value})}>
                                     <option value="income" selected={tx.type === 'income'}>Income</option>
                                     <option value="expense" selected={tx.type === 'expense'}>Expense</option>
                                 </select>
                             </td>
                             {isMobile ? null : <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
-                                <input type="text" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.description} onChange={(e) => setEditedValues({...editedValues, description: e.target.value})} />
+                                <input id="description" name="description" type="text" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.description} onChange={(e) => setEditedValues({...editedValues, description: e.target.value})} />
                             </td>}
                             <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
-                                <input type="number" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.amount} onChange={(e) => setEditedValues({...editedValues, amount: Number(e.target.value)})} />
+                                <input id="amount" name="amount" type="number" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.amount} onChange={(e) => setEditedValues({...editedValues, amount: Number(e.target.value)})} />
                             </td>
                             <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
-                                <select className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.category} onChange={(e) => setEditedValues({...editedValues, category: e.target.value})}>
+                                <select id="category" name="category" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select] w-full' value={editedValues?.category} onChange={(e) => setEditedValues({...editedValues, category: e.target.value})}>
                                     <option value="Food" selected={tx.category === 'Food'}>Food</option>
                                     <option value="Transport" selected={tx.category === 'Transport'}>Transport</option>
                                     <option value="Entertainment" selected={tx.category === 'Entertainment'}>Entertainment</option>
-                                    <option value="Health" selected={tx.category === 'Health'}>Health</option>
+                                    <option value="Healthcare" selected={tx.category === 'Healthcare'}>Healthcare</option>
+                                    <option value="Utilities" selected={tx.category === 'Utilities'}>Utilities</option>
+                                    <option value="Clothing" selected={tx.category === 'Clothing'}>Clothing</option>
+                                    <option value="Salary" selected={tx.category === 'Salary'}>Salary</option>
+                                    <option value="Gift" selected={tx.category === 'Gift'}>Gift</option>
+                                    <option value="Shopping" selected={tx.category === 'Shopping'}>Shopping</option>
+                                    <option value="Investment" selected={tx.category === 'Investment'}>Investment</option>
+                                    <option value="Travel" selected={tx.category === 'Travel'}>Travel</option>
+                                    <option value="Other" selected={tx.category === 'Other'}>Other</option>
                                     </select>
                             </td>
                             <td className='py-2 px-4 max-sm:px-1 max-sm:text-sm'>
-                                <input type="date" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.date} onChange={(e) => setEditedValues({...editedValues, date: e.target.value})} />
+                                <input id="date" name="date" type="date" className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' value={editedValues?.date} onChange={(e) => setEditedValues({...editedValues, date: e.target.value})} />
                             </td>
                             <td className={`py-2 px-4 max-sm:px-1 max-sm:text-sm absolute -right-12 flex flex-col gap-1 -top-1`}>
                                 <button onClick={() => updateTransaction(transactionToEdit, editedValues)}  className='px-1 py-1 rounded-lg bg-white/40 cursor-pointer'><CheckSquare size={17} color='green' /></button>
@@ -123,7 +126,7 @@ const [editedValues, setEditedValues] = useState<any>({});
                 )) : (
                     <tr>
                         <td className='py-10 px-4 text-gray-200 text-5xl' colSpan={6} align="center" rowSpan={6}>
-                           <ClipboardListIcon size={70}/> No data found.
+                           <ClipboardListIcon size={70}/> {t('transListEmpty')}
                         </td>
                     </tr>
                 )}

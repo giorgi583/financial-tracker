@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import Loader from './Loader';
-import { FaBatteryEmpty, FaExclamationCircle } from 'react-icons/fa';
-import { ChevronDown, ClipboardEdit, ClipboardListIcon } from 'lucide-react';
+
+import {  FaExclamationCircle } from 'react-icons/fa';
+import { ChevronDown, ClipboardListIcon } from 'lucide-react';
 
 const apiUrl = import.meta.env.VITE_API_URL
 const Alerts = () => {
-const [loading, setLoading] = React.useState<boolean>(true);
+
 const [openAlerts, setOpenAlerts] = React.useState<boolean>(false);
 const [openWarnings, setOpenWarnings] = React.useState<boolean>(false);
 const [openInfo, setOpenInfo] = React.useState<boolean>(false);
@@ -24,9 +24,7 @@ const [alerts, setAlerts] = React.useState<any[]>([]);
       console.log(data);
     } catch (error: any) {
       console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    } 
       }
       useEffect(() => {
         getAlerts();

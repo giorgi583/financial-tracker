@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Check, SunIcon, Moon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, setColor, setLang, setCurrency, updateUserPrefferences, setInitialBalance } from '../slices/PreferenceSlice';
-import Loader from './Loader';
+
 import {toast}  from 'react-hot-toast'
 const Prefferences = () => {
 const { t, i18n } = useTranslation();
@@ -107,7 +107,7 @@ useEffect(() => {
         <div>
           <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10'>{t('addInitialBalance')} {initialBalance && `(${initialBalance} ${currency})`}</h3>
           <hr />
-          <input type="number" value={initialBalanceValue} onChange={(e) => setInitialBalanceValue(Number(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs' />
+          <input placeholder='0.00' id='initBalance' name='initBalance' type="number" value={initialBalanceValue} onChange={(e) => setInitialBalanceValue(Number(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs' />
         </div>
     </div>
   )

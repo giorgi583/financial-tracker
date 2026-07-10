@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Bar, BarChart as BarCHART, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 const BarChart = ({data, granularity}: {data: any, granularity: string}) => {
 

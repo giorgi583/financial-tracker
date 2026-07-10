@@ -1,7 +1,6 @@
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../Context'
 import { toast } from 'react-hot-toast'
 const ProfileSettings = () => {
   const { t } = useTranslation()
@@ -44,7 +43,7 @@ const apiUrl = import.meta.env.VITE_API_URL
           <div className='flex flex-col gap-6 max-md:w-full max-md:order-2'>
         <div className='flex gap-5 items-center'>
         <label htmlFor="name">{t('name')}:</label>
-        <input type="text" id="name" name="name" placeholder={t('updateYourName')} value={newName} onChange={(e) => setNewName(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'  />
+        <input  type="text" id="name" name="name" placeholder={t('updateYourName')} value={newName} onChange={(e) => setNewName(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'  />
         </div>
         <button className='btn px-3 py-1 rounded-md cursor-pointer'>{t('saveChanges')}</button>
         

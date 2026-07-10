@@ -1,5 +1,5 @@
-import React, { useEffect, useState} from 'react'
-import { ArrowBigDownDash, CheckCircle, CheckCircleIcon, CircleAlertIcon, Edit, Plus, X, Trash,  ClipboardList, ArrowBigLeftDashIcon, ArrowBigRightDashIcon } from 'lucide-react'
+import React, { useEffect} from 'react'
+import { ArrowBigDownDash, CheckCircle, CheckCircleIcon, CircleAlertIcon, Edit, Plus, X, Trash,  ClipboardList, ArrowBigRightDashIcon } from 'lucide-react'
 import {toast } from 'react-hot-toast'
 import categories from '../assets/categories'
 import ProgressChart from './RadialBarChart';
@@ -202,7 +202,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
             <button onClick={() => {  setSetLimitWindowOpen(false), setEditLimitWindowOpen(false); setSelectedCategory(''), setLimit(0);}} className='bg-red-500 text-white px-2 py-2 cursor-pointer active:bg-red-700 rounded-lg absolute top-2 right-2'><X/></button>
           {setLimitWindowOpen && <h2 className="text-2xl font-semibold pb-3">Set a new Limit</h2>}
            { editLimitWindowOpen && <h2 className="text-2xl font-semibold pb-3 mb-5">Edit Limits</h2>}
-          <select name="" id="" value={selectedCategory} className='px-3 py-1 border border-gray-300 rounded-lg' onChange={(e) => setSelectedCategory(e.target.value)}>
+          <select name="category" id="category" value={selectedCategory} className='px-3 py-1 border border-gray-300 rounded-lg' onChange={(e) => setSelectedCategory(e.target.value)}>
             <option value="">Select Category</option>
             {categories.map((category) => (
               <option className='flex items-center gap-2' key={category.name} value={category.name}>{category.name}<p>{category.icon}</p></option>
@@ -210,7 +210,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
           </select>
           <div className='flex flex-col gap-2'>
             <label>{editLimitWindowOpen ? 'Enter a new' : 'Set'} Limit</label>
-            <input type="number" placeholder='add a new limit' value={limit} onChange={(e) => setLimit(parseFloat(e.target.value) || 0)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/> </div>
+            <input name='limit' id='limit' type="number" placeholder='add a new limit' value={limit} onChange={(e) => setLimit(parseFloat(e.target.value) || 0)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/> </div>
             {selectedCategory &&  limit>0 && <p className='text-xl py-5 font-semibold'>Monthly limit of {selectedCategory}: {limit}</p>}
            {setLimitWindowOpen && <button onClick={setBudgets} className='btn px-4 py-2 rounded-lg'>Save</button>}
             {editLimitWindowOpen && <button onClick={editBudgets} className='btn px-4 py-2 rounded-lg'>Save</button>}
@@ -236,15 +236,15 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
             {goalToSet && <p className='text-xl py-5 font-semibold'>{goalToSet.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>}
             <div className='flex flex-col gap-4'>
               <label>Enter your goal amount</label>
-              <input required type="number" placeholder='add amount' value={goalAmount} onChange={(e) => setGoalAmount(Number(e.target.value))} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
+              <input required name='goalAmount' id='goalAmount' type="number" placeholder='add amount' value={goalAmount} onChange={(e) => setGoalAmount(Number(e.target.value))} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
             </div>
             {goalToSet === 'Long_term_savings' && 
             <div className='flex flex-col gap-4'>
               <label>Enter your target date</label>
-              <input required type="date" placeholder='add a date' value={goalDeadline} onChange={(e) => setGoalDeadline(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
+              <input required name='goalDeadline' id='goalDeadline' type="date" placeholder='add a date' value={goalDeadline} onChange={(e) => setGoalDeadline(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
             </div>
             }
-            <input required type="text" placeholder='add a title for your goal' value={goalTitle} onChange={(e) => setGoalTitle(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
+            <input required name='goalTitle' id='goalTitle' type="text" placeholder='add a title for your goal' value={goalTitle} onChange={(e) => setGoalTitle(e.target.value)} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'/>
             {goalToSet === 'Cut_down_spending' &&
             <div className='flex flex-col gap-4'>
               <label>Choose Category</label><span className='text-sm text-gray-500'>your can only set one goal for each category!</span>
@@ -347,6 +347,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
         <div className="mb-4 flex flex-col gap-3">
           <label >Enter new title</label>
           <input
+            id="title"
+            name="title"
             type="text"
             placeholder="Enter new title"
             value={goalTitle}
@@ -355,6 +357,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
           />
           <label className="block text-gray-600 dark:text-gray-400">Amount:</label>
           <input
+            id="amount"
+            name="amount"
             type="number"
             placeholder="Enter new target amount"
             value={goalAmount}
@@ -364,6 +368,8 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
           {goalToSet === 'long_term_savings' && <div>
           <label className="block text-gray-600 dark:text-gray-400">New Deadline:</label>
           <input
+            id="deadline"
+            name="deadline"
             type="date"
             required
             value={goalDeadline}

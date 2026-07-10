@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { Area, AreaChart as AreaCHART, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
-const AreaChart = ({data, currencySign}: {data: any, currencySign: string}) => {
+const AreaChart = ({data}: {data: any}) => {
   const [height, setHeight] = React.useState<number>(0);
 
     useEffect(() => {

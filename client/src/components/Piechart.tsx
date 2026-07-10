@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {
   PieChart,
   Pie,
@@ -24,7 +24,7 @@ const Piechart = ({data}: {data: any}) => {
           outerRadius={90}
           label
         >
-          {data?.map((entry: any, index: number) => (
+          {data?.map((index: number) => (
             <Cell
               key={index}
               fill={COLORS[index % COLORS.length]}

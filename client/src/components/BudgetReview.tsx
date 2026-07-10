@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import { ArrowBigDown, Check, CircleAlert, CircleCheck, Trash, TriangleAlert } from 'lucide-react'
-import categories from '../assets/categories'
+
+import { ArrowBigDown, CircleAlert, CircleCheck, Trash, TriangleAlert } from 'lucide-react'
 import { toast } from 'react-hot-toast'
-import { RadialBarChart, PolarAngleAxis, RadialBar } from "recharts";
 import { FaExclamationCircle } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import ProgressChart from './RadialBarChart';
 type budget = {
   id: number,
@@ -16,9 +15,10 @@ type budget = {
 }
 const apiUrl = import.meta.env.VITE_API_URL;
 const BudgetReview = ({budget, onBudgetUpdated, currency}: {budget: budget[], onBudgetUpdated: () => void; currency: string}) => {
-     const totalBudget = budget?.reduce((acc, curr) => acc + (curr.amount || 0), 0);
-const totalSpent = budget?.reduce((acc, curr) => acc + (curr.spent || 0), 0);
-
+  const totalBudget = budget?.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+  const totalSpent = budget?.reduce((acc, curr) => acc + (curr.spent || 0), 0);
+  
+  const {t} = useTranslation();
 const budgetSummary = {
   totalBudget,
   totalSpent,
@@ -64,15 +64,15 @@ const budgetSummary = {
   return (
     <div className="p-5 grid grid-cols-3 gap-4 mt-5 w-full max-sm:grid-cols-1 max-xl:grid-cols-2">
         <div className="bg-white rounded-2xl p-5 relative dark:bg-[var(--sidebar)] dark:text-white ">
-          <h2 className="text-2xl font-semibold pb-3">Overall Budget overview</h2>
+          <h2 className="text-2xl font-semibold pb-3">{t('overalBudgetOverview')}</h2>
           <hr/>
           <div className="flex items-center justify-between flex-col mt-3 h-[90%]">
           <div className="flex flex-col gap-2 items-center">
-          <p className="font-semibold text-2xl">Total: {currencySymbol} {budgetSummary.totalBudget.toFixed(2)}</p>
-          <p className="font-semibold text-2xl">Spent: {currencySymbol} {budgetSummary.totalSpent.toFixed(2)}</p>
+          <p className="font-semibold text-2xl">{t('total')}: {currencySymbol} {budgetSummary.totalBudget.toFixed(2)}</p>
+          <p className="font-semibold text-2xl">{t('spent')}: {currencySymbol} {budgetSummary.totalSpent.toFixed(2)}</p>
           <div ><ArrowBigDown size={25} color='var(--accent)' fill='var(--sidebar)'/></div>
-          <p className="font-semibold text-2xl">Remaining: {currencySymbol} {budgetSummary.remaining.toFixed(2)}</p>
-          <p className={budgetSummary.percentage > 100 ? "font-semibold text-2xl rounded-lg text-red-500 bg-red-100 p-3" : "font-semibold text-2xl rounded-lg bg-[var(--accent)] p-3"}>Usage</p>
+          <p className="font-semibold text-2xl">{t('remaining')}: {currencySymbol} {budgetSummary.remaining.toFixed(2)}</p>
+          <p className={budgetSummary.percentage > 100 ? "font-semibold text-2xl rounded-lg text-red-500 bg-red-100 p-3" : "font-semibold text-2xl rounded-lg bg-[var(--accent)] p-3"}>{t('usage')}</p>
            <div ><ArrowBigDown size={25} color='var(--accent)' fill='var(--sidebar)'/></div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-between h-full">
@@ -90,9 +90,9 @@ const budgetSummary = {
         </div>
         </div>
         <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white">
-          <h2 className="text-2xl font-semibold pb-3">Limits by category</h2>
+          <h2 className="text-2xl font-semibold pb-3">{t('limitsByCategory')}</h2>
           <hr />
-          <div className="flex flex-col justify-between h-[95%]">
+          <div className="flex flex-col justify-between h-[92%]">
             <div>
             {budget && budget.map((budget, index) => (
             <div key={index} className="flex items-center justify-between border-2 border-[var(--accent)] gap-3 my-4 has-[button:hover]:text-white has-[button:hover]:bg-red-400 p-2 rounded-md transition-all duration-300">
@@ -111,7 +111,7 @@ const budgetSummary = {
           </div>
         </div>
         <div className="bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white max-xl:col-span-2 max-sm:col-span-1">
-          <h2 className="text-2xl font-semibold pb-3">Progress bars</h2>
+          <h2 className="text-2xl font-semibold pb-3">{t('progressBars')}</h2>
           <hr />
           <div className="w-full grid grid-cols-1 max-xl:grid-cols-2 max-xl:gap-x-4 max-sm:grid-cols-1">
           {budget && budget.map((b, index) => (

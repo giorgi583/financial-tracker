@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+
 import { Area, AreaChart as AreaCHART, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 
 const AreaChart2 = ({data, granularity}: {data: any, granularity: string}) => {

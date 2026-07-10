@@ -68,15 +68,15 @@ const Register = () => {
             <h2 className="text-2xl font-bold mb-9 text-center text-gray-800">Create Account</h2>
             <div tabIndex={0} className="flex items-center my-2 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">
                 <UserIcon size={16}/>
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type="text" placeholder="Username" required minLength={3} maxLength={20} value={newUser.username} onChange={(e) => setNewUser({...newUser, username: e.target.value})} />
+                <input id="username" name="username" className="w-full outline-none bg-transparent py-2.5 border-0" type="text" placeholder="Username" required minLength={3} maxLength={20} value={newUser.username} onChange={(e) => setNewUser({...newUser, username: e.target.value})} />
             </div>
             <div tabIndex={0} className="flex items-center my-2 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">
                 <MailIcon size={16} />
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type="email" placeholder="Email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} />
+                <input id="email" name="email" className="w-full outline-none bg-transparent py-2.5 border-0" type="email" placeholder="Email" required value={newUser.email} onChange={(e) => setNewUser({...newUser, email: e.target.value})} />
             </div>
             <div tabIndex={0} className="flex items-center mt-2 mb-4 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition" >
                 <LockIcon size={16} />
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Password" minLength={6} maxLength={50} required value={newUser.password} onChange={(e) => {setNewUser({...newUser, password: e.target.value}); getPasswordStrength(e.target.value)}} />
+                <input id="password" name="password" className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Password" minLength={6} maxLength={50} required value={newUser.password} onChange={(e) => {setNewUser({...newUser, password: e.target.value}); getPasswordStrength(e.target.value)}} />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="focus:outline-none cursor-pointer mr-2">
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -91,7 +91,7 @@ const Register = () => {
             )}
             <div tabIndex={0} className="flex items-center mt-2 mb-4 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">
                 <LockIcon size={16} />
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Confirm Password" minLength={6} maxLength={50} required value={newUser.confirmPassword} onChange={(e) => {setNewUser({...newUser, confirmPassword: e.target.value})}} />
+                <input id="confirmPassword" name="confirmPassword" className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Confirm Password" minLength={6} maxLength={50} required value={newUser.confirmPassword} onChange={(e) => {setNewUser({...newUser, confirmPassword: e.target.value})}} />
                 <button type="button"  onClick={() => setShowPassword(!showPassword)} className="focus:outline-none cursor-pointer mr-2">
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>

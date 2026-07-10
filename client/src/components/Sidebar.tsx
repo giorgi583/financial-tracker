@@ -2,12 +2,11 @@ import { LayoutDashboard, ArrowLeftRight, Wallet, BarChart2Icon, Settings, HelpC
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import colors from "tailwindcss/colors";
+
 const Sidebar = () => {
   const [isdots, setIsdotsopen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const {t} = useTranslation()
-  const [accentColor, setAccentColor] = useState(colors.sky[950])
   return (
     <>
     <aside className='bg-[var(--sidebar)] dark:bg-[var(--dark-sidebar)] text-white dark:text-gray-950 max-w-80 min-w-70 max-xl:min-w-60 max-xl:p-6 p-8 hidden lg:flex min-h-screen flex-col justify-between'>

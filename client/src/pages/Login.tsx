@@ -57,11 +57,11 @@ const Login = () => {
             <h2 className="text-2xl font-bold mb-9 text-center text-gray-800">Welcome Back</h2>
             <div className="flex items-center my-2 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">
                 <MailIcon size={16}/>
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type="email" placeholder="Email" name="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} required />
+                <input id="email" className="w-full outline-none bg-transparent py-2.5 border-0" type="email" placeholder="Email" name="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} required />
             </div>
             <div className="flex items-center mt-2 mb-4 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2 focus:outline-none focus-within:ring-2 focus-within:ring-indigo-500/70 transition">
                 <LockIcon size={16} />
-                <input className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Password" name="password" value={user.password} onChange={(e) => setUser({...user, password: e.target.value})} required />
+                <input id="password" className="w-full outline-none bg-transparent py-2.5 border-0" type={showPassword ? "text" : "password"} placeholder="Password" name="password" value={user.password} onChange={(e) => setUser({...user, password: e.target.value})} required />
                 <button type="button" className='cursor-pointer mr-2' onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -69,7 +69,7 @@ const Login = () => {
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-1">
-                    <input id="checkbox" type="checkbox" checked={user.rememberMe} onChange={(e) => setUser({...user, rememberMe: e.target.checked})} />
+                    <input name="checkbox"  id="checkbox" type="checkbox" checked={user.rememberMe} onChange={(e) => setUser({...user, rememberMe: e.target.checked})} />
                     <label htmlFor="checkbox">Remember me</label>
                 </div>
                 <Link className="text-blue-600 underline" to="/forgot-password">Forgot Password</Link>

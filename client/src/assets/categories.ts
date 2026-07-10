@@ -1,7 +1,7 @@
 
-import { useTranslation } from "react-i18next";
 
-const { t } = useTranslation();
+
+
 const categories = [
   { name: 'Food', icon: '🍔', fill: 'orange-100' },
   { name: 'Transport', icon: '🚗', fill: 'blue-100' },

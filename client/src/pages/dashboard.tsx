@@ -1,7 +1,7 @@
-import { Outlet, useLocation, useNavigate, Link, Navigate } from "react-router-dom"
+import { Outlet, useLocation, Link, Navigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
-import { Bell, ChevronDown, LogOutIcon, MessageSquare, MessageSquareMoreIcon, User, Settings, HelpCircleIcon, User2} from "lucide-react"
-import { useState, useEffect } from "react"
+import { Bell, ChevronDown, LogOutIcon, MessageSquareMoreIcon, User, Settings, HelpCircleIcon, User2} from "lucide-react"
+import { useState } from "react"
 import Notifications from "../components/Notifications"
 import Chat from "../components/Chat"
 import { useTranslation } from "react-i18next"
@@ -10,7 +10,6 @@ import { useAuth } from "../Context"
 const Dashboard = () => {
   const { t } = useTranslation()
   const location = useLocation()
-  const navigate = useNavigate()
   const pathnames = location.pathname.split('/').filter(x => x)
   const currentPage = pathnames[pathnames.length - 1]
 const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)

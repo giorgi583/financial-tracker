@@ -5,7 +5,7 @@ import { XIcon, Search, PieChart, TrendingUp, BarChart2Icon, ArrowRight } from '
 import AreaChart2 from './AreaChart2';
 import BarChart from './BarChart';
 import DoubleBarChart from './DoubleBarChart';
-import { data } from 'react-router-dom';
+
 const Reports = ({spendingByCategory, granularity, setCategory, category, incomeByCategory, trend,  topSpendingDays, trendByCategory}: {spendingByCategory: any, granularity: any, setCategory: any, category: any, incomeByCategory: any, trend: any, topSpendingDays: any, trendByCategory: any}) => {
    const reports = [
       {
@@ -108,6 +108,8 @@ const incomeVsExpense = grouped && Object.entries(grouped).map(([period, values]
     <div>
       <div className="mt-6 relative max-w-sm group peer focus-within:z-30 focus-within:bg-white dark:focus-within:bg-[var(--sidebar)]">
         <input 
+          id="search"
+          name="search"
           type="text" 
           placeholder="Search..." 
           className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
@@ -141,7 +143,7 @@ const incomeVsExpense = grouped && Object.entries(grouped).map(([period, values]
         <h3 className="text-lg font-medium">{report.title}</h3>
      {report.data?.length > 0 ? <p className="text-gray-600 dark:text-gray-400">{report.description}</p> : <p className="text-red-600 dark:text-red-400">Not available!</p>} </div> 
       {report.key === "trendByCategory" && 
-      <select className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={(e) => e.stopPropagation()} onChange={(e) => setCategory(e.target.value)} value={category}>
+      <select name="category" id="category" className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={(e) => e.stopPropagation()} onChange={(e) => setCategory(e.target.value)} value={category}>
       {categories.map((category, index) => (
         <option key={index} value={category.name}>{category.name}{category.icon}</option>
       ))}
