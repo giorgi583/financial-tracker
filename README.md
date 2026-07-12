@@ -389,7 +389,7 @@ npm run dev
 ### Backend
 
 ```bash
-npm run dev
+npm start
 ```
 
 ---
