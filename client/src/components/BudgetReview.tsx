@@ -56,8 +56,8 @@ const budgetSummary = {
       if(!budget || budget.length === 0) {
         return (
           <div className="p-5 w-full">
-            <h2 className="text-3xl font-semibold">No budget set!</h2>
-            <p className="mt-2 text-lg">You have not set any budget yet. <br/> Please go to Limits & goals section and set a budget to see the overview.</p>
+            <h2 className="text-3xl font-semibold">{t('nobdgt')}!</h2>
+            <p className="mt-2 text-lg">{t('nobudget')} <br/> {t('nobudget2')}</p>
           </div>
         )
       }
@@ -83,8 +83,8 @@ const budgetSummary = {
   </div>
 </div>
   <div className='bg-gray-500/10 p-3 rounded-lg mt-5 text-gray-600 dark:text-gray-300'>
-   <p className='flex items-center gap-2'> <TriangleAlert size={20} color='var(--accent)'/> Warning! </p>
-    <p> This calculations are based on <strong>your</strong> monthly category limits. Transactions that aren't in the categories that you have set budget for will not be included</p>
+   <p className='flex items-center gap-2'> <TriangleAlert size={20} color='var(--accent)'/> {t('warning')}! </p>
+    <p> {t('overviewText')}</p>
   </div>
   </div>
         </div>
@@ -106,7 +106,7 @@ const budgetSummary = {
           </div>
           <div className='bg-gray-500/10 p-3 rounded-lg mt-5 text-gray-600 dark:text-gray-300 flex items-start flex-col gap-2'>
             <FaExclamationCircle size={20} color='var(--accent)' className='inline-block mr-2'/> 
-            <p>All limits are based on your monthly category limits, so its recommended to set limits for all categories. You can inspect and delete them in this section.</p>
+            <p>{t('secondText')}</p>
           </div>
           </div>
         </div>

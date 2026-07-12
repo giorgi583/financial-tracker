@@ -5,9 +5,11 @@ import { XIcon, Search, PieChart, TrendingUp, BarChart2Icon, ArrowRight } from '
 import AreaChart2 from './AreaChart2';
 import BarChart from './BarChart';
 import DoubleBarChart from './DoubleBarChart';
+import { useTranslation } from 'react-i18next';
 
 const Reports = ({spendingByCategory, granularity, setCategory, category, incomeByCategory, trend,  topSpendingDays, trendByCategory}: {spendingByCategory: any, granularity: any, setCategory: any, category: any, incomeByCategory: any, trend: any, topSpendingDays: any, trendByCategory: any}) => {
-   const reports = [
+  const { t } = useTranslation(); 
+  const reports = [
       {
         key: "spendingByCategory",
         data: spendingByCategory,
@@ -111,7 +113,7 @@ const incomeVsExpense = grouped && Object.entries(grouped).map(([period, values]
           id="search"
           name="search"
           type="text" 
-          placeholder="Search..." 
+          placeholder={`${t('search')}...`} 
           className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -130,7 +132,7 @@ const incomeVsExpense = grouped && Object.entries(grouped).map(([period, values]
           </div>
         )) : <div className="flex flex-col items-center justify-center py-6">
           <Search className="mx-auto text-gray-400" size={50} />
-          <p className="p-4 text-gray-600 dark:text-gray-400">No reports found.</p></div> }
+          <p className="p-4 text-gray-600 dark:text-gray-400">{t('noRpts')}</p></div> }
       </div>
       </div>
       <div className="fixed top-0 left-0 w-full h-full bg-gray-600/60 z-20 hidden peer-focus-within:block"></div>

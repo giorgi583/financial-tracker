@@ -24,7 +24,7 @@ const Piechart = ({data}: {data: any}) => {
           outerRadius={90}
           label
         >
-          {data?.map((index: number) => (
+          {data?.map((entry: any, index: number) => (
             <Cell
               key={index}
               fill={COLORS[index % COLORS.length]}

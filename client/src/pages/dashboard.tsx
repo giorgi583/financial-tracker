@@ -27,13 +27,13 @@ if (user === null) {
     <div className="flex bg-[var(--light-mainbg)] dark:bg-[var(--mainbg)] dark:text-white min-h-screen">
       <Sidebar />
         <div className="flex items-center justify-between gap-8 max-md:gap-4 absolute top-4 right-8">
-      <div onClick={()=> setIsMessageMenuOpen(!isMessageMenuOpen)} className="flex items-center justify-end relative hover:bg-gray-300/60 p-2 rounded-full transition cursor-pointer">
+      {/* <div onClick={()=> setIsMessageMenuOpen(!isMessageMenuOpen)} className="flex items-center justify-end relative hover:bg-gray-300/60 p-2 rounded-full transition cursor-pointer">
 {isMessageMenuOpen && (
   <Notifications />
 )}
 <Bell size={25} className=" text-gray-800 cursor-pointer dark:text-white" />
 <div className="rounded-full w-3 h-3 bg-red-600 absolute text-[8px] text-white flex items-center justify-center top-1 right-1">2</div>
-      </div>
+      </div> */}
 <div className="flex items-center gap-4">
   <div onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} className="w-10 h-10 bg-gray-500 text-cyan-50 text-xl rounded-full flex items-center cursor-pointer justify-center"><User2 size={20}/></div>
   <div className="flex flex-col"><p className="font-semibold">{user.username}</p> <p className="text-sm flex items-center gap-1">{currentPage}<ChevronDown onClick={()=> setIsProfileMenuOpen(!isProfileMenuOpen)} size={15} className="cursor-pointer"/></p></div>

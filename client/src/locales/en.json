@@ -162,8 +162,23 @@
     "budgetHistory": "Budget History",
     "total": "Total",
     "spent": "Spent",
-    "usage": "Usage"
-
+    "usage": "Usage",
+    "warning": "Warning",
+    "overviewText": "This calculations are based on your monthly category limits. Transactions that aren't in the categories that you have set budget for will not be included",
+    "secondText": "All limits are based on your monthly category limits, so its recommended to set limits for all categories. You can inspect and delete them in this section.",
+    "year": "Year",
+    "month": "Month",
+    "week": "Week",
+    "custom": "Custom",
+    "plsGnrt": "Please select a period to generate reports",
+    "analyticsTxt": "This is the analytics page. Here you can view various metrics and insights about your finances. You can search for all the financial reports here. All of the reports are generated based on your transactions and the selected period.",
+    "noRpts": "No reports available",
+    "gnrt": "Generate Reports",
+    "nobdgt": "No budgets available",
+    "noGls": "No goals available",
+    "noLmts": "No limits available",
+    "nobudget": "You have not set any budget yet.",
+    "nobudget2": "Please go to Limits & goals section and set a budget to see the overview."
     
   
 }

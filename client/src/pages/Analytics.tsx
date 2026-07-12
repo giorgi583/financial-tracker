@@ -162,18 +162,19 @@ const getTrend = async (from: string, to: string) => {
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4 max-sm:mt-8">{user.username}{t('yourAnalytics')}</h1>
       <select id="period" name="period" onChange={(e) => setPeriod(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">
-        <option value="">Select period</option>
-        <option value="year">Year</option>
-        <option value="month">Month</option>
-        <option value="week">Week</option>
-        <option value="custom">Custom</option>
+        <option value="">{t('selectPeriod')}</option>
+        <option value="year">{t('year')}</option>
+        <option value="month">{t('month')}</option>
+        <option value="week">{t('week')}</option>
+        <option value="custom">{t('custom')}</option>
         </select>
        {( (period === "year" && year) || ( period === "month" && month) || (period === "week" && week) || ((from && to) && period === "custom")) ? <button onClick={retrieveData} className="btn ml-5 rounded-lg p-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] max-lg:text-sm">
-                Generate reports
-        </button> : <span className="ml-5 text-xl ">Please select a period to generate reports</span>}
-       {period === "month" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Month:</label><input id="month" name="month" max={maxMonth} onChange={(e) => setMonth(String(e.target.value))} value={month} type='month' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
-       {period === "week" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>Select Week:</label><input id="week" name="week" max={maxWeek} onChange={(e) => setWeek(String(e.target.value))} value={week} type='week' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
-       {period === 'year' && <div className="p-3 my-2 flex flex-col gap-2 items-start">Select Year:<select id="year" name="year"
+                {t('gnrt')}
+        </button> : <span className="ml-5 text-xl ">{t('plsGnrt')}</span>}
+       {period === "month" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>{t('select')} {t('month')}:</label><input id="month" name="month" max={maxMonth} onChange={(e) => setMonth(String(e.target.value))} value={month} type='month' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
+       {period === "week" &&  <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>{t('select')} {t('week')}:</label><input id="week" name="week" max={maxWeek} onChange={(e) => setWeek(String(e.target.value))} value={week} type='week' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  /></div>}
+       {period === 'year' && <div className="p-3 my-2 flex flex-col gap-2 items-start"><label>{t('select')} {t('year')}:</label>
+       <select id="year" name="year"
   value={year}
   onChange={(e) => setYear(Number(e.target.value))}
 >
@@ -184,13 +185,13 @@ const getTrend = async (from: string, to: string) => {
   ))}
 </select></div>}
 {period === 'custom' && <div className="p-3 my-2 flex gap-2 items-center">
-  <label>From</label><input id="from" name="from" max={maxDate} onChange={(e) => setFrom(String(e.target.value))} value={from} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
-  <label>To</label><input id="to" name="to" max={maxDate} onChange={(e) => setTo(String(e.target.value))} value={to} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
+  <label>{t('from')}</label><input id="from" name="from" max={maxDate} onChange={(e) => setFrom(String(e.target.value))} value={from} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
+  <label>{t('to')}</label><input id="to" name="to" max={maxDate} onChange={(e) => setTo(String(e.target.value))} value={to} type='date' className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"  />
 </div>}
-      <p className="text-gray-600 dark:text-gray-400 mt-5">This is the analytics page. Here you can view various metrics and insights about your finances. You can search for all the financial reports here. All of the reports are generated based on your transactions and the selected period.</p>
+      <p className="text-gray-600 dark:text-gray-400 mt-5">{t('analyticsTxt')}</p>
      
   { reportsGenerated ? <div> <Reports spendingByCategory={spendingByCategory} granularity={granularity} category={category} setCategory={setCategory} incomeByCategory={incomeByCategory} trend={trend} topSpendingDays={topSpendingDays} trendByCategory={trendByCategory}/> </div> : 
-  <div className="text-gray-400 dark:text-gray-300 mt-5 text-4xl flex flex-col items-center justify-center h-100 font-semibold">No reports to show! :( </div>
+  <div className="text-gray-400 dark:text-gray-300 mt-5 text-4xl flex flex-col items-center justify-center h-100 font-semibold">{t('noRpts')} :( </div>
   }
     </div>
   )
