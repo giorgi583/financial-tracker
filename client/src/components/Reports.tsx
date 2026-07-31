@@ -119,14 +119,14 @@ const incomeVsExpense = grouped && Object.entries(grouped).map(([period, values]
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <Search className="absolute right-3 top-3 text-gray-400 cursor-pointer dark:text-gray-400" size={16} />
-      <div className="max-w-sm p-3 rounded bg-slate-100 dark:bg-[var(--sidebar)] group-focus-within:block hidden absolute top-12 left-0 z-30 w-full shadow-lg max-h-100 overflow-y-scroll scrollbar-hide">
+      <div className="max-w-sm p-3 rounded bg-slate-100 dark:bg-[var(--sidebar)] group-focus-within:block hidden absolute top-12 left-0 right-0 z-30 w-auto shadow-lg max-h-100 overflow-y-scroll scrollbar-hide">
         {reports.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase()) || report.description.toLowerCase().includes(searchTerm.toLowerCase())).map((report, index) => (
           <div key={index}  className="mb-4 p-4 bg-slate-200/60 rounded hover:bg-slate-300/80 transition cursor-pointer">
             <h3 className="text-lg font-medium">{report.title || "Not found"}</h3>
             <p className="text-gray-600 dark:text-gray-400">{report.description}</p>
           </div>
         )).length > 0 ? reports.filter((report) => report.title.toLowerCase().includes(searchTerm.toLowerCase())).map((report, index) => (
-          <div onMouseDown={() => { setOpen(report.key)}} key={index} className="mb-4 p-4 bg-slate-200/60 rounded hover:bg-slate-300/80 transition cursor-pointer dark:bg-slate-700 dark:hover:bg-slate-600" style={{opacity: report.data?.length > 0 ? 1 : 0.8, pointerEvents: report.data?.length > 0 ? "auto" : "none"}}>
+          <div onMouseDown={() => { setOpen(report.key)}} key={index} className="mb-4 p-4 max-sm:p-2 bg-slate-200/60 rounded hover:bg-slate-300/80 transition cursor-pointer dark:bg-slate-700 dark:hover:bg-slate-600" style={{opacity: report.data?.length > 0 ? 1 : 0.8, pointerEvents: report.data?.length > 0 ? "auto" : "none"}}>
             <h3 className="text-lg font-medium">{report.title || "Not found"}</h3>
             <p className="text-gray-600 dark:text-gray-400">{report.description}</p>
           </div>

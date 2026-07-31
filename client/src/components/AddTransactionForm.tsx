@@ -38,7 +38,7 @@ const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
    return (
     <div className='bg-white rounded-2xl p-5 shadow-md flex-1 dark:bg-[var(--sidebar)] dark:text-white relative'>
         <form onSubmit={submit} className='col-span-1 md:col-span-2 lg:col-span-3'>
-            <h2 className='text-2xl font-bold mb-4'>{t('addTransaction')}</h2>
+            <h2 className='text-2xl font-bold mb-4 max-sm:text-base max-lg:text-lg'>{t('addTransaction')}</h2>
             <div className='flex flex-col gap-6'>
                 <label htmlFor='type'>{t('type')}</label>
                 <select name='type' id='type' onChange={(e)=> setTransaction(prev => ({...prev, type: e.target.value}))} required className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] [appearance: base-select]'>

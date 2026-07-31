@@ -83,6 +83,28 @@ body {
     font-weight: 500;
   }
 
+  @media (width < 640px) {
+    .btn {
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    select {
+      font-size: 0.8rem;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    select option {
+      font-size: 0.8rem;
+      padding: 2px 5px;
+    }
+    input {
+      font-size: 0.8rem;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+  }
+
 }
 :root {
   --accent: #3b82f6;

@@ -1,4 +1,4 @@
-import { ChevronUp, RefreshCcw } from 'lucide-react'
+import { ChevronDown, ChevronUp, RefreshCcw } from 'lucide-react'
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks';
 import { useTranslation } from 'react-i18next';
@@ -17,23 +17,23 @@ toast.success('Filters applied!')
         return (<div className='flex-1 bg-white rounded-2xl dark:bg-[var(--sidebar)] dark:text-white p-6 shadow-md relative flex items-cente gap-5 justify-between'>
             <h2 className='font-semibold text-2xl max-sm:text-lg'>{t('filter')} & {t('sort')}</h2>
             <button onClick={() => setShowFilters(!showFilters)} className='btn rounded-lg p-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] max-lg:text-sm'>
-                {showFilters ? 'Hide Filters' : 'Show Filters'}
+                {showFilters ? 'Hide Filters' : <ChevronDown size={16} />}
         </button>
         </div>)
     }
      return (
     (showFilters || !isMobile) && (
         <div className='flex-1 bg-white rounded-2xl p-5 shadow-md relative dark:bg-[var(--sidebar)] flex flex-col gap-2 dark:text-white'>
-            <button onClick={()=> setFilters({description: '', type: '', category: '', minAmount: 0, maxAmount: 0, from: '', to: '' })} className='btn absolute top-5 right-35 max-lg:right-30 cursor-pointer rounded-full p-2  focus:outline-none focus:ring-2 focus:ring-[var(--accent)]'>
+            <button onClick={()=> setFilters({description: '', type: '', category: '', minAmount: 0, maxAmount: 0, from: '', to: '' })} className='btn absolute top-2 right-5 max-lg:p-1 cursor-pointer rounded-full p-2'>
                 <RefreshCcw size={16} />
             </button>
-            <button onClick={applyFilters} className='btn absolute top-5 right-4 rounded-lg p-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] max-lg:text-sm'>
+            <button onClick={applyFilters} className='btn absolute top-12 right-4 rounded-lg p-2 cursor-pointer max-xl:p-1 max-xl:top-15 max-xl:text-sm'>
                {t('apply_filters')}
         </button>
-        {showFilters && (<button onClick={() => setShowFilters(false)} className='absolute top-5 right-40  rounded-lg p-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--accent)] max-lg:text-sm'>
+        {showFilters && (<button onClick={() => setShowFilters(false)} className='btn absolute top-7 right-15 rounded-lg cursor-pointer max-lg:text-sm'>
                 <ChevronUp size={16} />
         </button>)}
-        <h2 className='font-semibold text-2xl max-sm:text-lg'>{t('filter')} & {t('sort')}</h2>
+        <h2 className='font-semibold text-2xl max-sm:text-base max-lg:text-lg'>{t('filter')} & {t('sort')}</h2>
         <div>
             <p className='font-medium text-md mt-4'>{t('description')}</p>
             <input id='description' name='description' type="text" placeholder={t('search')} value={filters.description} onChange={(e) => setFilters({...filters, description: e.target.value})} className='border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] w-full' />

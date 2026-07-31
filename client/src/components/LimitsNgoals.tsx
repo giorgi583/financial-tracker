@@ -263,7 +263,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
       <div className='grid grid-cols-2 gap-4 grid-rows-[1fr_2fr] max-xl:grid-rows-2 max-[900px]:grid-cols-1 bg-white rounded-2xl p-5 dark:bg-[var(--sidebar)] dark:text-white shadow-xl'>
       
       {monthlySavings.length > 0 ? <div className='bg-violet-500/25 rounded-lg p-5 text-violet-500 relative'>
-      <button className='absolute top-5 right-5 text-xl flex gap-2 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('monthly_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlySavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+      <button className='absolute top-5 right-5 text-xl flex gap-2 max-xl:flex-col max-sm:text-sm max-sm:right-2'><Edit onClick={() => {setGoalToSet('monthly_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlySavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
       <h3 className='text-2xl font-semibold mb-5 max-xl:text-xl'>Your monthly savings goal</h3>
       <div className='flex items-center gap-5 max-xl:flex-col'>
        <div className='rounded bg-violet-100 p-5 flex flex-col gap-2 text-xl max-xl:text-lg max-xl:p-3'>
@@ -284,7 +284,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
       <ClipboardList className='w-40 h-40 text-indigo-400'/>
       </div>}
       { monthlyIncome.length > 0 ? <div className='bg-cyan-500/25 rounded-lg p-5 relative'>
-      <button className='absolute top-5 right-5 text-xl flex gap-2 text-cyan-500 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('monthly_income'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlyIncome[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+      <button className='absolute top-5 right-5 text-xl flex gap-2 text-cyan-500 max-xl:flex-col max-sm:text-sm max-sm:right-2'><Edit onClick={() => {setGoalToSet('monthly_income'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(monthlyIncome[0]?.id)} className='cursor-pointer active:scale-95'/></button>
       <h3 className='text-2xl font-semibold mb-5 text-cyan-400 max-xl:text-xl'>Your monthly income goal</h3>
       <div className='flex items-center gap-5 max-xl:flex-col'>
         <div className='rounded flex flex-col text-xl items-center gap-2 bg-cyan-50 p-5 max-xl:text-lg max-xl:p-3'>
@@ -319,7 +319,7 @@ const LimitsNgoals = ({onBudgetUpdated, onGoalsUpdated, currency, goals}: {onBud
       </div>}
       
       {longTermSavings.length > 0 ? <div className='bg-amber-500/25 rounded-lg p-5 text-xl text-orange-600 relative'>
-      <button className='absolute top-4 right-4 text-xl flex gap-2 max-xl:flex-col'><Edit onClick={() => {setGoalToSet('long_term_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(longTermSavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
+      <button className='absolute top-4 right-4 text-xl flex gap-2 max-xl:flex-col max-sm:text-sm max-sm:right-2'><Edit onClick={() => {setGoalToSet('long_term_savings'); setEditGoalWindowOpen(true)}} className='cursor-pointer active:scale-95'/><Trash onClick={()=> deleteGoals(longTermSavings[0]?.id)} className='cursor-pointer active:scale-95'/></button>
        <h3 className='text-2xl font-semibold mb-5 max-xl:text-xl max-lg:mr-3'>Your long term savings goal</h3>
        <div className='flex flex-col items-center gap-5'>
         <div className='dark:bg-amber-100 p-5 rounded flex flex-col gap-2 items-center max-xl:text-lg max-xl:p-2'>
