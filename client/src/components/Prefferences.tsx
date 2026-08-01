@@ -62,17 +62,17 @@ useEffect(() => {
   return (
     <div id='prefferences' className='p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto bg-slate-400/10 rounded-3xl max-sm:w-11/12'>
         <div className='flex flex-col gap-5 justify-between max-sm:flex-col max-sm:gap-5 max-sm:items-start'>
-        <h2 className='text-3xl font-semibold'>{t('prefferences')}</h2>
+        <h2 className='text-3xl font-semibold max-md:text-2xl max-sm:text-xl'>{t('prefferences')}</h2>
          <button onClick={saveChanges} className='btn px-3 py-1 rounded-2xl '>{t('saveChanges')}</button> </div>
         <div className='pt-10 flex flex-col'>
-            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>{t('appearance')}</h3>
+            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 max-md:text-xl max-sm:text-base'>{t('appearance')}</h3>
             <h4 className='text-xl font-semibold flex items-center gap-2 pb-5'>{t('theme')} { theme === 'dark' ? <Moon /> : <SunIcon />}</h4>
             <hr />
             <div className='pt-5 '>
                 <p onClick={() => setSelectedTheme('light')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('light')} {selectedTheme === 'light' &&  <Check />}</p>
                 <p onClick={() => setSelectedTheme('dark')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>{t('dark')} {selectedTheme === 'dark' &&  <Check />}</p>
             </div>
-            <h4 className='text-xl font-semibold flex items-center gap-2 pb-5'>{t('accentColor')}<p>{color}</p></h4>
+            <h4 className='text-2xl font-semibold flex items-center gap-2 pb-5 max-md:text-xl max-sm:text-base'>{t('accentColor')}<p>{color}</p></h4>
             <hr />
             <div className={`pt-5 flex gap-2 items-center pb-5 pl-3 rounded-2xl ${selectedTheme === 'dark' ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}`}>
                 <p onClick={() => setSelectedColor('blue')} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50  rounded-2xl'><span className='w-6 h-6 rounded-full bg-sky-950'></span>{selectedTheme === 'light' && selectedColor === 'blue' && <Check />}</p>
@@ -88,7 +88,7 @@ useEffect(() => {
             </div>
         </div>
         <div className='pt-10'>
-            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>{t('language')}</h3>
+            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 max-md:text-xl max-sm:text-base'>{t('language')}</h3>
             <hr />
             <div className='pt-5 '>
                 <p onClick={() => {i18n.changeLanguage('en'); setSelectedLang('en');}} className='flex items-center gap-2 p-3 w-full justify-between hover:bg-gray-300/50 cursor-pointer rounded-2xl'>English {selectedLang === 'en' &&  <Check />}</p>
@@ -96,7 +96,7 @@ useEffect(() => {
             </div>
         </div>
        <div className='pt-10'>
-            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5'>{t('setCurrency')}<p>({t('current')}: {currency})</p></h3>
+            <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 max-md:text-xl max-sm:text-base'>{t('setCurrency')}<p>({t('current')}: {currency})</p></h3>
             <hr />
            <select value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs'>
             <option value="USD">USD</option>
@@ -105,7 +105,7 @@ useEffect(() => {
             </select>
         </div>
         <div>
-          <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10'>{t('addInitialBalance')} {initialBalance && `(${initialBalance} ${currency})`}</h3>
+          <h3 className='text-2xl font-semibold flex items-center gap-2 pb-5 mt-10 max-md:text-xl max-sm:text-base'>{t('addInitialBalance')} {initialBalance && `(${initialBalance} ${currency})`}</h3>
           <hr />
           <input placeholder='0.00' id='initBalance' name='initBalance' type="number" value={initialBalanceValue} onChange={(e) => setInitialBalanceValue(Number(e.target.value))} className='mt-5 p-3 rounded-2xl bg-gray-200/50 w-full max-w-xs' />
         </div>

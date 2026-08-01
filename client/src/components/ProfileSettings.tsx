@@ -37,8 +37,8 @@ const apiUrl = import.meta.env.VITE_API_URL
 
   }
   return (
-    <div id='profile' className="p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto bg-slate-400/10 rounded-2xl">
-        <h2 className="text-3xl font-semibold pb-3 mb-5">{t('UpdateProfile')}</h2>
+    <div id='profile' className="p-10 max-sm:pt-10 max-sm:pb-20 max-sm:m-auto max-sm:p-5 bg-slate-400/10 rounded-2xl">
+        <h2 className="text-3xl font-semibold pb-3 mb-5 max-md:text-2xl max-sm:text-xl">{t('UpdateProfile')}</h2>
         <form onSubmit={handleupdateName} className='flex gap-7 max-xl:gap-4 max-md:flex-col max-md:gap-8'>
           <div className='flex flex-col gap-6 max-md:w-full max-md:order-2'>
         <div className='flex gap-5 items-center'>

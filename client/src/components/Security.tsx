@@ -44,8 +44,8 @@ const Security = () => {
       const [changePassword, setChangePassword] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   return (
-    <div id='security' className='flex flex-col gap-6 mt-4 max-sm:gap-4 p-8 bg-slate-400/10 rounded-2xl'>
-        <h2 className='text-3xl font-bold max-sm:text-2xl'>{t('security')}</h2>
+    <div id='security' className='flex flex-col gap-6 mt-4 max-sm:gap-4 p-8 max-sm:p-4 bg-slate-400/10 rounded-2xl'>
+        <h2 className='text-3xl font-bold max-md:text-2xl max-sm:text-xl'>{t('security')}</h2>
         <button onClick={(e) => {e.preventDefault(); setChangePassword(true)}} className='btn px-3 py-1 rounded-md cursor-pointer self-start'>{t('updatePassword')}</button>
         {changePassword && <div className='flex flex-col gap-4 relative'>
             <button className='absolute -top-13 right-10' onClick={(e) => {e.preventDefault(); setShowPassword(!showPassword)}}>
