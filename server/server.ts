@@ -17,7 +17,7 @@ const goalRouter = require('./routes/goalRoute');
 const analyticsRouter = require('./routes/analyticsRoute');
 
 // middleware and routes
-app.use(cors({ origin: ['http://localhost:5173', "http://localhost:4173",], credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', "http://localhost:4173", "https://financial-tracker-lovat.vercel.app"], credentials: true }));
 app.use(bodyParser.json());
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/budgets', budgetRouter);
