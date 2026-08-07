@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const sequelize = require('./utils/db');
 const cookieParser = require('cookie-parser');
 const app = express();
-const PORT = 4200;
+const PORT = 8080;
 app.use(cookieParser());
 // routes
 const transactionsRouter = require('./routes/transactionsRoute');
