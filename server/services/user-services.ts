@@ -58,8 +58,9 @@ async function login(req: any, res: any) {
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: rememberMe ? '7d' : '1h' });
         res.cookie('token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'none',
+  secure: true,
+  sameSite: "none",
+  path: "/",
     ...(rememberMe ? { maxAge: 7 * 24 * 60 * 60 * 1000 } : {})
   });
         return res.status(200).json({ success: true, message: 'Login successful' });
@@ -71,8 +72,9 @@ async function login(req: any, res: any) {
 async function logout(req: any, res: any) {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        secure: true,
+        sameSite: "none",
+        path: "/",
     });
     return res.status(200).json({ success: true, message: 'Logged out' });
 }
