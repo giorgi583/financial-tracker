@@ -1,8 +1,8 @@
 import { Outlet, useLocation, Link, Navigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
-import { Bell, ChevronDown, LogOutIcon, MessageSquareMoreIcon, User, Settings, HelpCircleIcon, User2} from "lucide-react"
+import { ChevronDown, LogOutIcon, MessageSquareMoreIcon, User, Settings, HelpCircleIcon, User2} from "lucide-react"
 import { useState } from "react"
-import Notifications from "../components/Notifications"
+
 import Chat from "../components/Chat"
 import { useTranslation } from "react-i18next"
 import Loader from "../components/Loader"
@@ -13,7 +13,7 @@ const Dashboard = () => {
   const pathnames = location.pathname.split('/').filter(x => x)
   const currentPage = pathnames[pathnames.length - 1]
 const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-const [isMessageMenuOpen, setIsMessageMenuOpen] = useState(false)
+
 const [isChatOpen, setIsChatOpen] = useState(false)
 
 const { user, loading, logout } = useAuth();

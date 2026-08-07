@@ -26,7 +26,7 @@ const Piechart = ({data}: {data: any}) => {
         >
           {data?.map((entry: any, index: number) => (
             <Cell
-              key={index}
+              key={entry.category}
               fill={COLORS[index % COLORS.length]}
             />
           ))}
