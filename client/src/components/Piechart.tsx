@@ -3,6 +3,8 @@ import {
   PieChart,
   Pie,
   Cell,
+  Tooltip,
+  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -21,6 +23,7 @@ const Piechart = ({data}: {data: any}) => {
           cx="50%"
           cy="50%"
           outerRadius={90}
+          label
         >
           {data?.map((entry: any, index: number) => (
             <Cell
@@ -29,6 +32,8 @@ const Piechart = ({data}: {data: any}) => {
             />
           ))}
         </Pie>
+        <Tooltip />
+        <Legend />
       </PieChart>
     </ResponsiveContainer> }
     </div>
