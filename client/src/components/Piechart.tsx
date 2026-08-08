@@ -12,6 +12,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF", "#FF19AF"
 const Piechart = ({data}: {data: any}) => {
     console.log(data);
   return (
+    <>
      <div className="mt-1"> { data &&
    <ResponsiveContainer width="100%" height={400}>
       <PieChart>
@@ -22,7 +23,6 @@ const Piechart = ({data}: {data: any}) => {
           cx="50%"
           cy="50%"
           outerRadius={90}
-          label
         >
           {data?.map((entry: any, index: number) => (
             <Cell
@@ -31,12 +31,12 @@ const Piechart = ({data}: {data: any}) => {
             />
           ))}
         </Pie>
-
         <Tooltip />
         <Legend />
       </PieChart>
     </ResponsiveContainer> }
     </div>
+    </>
   )
 }
 
