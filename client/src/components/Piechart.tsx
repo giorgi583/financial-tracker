@@ -3,8 +3,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -31,8 +29,6 @@ const Piechart = ({data}: {data: any}) => {
             />
           ))}
         </Pie>
-        <Tooltip />
-        <Legend />
       </PieChart>
     </ResponsiveContainer> }
     </div>
